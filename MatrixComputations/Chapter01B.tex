@@ -1,0 +1,81 @@
+\section{矩阵的转置和伴随}
+
+\subsection{转置}
+
+\begin{BoxDefinition}[转置]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，定义其转置$\vb{A^T}\in\R^{n\times m}$（Transpose）
+    \begin{Equation}[转置]
+        \vb{A}^T=\begin{bmatrix}
+            a_{11}&a_{21}&\cdots&a_{n1}\\
+            a_{12}&a_{22}&\cdots&a_{n2}\\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{1m}&a_{2m}&\cdots&a_{nm}\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+转置的实质就是将矩阵的行和列对调，原先的行变成了列，原先的列变成了行。
+
+\begin{BoxProperty}[矩阵和的转置]
+    矩阵和的转置，等于矩阵转置的和
+    \begin{Equation}[矩阵和的转置]
+        \qty(\vb{A}+\vb{B})^T=\vb{A}^T+\vb{B}^T
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的转置]
+    矩阵积的转置，等于矩阵转置的逆序积
+    \begin{Equation}[矩阵和的转置]
+        \qty(\vb{A}\vb{B})^T=\vb{B}^T\vb{A}^T
+    \end{Equation}
+\end{BoxProperty}
+
+转置计算可以提到矩阵乘积内进行，但务必记得交换乘法顺序！（矩阵乘法不满足交换律）
+
+\begin{BoxProperty}[双重转置还原]
+    矩阵转置的转置等于原矩阵自身
+    \begin{Equation}[双重转置还原]
+        (\vb{A}^T)^T=\vb{A}
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{伴随}
+
+\begin{BoxDefinition}[伴随]
+    对于矩阵$\vb{A}\in\C^{m\times n}$，定义其伴随$\vb{A^H}\in\C^{n\times m}$（Adjoint）
+    \begin{Equation}[伴随]
+        \vb{A}^T=\begin{bmatrix}
+            a_{11}^{*}&a_{21}^{*}&\cdots&a_{n1}^{*}\\
+            a_{12}^{*}&a_{22}^{*}&\cdots&a_{n2}^{*}\\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{1m}^{*}&a_{2m}^{*}&\cdots&a_{nm}^{*}\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+伴随也可以称为共轭转置（Conjugate Transpose）或厄米转置（Hermitian Transpose）。
+
+伴随的实质是：对复矩阵求转置后对每一元素求复共轭。
+
+\begin{BoxProperty}[矩阵和的伴随]
+    矩阵和的伴随，等于矩阵伴随的和
+    \begin{Equation}[矩阵和的伴随]
+        \qty(\vb{A}+\vb{B})^H=\vb{A}^H+\vb{B}^H
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的伴随]
+    矩阵积的伴随，等于矩阵伴随的逆序积
+    \begin{Equation}[矩阵和的伴随]
+        \qty(\vb{A}\vb{B})^H=\vb{B}^H\vb{A}^H
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[双重伴随还原]
+    矩阵伴随的伴随等于原矩阵自身
+    \begin{Equation}[双重伴随还原]
+        (\vb{A}^H)^H=\vb{A}
+    \end{Equation}
+\end{BoxProperty}
+
+伴随的运算性质和转置的运算性质完全一样！（两次复共轭也会得到原来的复数）
