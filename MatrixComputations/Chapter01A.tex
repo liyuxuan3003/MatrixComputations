@@ -1,0 +1,182 @@
+\section{矩阵与向量的定义}
+
+\subsection{向量的定义}
+
+\begin{BoxDefinition}[实向量的定义]
+    $\vb{x}\in\R^n$：$\vb{x}$是一个$n$维的实向量（Real-Valued Vector）
+    \begin{Equation}[实向量的定义]
+        \vb{x}=\begin{bmatrix}
+            x_1\\
+            x_2\\
+            \vdots\\
+            x_n
+        \end{bmatrix},\quad x_i\in\R
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[复向量的定义]
+    $\vb{x}\in\C^n$：$\vb{x}$是一个$n$维复向量（Complex-Valued Vector）
+    \begin{Equation}[复向量的定义]
+        \vb{x}=\begin{bmatrix}
+            x_1\\
+            x_2\\
+            \vdots\\
+            x_n
+        \end{bmatrix},\quad x_i\in\C
+    \end{Equation}
+\end{BoxDefinition}
+
+在线性代数的语境中，向量$\vb{x}$默认指的都是列向量（Column Vector），通过转置的记法$\vb{x}^T$表示行向量（Row Vector）。行内公式中，常用$\vb{x}=\qty[x_1, x_2, \cdots, x_n]^T$表示列向量以节约空间。
+
+\subsection{矩阵的定义}
+
+\begin{BoxDefinition}[实矩阵的定义]
+    $\vb{A}\in\R^{m\times n}$：$\vb{A}$是一个$m\times n$维的实矩阵（Real-Valued Matrix）
+    \begin{Equation}[实矩阵的定义]
+        \vb{A}=\begin{bmatrix}
+            a_{11}&a_{12}&\cdots&a_{1n}\\
+            a_{21}&a_{22}&\cdots&a_{2n}\\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{m1}&a_{m2}&\cdots&a_{mn}\\
+        \end{bmatrix},\quad a_{ij}\in\R
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[复矩阵的定义]
+    $\vb{A}\in\C^{m\times n}$：$\vb{A}$是一个$m\times n$维的复矩阵（Complex-Valued Matrix）
+    \begin{Equation}[复矩阵的定义]
+        \vb{A}=\begin{bmatrix}
+            a_{11}&a_{12}&\cdots&a_{1n}\\
+            a_{21}&a_{22}&\cdots&a_{2n}\\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{m1}&a_{m2}&\cdots&a_{mn}\\
+        \end{bmatrix},\quad a_{ij}\in\C
+    \end{Equation}
+\end{BoxDefinition}
+
+矩阵$\vb{A}\in\R^{m\times n}$称为$m$行$n$列，元素$a_{ij}$的下标代表其是$\vb{A}$的第$i$行第$j$列处的元素。
+
+矩阵可以视为若干列向量横向拼接的结果，例如$\vb{A}\in\R^{m\times n}$可以记为
+\begin{Equation}[矩阵的列向量拼接]
+    \vb{A}=\qty[\vb{a_1},\vb{a_2},\cdots,\vb{a_n}]
+\end{Equation}
+
+其中$\vb{a}_j\in\R^m$代表代表矩阵$\vb{A}$的第$j$列。
+
+\subsection{矩阵的尺寸}
+\begin{BoxDefinition}[方阵]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，若$m=n$，称$\vb{A}$为方阵（Square）。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[高矩阵]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，若$m>n$，称$\vb{A}$为高矩阵（Tall）。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[宽矩阵]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，若$m<n$，称$\vb{A}$为宽矩阵（Tall）。
+\end{BoxDefinition}
+
+简而言之，行比列多的矩阵是高矩阵，行比列少的矩阵是宽矩阵。
+
+\subsection{三角矩阵}
+
+\begin{BoxDefinition}[上三角矩阵]
+    对于矩阵$\vb{A}\in\R^{n\times n}$，若$i>j$皆有$a_{ij}=0$，称$\vb{A}$为上三角矩阵（Upper Traiangular）。
+    \begin{Equation}[上三角矩阵的例子]
+        \vb{A}=\begin{bmatrix}
+            a_{11} & a_{12} & \cdots & a_{1n} \\
+            0      & a_{22} & \cdots & a_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            0      & 0      & \cdots & a_{nn} \\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[下三角矩阵]
+    对于矩阵$\vb{A}\in\R^{n\times n}$，若$i<j$皆有$a_{ij}=0$，称$\vb{A}$为下三角矩阵（Lower Traiangular）。
+    \begin{Equation}[下三角矩阵的例子]
+        \vb{A}=\begin{bmatrix}
+            a_{11}&0     &\cdots&0     \\
+            a_{21}&a_{22}&\cdots&0     \\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{n1}&a_{n2}&\cdots&a_{nn}\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+上三角矩阵和下三角矩阵讨论的都是方阵，另外，其“上”和“下”指的是有元素的部分
+\begin{itemize}
+    \item 上三角矩阵是指，主对角线以下（不包含主对角线）的元素（$i>j$）都为零。
+    \item 下三角矩阵是指，主对角线以上（不包含主对角线）的元素（$i<j$）都为零。
+\end{itemize}
+
+\subsection{零向量}
+
+\begin{BoxDefinition}[零向量]
+    使用记号$\vb{0}$表达一个所有元素都为$0$的零向量（Zero Vector）
+    \begin{Equation}[零向量]
+        \vb{0}=\begin{bmatrix}
+            0\\
+            \vdots\\
+            0\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+需要指出的是，记号$\vb{0}$不仅可以用来表示零向量，也可以用来表示零矩阵。
+
+\subsection{全一向量}
+
+\begin{BoxDefinition}[全一向量]
+    使用记号$\vb{1}$表达一个所有元素都为$1$的全一向量（All-One Vector）
+    \begin{Equation}[全一向量]
+        \vb{1}=\begin{bmatrix}
+            1\\
+            \vdots\\
+            1\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+\subsection{单位向量}
+
+\begin{BoxDefinition}[单位向量]
+    使用记号$\vb{e}_i$表达仅有第$i$个元素为$1$的单位向量（Unit Vector）
+    \begin{Equation}[单位向量]
+        \vb{e}_i=\begin{bmatrix}
+            0\\
+            \vdots\\
+            1\\
+            \vdots\\
+            0\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+\subsection{单位矩阵}
+
+\begin{BoxDefinition}[单位矩阵]
+    使用记号$\vb{I}$表达仅有主对角线元素为$1$的单位矩阵（Identity Matrix）
+    \begin{Equation}[单位矩阵]
+        \vb{I}=\begin{bmatrix}
+            1 &        &  \\
+              & \ddots &  \\
+              &        & 1\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+\subsection{对角矩阵}
+
+\begin{BoxDefinition}[对角矩阵]
+    使用记号$\Diag(a_1,\cdots,a_n)$表达仅有主对角线元素的对角矩阵（Diagonal Matrix）
+    \begin{Equation}[对角矩阵]
+        \Diag(a_1,\cdots,a_n)=\begin{bmatrix}
+            a_1 &        &     \\
+                & \ddots &     \\
+                &        & a_n \\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+若对角元素表示为向量$\vb{a}=[a_1,\cdots,a_n]^T$，也可以将$\Diag(a_1,\cdots,a_n)$简记为$\Diag(\vb{a})$。
