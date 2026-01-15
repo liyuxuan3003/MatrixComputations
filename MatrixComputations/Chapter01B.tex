@@ -1,4 +1,4 @@
-\section{矩阵的转置和伴随}
+\section{矩阵的转置与迹}
 
 \subsection{转置}
 
@@ -79,3 +79,36 @@
 \end{BoxProperty}
 
 伴随的运算性质和转置的运算性质完全一样！（两次复共轭也会得到原来的复数）
+
+\subsection{迹}
+
+\begin{BoxDefinition}[迹]
+    对于矩阵$\vb{A}\in\R^{n\times n}$，定义其迹（Trace）
+    \begin{Equation}[迹]
+        \tr(\vb{A})=\Sum[i=1][n]a_{ii}
+    \end{Equation}
+\end{BoxDefinition} 
+
+简而言之，迹$\tr(\vb{A})$定义为方阵$\vb{A}$主对角线上的元素之和！
+
+\begin{BoxProperty}[矩阵转置的迹]
+    矩阵及其转置具有相同的迹
+    \begin{Equation}[矩阵转置的迹]
+        \tr(\vb{A}^T)=\tr(\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵和的迹]
+    矩阵和的迹，等于矩阵迹的和   
+    \begin{Equation}[矩阵和的迹]
+        \tr(\vb{A}+\vb{B})=\tr(\vb{A})+\tr(\vb{B})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的迹]
+    矩阵的相乘顺序，不影响乘积的迹
+    \begin{Equation}[矩阵积的迹]
+        \tr(\vb{A}\vb{B})=\tr(\vb{B}\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
