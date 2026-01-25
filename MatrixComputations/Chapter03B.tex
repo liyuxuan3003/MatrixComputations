@@ -211,6 +211,24 @@
     $\vb{M}_1,\cdots,\vb{M}_n$是矩阵$\vb{A}$在高斯消元过程中的高斯变换矩阵。
 \end{BoxFormula}
 
+这里还有一个问题，虽然单位下三角矩阵$\vb{L}=\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}$形式上被表示出来了，但是在实践中不可能真的去计算一系列逆矩阵！不过，由于$\vb{M}_k$的特殊性，其逆矩阵非常容易计算
+\begin{Equation}[高斯变换矩阵的逆]
+    \vb{M}_k=\vb{I}_n-\vb*{\tau}\vb{e}_k^T\qquad
+    \vb{M}_k^{-1}=\vb{I}_n+\vb*{\tau}\vb{e}_k^T
+\end{Equation}
+
+因此$\vb{L}$实际上就是高斯消元的乘数$\vb{\tau}$组成的矩阵！
+\begin{BoxEquation}[LU分解中单位上三角矩阵的计算]
+    LU分解中，$\vb{L}$可以通过以下方式求出
+    \begin{Equation}[LU分解的L的计算1]
+        \vb{L}=\vb{I}_n+\Sum[k=1][n-1]\vb*{\tau}^{(k)}\vb{e}_k^T
+    \end{Equation}
+    即
+    \begin{Equation}[LU分解的L的计算2]
+        \vb{L}(k+1:n,k)=\vb*{\tau}^{(k)}(k+1:n)\qquad k=1:n-1
+    \end{Equation}
+\end{BoxEquation}
+
 LU分解是对高斯消元在矩阵层面的精炼概括，对于一个线性系统
 \begin{Equation}[LU分解化归线性系统1]
     \vb{A}\vb{x}=\vb{b}
@@ -227,3 +245,5 @@ LU分解完成$\vb{A}=\vb{L}\vb{U}$，将其代入\cref{eq:LU分解化归线性�
 \end{Equation}
 
 在\cref{eq:LU分解化归线性系统3}中，由$\vb{L}\vb{y}=b$给出的$\vb{y}$可以认为是$\vb{M}_1,\cdots,\vb{M}_{n-1}$作用在$\vb{b}$上的结果。
+
+
