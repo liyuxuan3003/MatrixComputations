@@ -217,7 +217,7 @@
     \vb{M}_k^{-1}=\vb{I}_n+\vb*{\tau}\vb{e}_k^T
 \end{Equation}
 
-因此$\vb{L}$实际上就是高斯消元的乘数$\vb{\tau}$组成的矩阵！
+因此$\vb{L}$实际上就是高斯消元的乘数$\vb{\tau}$组成的矩阵（不包含“减去”的负号）！
 \begin{BoxEquation}[LU分解中单位上三角矩阵的计算]
     LU分解中，$\vb{L}$可以通过以下方式求出
     \begin{Equation}[LU分解的L的计算1]
@@ -228,6 +228,28 @@
         \vb{L}(k+1:n,k)=\vb*{\tau}^{(k)}(k+1:n)\qquad k=1:n-1
     \end{Equation}
 \end{BoxEquation}
+
+例如\cref{eq:高斯变换5}中已经求出$\vb{U}$了，且有$\vb*{\tau}_1=[0,2,3]^T$和$\vb*{\tau}_2=[0,0,2]^T$，则
+\begin{Equation}[LU分解的例子]
+    \vb{A}=\mqty[
+        1 & 4 & 7 \\
+        2 & 5 & 8 \\
+        3 & 6 & 10 \\
+    ]
+    =
+    \mqty[
+        1 & 0 & 0 \\
+        2 & 1 & 0 \\
+        3 & 2 & 1 \\
+    ]
+    \mqty[
+        1 & 4 & 7 \\
+        0 & -3 & -6 \\
+        0 & 0 & 1 \\
+    ]
+    =
+    \vb{L}\vb{U}
+\end{Equation}
 
 LU分解是对高斯消元在矩阵层面的精炼概括，对于一个线性系统
 \begin{Equation}[LU分解化归线性系统1]
