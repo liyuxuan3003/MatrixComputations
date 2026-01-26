@@ -106,10 +106,12 @@
         \tau_i=v_i/v_k,\quad
         i=k+1:n
     \end{Equation}
+
     构造以下变换矩阵
     \begin{Equation}[高斯变换矩阵2]
         \vb{M}_k=\vb{I}_n-\vb*{\tau}\vb{e}_k^T
     \end{Equation}
+
     则有以下性质
     \begin{Equation}[高斯变换矩阵3]
         \vb{M}_k\vb{v}=\mqty[
@@ -200,14 +202,17 @@
     \begin{Equation}[LU分解]
         \vb{A}=\vb{L}\vb{U}
     \end{Equation}
+    
     $\vb{L}\in\R^{n\times n}$是单位下三角矩阵
     \begin{Equation}[LU分解的L]
         \vb{L}=\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}
     \end{Equation}
+
     $\vb{U}\in\R^{n\times n}$是上三角矩阵
     \begin{Equation}[LU分解的U]
         \vb{U}=\vb{M}_{n-1}\cdots\vb{M}_1\vb{A}
     \end{Equation}
+
     $\vb{M}_1,\cdots,\vb{M}_n$是矩阵$\vb{A}$在高斯消元过程中的高斯变换矩阵。
 \end{BoxFormula}
 
@@ -223,6 +228,7 @@
     \begin{Equation}[LU分解的L的计算1]
         \vb{L}=\vb{I}_n+\Sum[k=1][n-1]\vb*{\tau}^{(k)}\vb{e}_k^T
     \end{Equation}
+
     即
     \begin{Equation}[LU分解的L的计算2]
         \vb{L}(k+1:n,k)=\vb*{\tau}^{(k)}(k+1:n)\qquad k=1:n-1
@@ -268,4 +274,58 @@ LU分解完成$\vb{A}=\vb{L}\vb{U}$，将其代入\cref{eq:LU分解化归线性�
 
 在\cref{eq:LU分解化归线性系统3}中，由$\vb{L}\vb{y}=b$给出的$\vb{y}$可以认为是$\vb{M}_1,\cdots,\vb{M}_{n-1}$作用在$\vb{b}$上的结果。
 
+\subsection{LU分解的存在性}
 
+LU分解并不总是存在！一个朴素的观察是，\cref{pro:高斯消元的流程}中应当确保主元$a_{kk}^{(k)}\neq 0$，否则会导致除零的问题。可以证明，LU分解的存在性与$\vb{A}$及其顺序主子矩阵的非奇异性有一定关系。
+\begin{BoxTheorem}[LU分解的存在性]
+    若$\vb{A}\in\R^{n\times n}$且其$k=1:n-1$的顺序主子矩阵$\vb{A}(1:k,1:k)$皆是非奇异的，则存在单位下三角矩阵$\vb{L}\in\R^{n\times n}$和上三角矩阵$\vb{U}\in\R^{n\times n}$，使得
+    \begin{Equation}[LU分解的存在性1]
+        \vb{A}=\vb{L}\vb{U}
+    \end{Equation}
+
+    若$\vb{A}$也是非奇异的，则$\vb{A}=\vb{L}\vb{U}$的分解是唯一的，且满足
+    \begin{Equation}[LU分解的存在性2]
+        \det(\vb{A})=u_{11}\cdots u_{nn}
+    \end{Equation}
+\end{BoxTheorem}
+
+\begin{Proof}[\cref{thm:LU分解的存在性}]
+    不妨考虑\cref{pro:高斯消元的流程}中的第$k-1$步，由于$\vb{A}^{(k)}=\vb{M}_{k-1}\cdots\vb{M}_1\vb{A}$
+    \begin{Equation}[LU分解的存在性证明1]
+        {\det}(\vb{A}^{(k)}(1:k,1:k))=\det(\vb{M}_{k-1}\cdots \vb{M}_1\vb{A}(1:k,1:k))
+    \end{Equation}
+
+    矩阵积的行列式等于行列式的积
+    \begin{Equation}[LU分解的存在性证明2]
+        {\det}(\vb{A}^{(k)}(1:k,1:k))=\det(\vb{M}_{k-1})\cdots \det(\vb{M}_1)\det(\vb{A}(1:k,1:k))
+    \end{Equation}
+
+    由于$\vb{M}_{k-1},\cdots,\vb{M}_1$都是单位下三角矩阵，而三角矩阵的行列式等于其主对角线元素的乘积
+    \begin{Equation}[LU分解的存在性证明3]
+        {\det}(\vb{A}^{(k)}(1:k,1:k))=\det(\vb{A}(1:k,1:k))
+    \end{Equation}
+
+    由于$\vb{A}^{(k)}$经历了$k-1$次高斯变换，其$\vb{A}^{(k)}(1:k,1:k)$区域已经上三角化，可以用主对角线元素的乘积计算行列式，同时，$\vb{A}(1:k,1:k)$非奇异等价于$\det(\vb{A}(1:k,1:k))\neq 0$
+    \begin{Equation}[LU分解的存在性证明4]
+        {\det}(\vb{A}^{(k)}(1:k,1:k))=a_{11}^{(k)}\cdots a_{kk}^{(k)}\neq 0
+    \end{Equation}
+    
+    即有
+    \begin{Equation}[LU分解的存在性证明5]
+        a_{kk}^{(k)}\neq 0
+    \end{Equation}
+
+    这使得\cref{pro:高斯消元的流程}第$k$步的$\tau_i^{(k)}=a_{ik}^{(k)}/a_{kk}^{(k)}$可以进行，这就证明了$\vb{A}=\vb{L}\vb{U}$的存在性！
+
+    由于$\vb{A}=\vb{L}\vb{U}$，且$\vb{L}$作为单位下三角矩阵行列式为$1$
+    \begin{Equation}[LU分解的存在性证明6]
+        \det(\vb{A})=\det(\vb{L}\vb{U})=\det(\vb{L})\det(\vb{U})=\det(\vb{U})
+    \end{Equation}
+
+    由于$\vb{U}$是上三角矩阵
+    \begin{Equation}[LU分解的存在性证明7]
+        \det(\vb{A})=u_{11}\cdots u_{nn}  
+    \end{Equation}
+
+    最后，若$\vb{A}$是非奇异的，有$\det(\vb{A})\neq 0$，根据\cref{eq:LU分解的存在性证明6}可以确定$\det(\vb{U})\neq 0$，而$\vb{L}$作为单位下三角矩阵一定有$\det(\vb{L})\neq 0$，这就论证了$\vb{L}$和$\vb{U}$是可逆的！现在，假设存在两个不同的分解$\vb{A}=\vb{L}_1\vb{U}_1$和$\vb{A}=\vb{L}_2\vb{U}_2$，利用可逆性，可以得到$\vb{L}_2^{-1}\vb{L}_1=\vb{U}_2\vb{U}_1^{-1}$，然而，单位下三角矩阵的逆与乘积仍然是单位下三角矩阵，上三角矩阵的逆与乘积仍然是上三角矩阵，因此该等式能成立的唯一可能就是$\vb{L}_2^{-1}\vb{L}_1=\vb{U}_2\vb{U}_1^{-1}=\vb{I}_n$，故有$\vb{L}_1=\vb{L}_2$和$\vb{U}_1=\vb{U}_2$，证明了唯一性。
+\end{Proof} 
