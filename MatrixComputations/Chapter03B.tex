@@ -149,7 +149,7 @@
 
 \cref{eq:高斯变换的快速计算}直观展示了$\vb{M}_k\vb{A}$作为消元$\vb{A}=\vb*{\tau}\vb{A}(k,:)$的意义，若写成算法形式
 \begin{BoxAlgorithm}[高斯变换矩阵的应用]
-    设$\vb{M}_k\in\R^{n\times n},\vb*{\tau}\in\R^{n}$是第$k$次高斯变换矩阵与向量，且$\vb{A}\in\R^{n\times n}$是任意矩阵。
+    设$\vb{M}_k\in\R^{n\times n},\vb*{\tau}\in\R^{n}$是第$k$次高斯变换矩阵与向量，$\vb{A}\in\R^{n\times n}$是任意矩阵。
 
     该算法会计算$\vb{M}_k\vb{A}$并用计算结果覆盖$\vb{A}$
     \begin{Algoplain}
@@ -164,7 +164,7 @@
 基于高斯变换矩阵的想法，现在，我们可以将$\vb{A}\vb{x}=\vb{b}$的高斯消元流程表述如下
 
 \begin{BoxProcess}[高斯消元]
-    设$\vb{A}\vb{x}=\vb{b}$且$\vb{A}\in\R^{n\times n}$，该流程演示如何通过高斯消元将$\vb{A}$上三角化
+    设$\vb{A}\vb{x}=\vb{b}$且$\vb{A}\in\R^{n\times n}$，该流程演示通过高斯消元将$\vb{A}$上三角化
     \begin{Algoplain}
         $\vb{A}^{(1)}=\vb{A}$\;
         \For{$k=1:n-1$}{
@@ -203,23 +203,21 @@
         \vb{A}=\vb{L}\vb{U}
     \end{Equation}
     
-    $\vb{L}\in\R^{n\times n}$是单位下三角矩阵
-    \begin{Equation}[LU分解的L]
-        \vb{L}=\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}
+    $\vb{L}\in\R^{n\times n}$是单位下三角矩阵， $\vb{U}\in\R^{n\times n}$是上三角矩阵
+    \begin{Equation}[LU分解的L和U]
+        \vb{L}=\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}\qquad\vb{U}=\vb{M}_{n-1}\cdots\vb{M}_1\vb{A}
     \end{Equation}
-
-    $\vb{U}\in\R^{n\times n}$是上三角矩阵
-    \begin{Equation}[LU分解的U]
-        \vb{U}=\vb{M}_{n-1}\cdots\vb{M}_1\vb{A}
+    
+    $\vb{M}_1,\cdots,\vb{M}_n\in\R^{n\times n}$是高斯变换矩阵
+    \begin{Equation}[LU分解的M]
+        \vb{M}_k=\vb{I}_n-\vb*{\tau}^{(k)}\vb{e}_k^T
     \end{Equation}
-
-    $\vb{M}_1,\cdots,\vb{M}_n$是矩阵$\vb{A}$在高斯消元过程中的高斯变换矩阵。
 \end{BoxFormula}
 
 这里还有一个问题，虽然单位下三角矩阵$\vb{L}=\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}$形式上被表示出来了，但是在实践中不可能真的去计算一系列逆矩阵！不过，由于$\vb{M}_k$的特殊性，其逆矩阵非常容易计算
 \begin{Equation}[高斯变换矩阵的逆]
-    \vb{M}_k=\vb{I}_n-\vb*{\tau}\vb{e}_k^T\qquad
-    \vb{M}_k^{-1}=\vb{I}_n+\vb*{\tau}\vb{e}_k^T
+    \vb{M}_k=\vb{I}_n-\vb*{\tau}^{(k)}\vb{e}_k^T\qquad
+    \vb{M}_k^{-1}=\vb{I}_n+\vb*{\tau}^{(k)}\vb{e}_k^T
 \end{Equation}
 
 因此$\vb{L}$实际上就是高斯消元的乘数$\vb{\tau}$组成的矩阵（不包含“减去”的负号）！
