@@ -257,9 +257,7 @@
 \end{BoxFormula}
 
 \begin{BoxAlgorithm}[部分选主元的LU分解]
-    设$\vb{A}\in\R^{n\times n}$，满足$\vb{A}(1:k,1:k)$对于$k=1:n-1$非奇异。
-
-    该算法实现$\vb{P}\vb{A}=\vb{L}\vb{U}$的分解。
+    设$\vb{A}\in\R^{n\times n}$，该算法实现$\vb{P}\vb{A}=\vb{L}\vb{U}$的分解。
     
     $\vb{L}\in\R^{n\times n}$是单位下三角矩阵，满足$|l_{ij}|\leq 1$，$\vb{U}\in\R^{n\times n}$是上三角矩阵。
     
@@ -274,9 +272,15 @@
             Find $\mu$ with $k\leq\mu\leq n$ so $|A(\mu,k)|=\max|\vb{A}(k:n,k)|$\;
             $\piv(k)=\mu$\;
             $\vb{A}(k,:)\leftrightarrow\vb{A}(\mu,:)$\;
-            $\rho=k+1:n$\;
-            $\vb{A}(\rho,k)=\vb{A}(\rho,k)/\vb{A}(k,k)$\;
-            $\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$
+            \If{$A(k,k)\neq 0$}{
+                $\rho=k+1:n$\;
+                $\vb{A}(\rho,k)=\vb{A}(\rho,k)/\vb{A}(k,k)$\;
+                $\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$
+            }
         }
     \end{Algoplain}
 \end{BoxAlgorithm}  
+
+应指出，\cref{alg:部分选主元的LU分解}移除了先前顺序主子矩阵$\vb{A}(1:k,1:k)$非奇异的要求，且总是能运行到最后。这是因为如果原先主对角线元素为零，通过行交换总是能换上一个非零元素。不过，如果这一列$\vb{A}(k:n,k)=0$都是零，那么确实仍会出现$\vb{A}(k,k)=0$情况，\cref{alg:部分选主元的LU分解}引入了一个额外的特判跳过该情形，因为如果$\vb{A}(k:n,k)=0$都是零，实际上这一列也没有换元的必要了。
+
+这一分析也告诉我们，如果引入了选主元的技术，任何矩阵都能存在LU分解！
