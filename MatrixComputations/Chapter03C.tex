@@ -1,0 +1,286 @@
+\section{部分选主元的LU分解}
+
+\subsection{选主元的意义}
+
+在\cref{sec:LU分解}中，我们已经详细阐述了LU分解的方法，这一切从数学上看很完美，但存在一个潜在的问题：该方法在数值计算上是不稳定的！本节将揭示这一问题并提出一个改进的算法。
+
+不妨考虑这样一个LU分解的例子
+\begin{Equation}[LU分解数值不稳定1]
+    \vb{A}=\mqty[
+        0.0001 & 1\\
+        1 & 1
+    ]=
+    \mqty[
+        1 & 0 \\
+        10000 & 1 \\
+    ]
+    \mqty[
+        0.0001 & 1 \\
+        0 & -9999 \\
+    ]=\vb{L}\vb{U}
+\end{Equation}
+
+这固然是正确的，但像$0.0001$和$-9999$这样数量级差距比较悬殊的数值就会导致数值计算中的不稳定性！然而，我们知道，交换方程组的两行不会改变方程组的结果，考虑以下矩阵
+\begin{Equation}[LU分解数值不稳定性2]
+    \vb{P}=\mqty[
+        0 & 1\\
+        1 & 0
+    ]
+\end{Equation}
+
+矩阵$\vb{P}$的作用是交换第一行和第二行，而对$\vb{P}\vb{A}$的分解结果明显就要好很多
+\begin{Equation}[LU分解数值不稳定性3]
+    \vb{P}\vb{A}=\mqty[
+        1 & 1 \\
+        0.0001 & 1\\
+    ]=
+    \mqty[
+        1 & 0 \\
+        0.0001 & 1 \\
+    ]
+    \mqty[
+        1 & 1 \\
+        0 & 0.9999 \\
+    ]=\vb{L}\vb{U}
+\end{Equation}
+
+这一技巧之所以可以成功，是因为我们恰当的选择了主元！在每一次进行高斯变换的时候，我们可以通过行交换，将当前这列模最大的元素置于主对角线的位置，作为主元，这就确保了计算出的消元乘数都是小于$1$的，避免了出现过大的数值。该技巧就称为选主元（Pivoting）。
+
+\subsection{选主元与置换矩阵}
+
+一般而言，通过交换单位矩阵$\vb{I}$的两行，可以得到一个初等置换矩阵$\vb{\Pi}$，例如
+\begin{Equation}[初等置换矩阵]
+    \vb*{\Pi}=\mqty[
+        0 & 0 & 0 & 1 \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        1 & 0 & 0 & 0 \\
+    ]
+\end{Equation}
+
+若$\vb*{\Pi}$相对于$\vb{I}$交换了第$i,j$行（这个例子中是交换第$1,4$行），那么
+\begin{itemize}
+    \item 初等置换矩阵在前是交换行：$\vb*{\Pi}\vb{A}$的含义是，交换$\vb{A}$的第$i$行和第$j$行。
+    \item 初等置换矩阵在后是交换列：$\vb{A}\vb*{\Pi}$的含义是，交换$\vb{A}$的第$i$列和第$j$列。
+\end{itemize}
+
+当我们尝试对一个矩阵应用带有选主元的LU分解时，由于每一次高斯变换后矩阵的元素都会发生变化，实际上是做一次初等置换$\vb*{\Pi}_k$后做一次高斯变换$\vb{M}_k$。显然，$\vb*{\Pi}_k$应当是一个交换第$k$行和某一包含第$k$列主元的行$\piv(k)$的初等置换矩阵，记所有$\vb*{\Pi}_k$的乘积为$\vb{P}$
+\begin{Equation}[置换矩阵]
+    \vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_1
+\end{Equation}
+
+由于$\vb*{\Pi}_k$代表交换第$k$行和第$\piv(k)$的变换，因此，可以称$\piv(1:n)$编码了置换矩阵$\vb{P}$。
+
+\begin{BoxAlgorithm}[置换矩阵的应用]
+    设$\vb{P}=\vb*{\Pi}_n\cdots\vb*{\Pi}_1\in\R^{n\times n}$，其中$\vb*{\Pi}_k$交换$k$行和$\piv(k)$行，$\vb{A}\in\R^{n\times n}$是任意矩阵。
+
+    该算法会计算$\vb{P}\vb{A}$并用计算结果覆盖$\vb{A}$
+    \begin{Algoplain}
+        \For{$k=1:n$}{
+            $\vb{A}(k,:)\leftrightarrow\vb{A}(\piv(k),:)$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+\subsection{选主元的操作方法}
+不妨考虑这样一个矩阵，我们的目标是对其应用带选主元的LU分解
+\begin{Equation}[选主元例子1]!
+    \vb{A}^{(1)}=\vb{A}=\mqty[
+        3 & 17 & 10 \\
+        2 & 4 & -2 \\
+        6 & 18 & -12 \\
+    ]
+\end{Equation}
+
+构造$\vb*{\Pi}_1$交换第$1$行和第$3$行，选定$6$为主元
+\begin{Equation}[选主元例子2]!
+    \vb{B}^{(1)}=\vb*{\Pi}_1\vb{A}^{(1)}=\mqty[
+        0 & 0 & 1 \\
+        0 & 1 & 0 \\
+        1 & 0 & 0 \\
+    ]
+    \mqty[
+        3 & 17 & 10 \\
+        2 & 4 & -2 \\
+        6 & 18 & -12 \\
+    ]=
+    \mqty[
+        6 & 18 & -12 \\
+        3 & 17 & 10 \\
+        2 & 4 & -2 \\
+    ]
+\end{Equation}
+
+构造$\vb{M}_1$对第$1$列进行高斯换元
+\begin{Equation}[选主元例子3]!
+    \vb{A}^{(2)}=\vb{M}_1\vb{A}^{(2)}=\mqty[
+        1 & 0 & 0 \\
+        -1/3 & 1 & 0 \\
+        -1/2 & 0 & 1 \\
+    ]
+    \mqty[
+        6 & 18 & -12 \\
+        3 & 17 & 10 \\
+        2 & 4 & -2 \\
+    ]=
+    \mqty[
+        6 & 18 & -12 \\
+        0 & -2 & 2 \\
+        0 & 8 & 16 \\
+    ]
+\end{Equation}
+
+构造$\vb*{\Pi}_2$交换第$2$行和第$3$行，选定$8$为主元
+\begin{Equation}[选主元例子4]!
+    \vb{B}^{(2)}=\vb*{\Pi}_2\vb{A}^{(2)}=\mqty[
+        1 & 0 & 0 \\
+        0 & 0 & 1 \\
+        0 & 1 & 0 \\
+    ]
+    \mqty[
+        6 & 18 & -12 \\
+        0 & -2 & 2 \\
+        0 & 8 & 16 \\
+    ]=
+    \mqty[
+        6 & 18 & -12 \\
+        0 & 8 & 16 \\
+        0 & -2 & 2 \\
+    ]
+\end{Equation}
+
+构造$\vb{M}_2$对第$2$列进行高斯换元
+\begin{Equation}[选主元例子5]!
+    \vb{A}^{(3)}=\vb{M}_2\vb{A}^{(2)}=\mqty[
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & 1/4 & 1 \\
+    ]
+    \mqty[
+        6 & 18 & -12 \\
+        0 & 8 & 16 \\
+        0 & -2 & 2 \\
+    ]=
+    \mqty[
+        6 & 18 & -12 \\
+        0 & 8 & 2 \\
+        0 & 0 & 16 \\
+    ]
+\end{Equation}
+
+由此可见，通过在每一步高斯消元前选定主元，确实可以保证$\vb{M}$中所有元素不超过$1$。
+
+\begin{BoxProcess}[高斯消元与选主元]
+    设$\vb{A}\vb{x}=\vb{b}$且$\vb{A}\in\R^{n\times n}$，该流程演示通过带选主元的高斯消元将$\vb{A}$上三角化
+    \begin{Algoplain}
+        $\vb{A}^{(1)}=\vb{A}$\;
+        \For{$k=1:n-1$}{
+            Find $\vb*{\Pi}_k$ that swaps $\vb{A}^{(k)}{(k,k)}$ with the largest element in $|\vb{A}^{(k)}(k:n,k)|$\;
+            $\vb{B}^{(k)}=\vb*{\Pi}_k\vb{A}^{(k)}$\;
+            Find gauss transformation $\vb{M}_k$ for the $k$th column of $\vb{B}^{(k)}$\;
+            $\vb{A}^{(k+1)}=\vb{M}_k\vb{B}^{(k)}$\;
+        }
+    \end{Algoplain}
+\end{BoxProcess}
+
+\subsection{部分选主元的LU分解}
+
+通过\cref{pro:高斯消元与选主元}，我们可以得到以下关系式
+\begin{Equation}[高斯消元与选主元1]
+    \vb{U}=\vb{M}_{n-1}\vb*{\Pi}_{n-1}\cdots\vb{M}_{1}\vb*{\Pi}_{1}\vb{A}
+\end{Equation}
+
+我们最终的目标是达成这样的分解
+\begin{Equation}[高斯消元与选主元2]
+    \vb{P}\vb{A}=\vb{L}\vb{U}
+\end{Equation}
+
+我们又知道
+\begin{Equation}[高斯消元与选主元3]
+    \vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_1
+\end{Equation}
+
+这就产生了一个矛盾！在\cref{eq:高斯消元与选主元1}中，$\vb*{\Pi}_k$和$\vb{M}_k$是交替作用在$\vb{A}$上的，这符合上述讨论的流程：一次初等置换选主元，一次高斯变换进行消元。然而，最终期望的分解形式$\vb{P}\vb{A}=\vb{L}\vb{U}$却要求所有的$\vb*{\Pi}_k$先行以$\vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_1$的形式先行作用在$\vb{A}$上。不妨构造以下形式
+\begin{Equation}[高斯消元与选主元4]
+    \vb{U}=\xwav{\vb{M}}_{n-1}\cdots\xwav{\vb{M}}_1\vb{P}\vb{A}
+\end{Equation}
+
+根据$\vb{P}\vb{A}=\vb{L}\vb{U}$就有
+\begin{Equation}[高斯消元与选主元5]
+    \vb{L}=\xwav{\vb{M}}_{1}^{-1}\cdots\xwav{\vb{M}}_{n-1}^{-1}
+\end{Equation}
+
+现在的问题就是弄清楚$\xwav{\vb{M}}_{n-1}\cdots\xwav{\vb{M}}_1$和$\vb{M}_{n-1}\cdots\vb{M}_1$的关系是什么？一个重要的观察是
+\begin{Equation}[高斯消元与选主元6]
+    \xwav{\vb{M}}_k=(\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{k+1})\vb{M}_k(\vb*{\Pi}_{k+1}\cdots\vb*{\Pi}_{n-1})
+\end{Equation}
+
+这是因为原本$\vb{M}_k$是作用在应用了$\vb*{\Pi}_1,\cdots,\vb*{\Pi}_k$置换的$\vb{A}$的，但现在要将其作用在$\vb{P}\vb{A}$上，因此一个简单的想法就是（注意从右往左看），先再次应用$\vb*{\Pi}_{n-1},\cdots,\vb*{\Pi}_{k+1}$撤销掉$\vb*{\Pi}_k$后的所有置换操作，进行$\vb{M}_k$的高斯变换，再按$\vb*{\Pi}_{k+1},\cdots,\vb*{\Pi}_{n-1}$的顺序恢复，这就是$\xwav{\vb{M}}_k$的意义！
+
+现在，我们要利用$\vb{M}_k$的特性来化简了，根据\cref{fml:高斯变换矩阵}
+\begin{Equation}[高斯消元与选主元7]
+    \vb{M}_k=\vb{I}_n-\vb*{\tau}^{(k)}\vb{e}_k^T
+\end{Equation}
+
+将其代入\cref{eq:高斯消元与选主元6}
+\begin{Equation}[高斯消元与选主元8]
+    \xwav{\vb{M}}_k=\vb{I}_n-(\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{k+1})\vb*{\tau}^{(k)}\vb{e}_k^T(\vb*{\Pi}_{k+1}\cdots\vb*{\Pi}_{n-1})
+\end{Equation}
+
+注意到$\vb{e}_k^T$是一个仅在第$k$个元素为$1$的单位向量，因此$k+1$后的变换与其无关
+\begin{Equation}[高斯消元与选主元9]
+    \xwav{\vb{M}}_k=\vb{I}_n-(\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{k+1})\vb*{\tau}^{(k)}\vb{e}_k^T
+\end{Equation}
+
+若回顾\cref{alg:LU分解}，我们会十分惊喜的发现，在原有LU的分解算法上叠加选主元后，并不需要任何额外的计算就会自然得到$\vb{L}=\xwav{\vb{M}}_{1}^{-1}\cdots\xwav{\vb{M}}_{n-1}^{-1}$！这是因为$\tau^{(k)}$是原位存储在$\vb{A}$的下三角区域的，它同样会经历后续$\vb*{\Pi}_{k+1},\cdots,\vb*{\Pi}_{n-1}$的变换，这就恰好符合此处的$\xwav{\vb{M}}_k$的表达式。
+
+\begin{BoxFormula}[部分选主元的LU分解]
+    部分选主元（Partial Pivoting）的LU分解是指，对于$\vb{A}\in\R^{n\times n}$
+    \begin{Equation}[部分选主元的LU分解]
+        \vb{P}\vb{A}=\vb{L}\vb{U}
+    \end{Equation}
+    
+    $\vb{L}\in\R^{n\times n}$是单位下三角矩阵， $\vb{U}\in\R^{n\times n}$是上三角矩阵
+    \begin{Equation}[部分选主元的LU分解的L和U]
+        \vb{L}=\xwav{\vb{M}}_1^{-1}\cdots\xwav{\vb{M}}_{n-1}^{-1}\qquad\vb{U}=\xwav{\vb{M}}_{n-1}\cdots\xwav{\vb{M}}_1\vb{A}
+    \end{Equation}
+
+    $\vb{P}\in\R^{n\times n}$整合了每一步的行交换
+    \begin{Equation}[部分选主元的LU分解的P]
+        \vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_1
+    \end{Equation}
+
+    $\xwav{\vb{M}}_1,\cdots,\xwav{\vb{M}}_n\in\R^{n\times n}$是经后续行交换的高斯变换矩阵
+    \begin{Equation}[LU分解的M]
+        \xwav{\vb{M}}_k=\vb{I}_n-(\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{k+1})\vb*{\tau}^{(k)}\vb{e}_k^T
+    \end{Equation}
+\end{BoxFormula}
+
+\begin{BoxAlgorithm}[部分选主元的LU分解]
+    设$\vb{A}\in\R^{n\times n}$，该算法实现$\vb{P}\vb{A}=\vb{L}\vb{U}$的分解。
+    
+    $\vb{L}\in\R^{n\times n}$是单位下三角矩阵，满足$|l_{ij}|\leq 1$，$\vb{U}\in\R^{n\times n}$是上三角矩阵。
+    
+    $\vb{P}\in\R^{n\times n}$由$\vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{1}$给出，$\vb*{\Pi}_k\in\R^{n\times n}$交换第$k$行与第$\piv(k)$行。
+
+    $\vb{A}(k,k:n)$被$\vb{U}(k,k:n)$覆盖，对于$k=1:n-1$。
+    
+    $\vb{A}(k+1:n,k)$被$\vb{L}(k+1:n,k)$覆盖，对于$k=1:n-1$。
+
+    \begin{Algoplain}
+        \For{$k=1:n-1$}{
+            Find $\mu$ with $k\leq\mu\leq n$ so $|A(\mu,k)|=\max|\vb{A}(k:n,k)|$\;
+            $\piv(k)=\mu$\;
+            $\vb{A}(k,:)\leftrightarrow\vb{A}(\mu,:)$\;
+            \If{$A(k,k)\neq 0$}{
+                $\rho=k+1:n$\;
+                $\vb{A}(\rho,k)=\vb{A}(\rho,k)/\vb{A}(k,k)$\;
+                $\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$
+            }
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}  
+
+应指出，\cref{alg:部分选主元的LU分解}移除了先前顺序主子矩阵$\vb{A}(1:k,1:k)$非奇异的要求，且总是能运行到最后。这是因为如果原先主对角线元素为零，通过行交换总是能换上一个非零元素。不过，如果这一列$\vb{A}(k:n,k)=0$都是零，那么确实仍会出现$\vb{A}(k,k)=0$情况，\cref{alg:部分选主元的LU分解}引入了一个额外的特判跳过该情形，因为如果$\vb{A}(k:n,k)=0$都是零，实际上这一列也没有换元的必要了。
+
+这一分析也告诉我们，如果引入了选主元的技术，任何矩阵都能存在LU分解！

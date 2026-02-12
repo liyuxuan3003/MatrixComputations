@@ -1,0 +1,72 @@
+\makeatletter\def\input@path{{minimus}{standalone-silicon}}\makeatother
+
+\documentclass{standalone-silicon}
+
+\usepackage{minimus-text}
+\usepackage{minimus-math}
+\usepackage{minimus-tikz}
+
+\begin{document}
+\begin{tikzpicture}
+
+\path (0,0) coordinate (O) ;
+
+\def\xu{1}
+\def\yu{-1}
+
+\foreach \i in {0,1,2}
+{
+    \draw[fill=red!15!white] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(8*\xu,\i*\yu+\yu)$) ;
+}
+
+\foreach \i in {0,1}
+{
+    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle (\i*\xu+\xu,8*\yu) ;
+}
+
+\foreach \i in {2}
+{
+    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle node[rotate=-90,black] (L\i) {$\vb{A}(\rho,k)$} (\i*\xu+\xu,8*\yu) ;
+}
+
+\foreach \i in {2}
+{
+    \draw[thick,dashed] ($(O)+(\i*\xu+\xu,\i*\yu)$) -- ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ; 
+    \path ($(O)+(\i*\xu,\i*\yu)$) rectangle node[black,yshift=0.3cm,rotate=-90,fill=red!15!white] (C\i) {$\vb{A}(k,k)$} ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ; 
+}
+
+\foreach \i in {2}
+{
+    \path ($(O)+(\i*\xu+\xu,\i*\yu)$) rectangle node[black] (U\i) {$\vb{A}(k,\rho)$}  ($(O)+(8*\xu,\i*\yu+\yu)$) ;
+}
+
+\foreach \i in {2}
+{
+    \path[fill=black!5!white] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle node[black] (B\i) {$\vb{A}(\rho,\rho)$} ($(O)+(8*\xu,8*\yu)$) ;
+    \path[fill=red!10!white] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle node[black] (U\fpeval{\i+1}) {$\vb{A}(k+1,\rho)$} ($(O)+(8*\xu,\i*\yu+2*\yu)$) ;
+    \draw[ultra thick,red,dashed] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle  ($(O)+(8*\xu,8*\yu)$) ;
+}
+
+\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ; 
+
+\draw[-latex,thick] (L2) -- (B2) ;
+\draw[-latex,thick] (U2) to[out=340,in=20] (B2) ;
+
+\path (P) node[above left=0.15cm,draw,thick,fill=white,fill opacity=0.9,align=center] (TXT) {Outer Product\\[-0.1cm] $\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$\\[-0.1cm] $\vb{A}(k+1,\rho)\leftarrow\vb{U}(k+1,\rho)$} ;
+
+\foreach \i/\t in {0/1,1/\cdots,2/k,7/n}
+{
+    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {0/1,1/\vdots,2/k,7/n}
+{
+    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\draw[very thick] (O) rectangle (P) ; 
+
+\draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
+
+\end{tikzpicture}
+\end{document}

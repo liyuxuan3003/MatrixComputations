@@ -1,0 +1,184 @@
+\section{三角系统}
+
+在这一节中，我们只讨论两类非常简单的问题
+\begin{Equation}[三角系统]
+    \vb{L}\vb{x}=\vb{b}\qquad \vb{U}\vb{x}=\vb{b}
+\end{Equation}
+
+其中，$\vb{L}\in\R^{n\times n}$为下三角矩阵，$\vb{U}\in\R^{n\times n}$为上三角矩阵。
+
+\subsection{前向代换}
+
+考虑一个$2\times 2$的下三角系统
+\begin{Equation}[2x2前向代换1]
+    \mqty[
+        l_{11} & 0      \\
+        l_{21} & l_{22} \\
+    ]
+    \mqty[
+        x_1 \\
+        x_2 \\
+    ]
+    =
+    \mqty[
+        b_1 \\
+        b_2 \\
+    ]
+\end{Equation}
+
+若$l_{11},l_{22}\neq 0$，则未知数可以从上到下依次确定
+\begin{Gather}[2x2前向代换]
+    x_1=b_1/l_11\id{2}\\
+    x_2=(b_2-l_{21}x_1)/l_{22}\id{3}
+\end{Gather}
+
+这一问题的一般形式可以概括为
+\begin{BoxFormula}[前向代换]
+    若$\vb{L}\in\R^{n\times n}$是下三角矩阵，而$\vb{b}\in\R^n$，那么
+    \begin{Equation}[下三角系统]
+        \vb{L}\vb{x}=\vb{b}
+    \end{Equation}
+
+    该方程可以用前向代换（Forward Substitution）的方式求出
+    \begin{Equation}[前向代换]
+        x_i=\qty(b_i-\Sum[j=1][i-1]l_{ij}x_j)/l_{ii}
+    \end{Equation}
+\end{BoxFormula}
+
+在数学之外，一个真正实用的算法需要考虑更多问题：如何利用矩阵的特点更高效的完成的形式上的矩阵乘法计算？如何尽可能的进行原位计算以节约空间消耗？例如，在\cref{fml:前向代换}的计算中，注意到$x_i$只依赖于$b_i$，因此，计算出的$\vb{x}$完全可以覆盖掉$\vb{b}$原本占用的存储空间。
+\begin{BoxAlgorithm}[行主序的前向代换]
+    若$\vb{L}\in\R^{n\times n}$是非奇异的下三角矩阵，且$\vb{b}\in\R^{n}$，该算法会以$\vb{L}\vb{x}=\vb{b}$的解覆写$\vb{b}$。
+    \begin{Algoplain}
+        $\vb{b}(1)=\vb{b}(1)/\vb{L}(1,1)$\;
+        \For{$i=2:n$}{
+            $\vb{b}(i)=[\vb{b}(i)-\vb{L}(i,1:i-1)\cdot\vb{b}(1:i-1)]/\vb{L}(i,i)$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+\subsection{反向代换}
+
+考虑一个$2\times 2$的上三角系统
+
+\begin{Equation}[2x2反向代换1]
+    \mqty[
+        u_{11} & u_{12} \\
+        0      & u_{22} \\
+    ]
+    \mqty[
+        x_1 \\
+        x_2 \\
+    ]
+    =
+    \mqty[
+        b_1 \\
+        b_2 \\
+    ]
+\end{Equation}
+
+若$u_{11},u_{22}\neq 0$，则未知数可以从下到上依次确定
+\begin{Gather}[2x2反向代换]
+    x_2=b_2/u_{22}\id{2}\\
+    x_1=(b_1-u_{12}x_2)/u_{11}\id{3}
+\end{Gather}
+
+这一问题的一般形式可以概括为
+\begin{BoxFormula}[反向代换]
+    若$\vb{U}\in\R^{n\times n}$是上三角矩阵，而$\vb{b}\in\R^n$，那么
+    \begin{Equation}[上三角系统]
+        \vb{U}\vb{x}=\vb{b}
+    \end{Equation}
+
+    该方程可以用反向代换（Backward Substitution）的方式求出
+    \begin{Equation}[反向代换]
+        x_i=\qty(b_i-\Sum[j=i+1][n]u_{ij}x_j)/u_{ii}
+    \end{Equation}
+\end{BoxFormula}
+
+在算法层面，前向代换和反向代换是类似的
+\begin{BoxAlgorithm}[行主序的反向代换]
+    若$\vb{U}\in\R^{n\times n}$是非奇异的上三角矩阵，且$\vb{b}\in\R^{n}$，该算法会以$\vb{U}\vb{x}=\vb{b}$的解覆写$\vb{b}$。
+    \begin{Algoplain}
+        $\vb{b}(n)=\vb{b}(n)/\vb{U}(n,n)$\;
+        \For{$i=n-1:-1:1$}{
+            $\vb{b}(i)=[\vb{b}(i)-\vb{U}(i,i+1:n)\cdot\vb{b}(i+1:n)]/\vb{U}(i,i)$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+关于两种代换的名称，在此做一个总结
+\begin{itemize}
+    \item 前向代换适用于下三角系统$\vb{L}\hspace{1.5pt}\vb{x}=\vb{b}$，因为$\vb{x}$是从第$1$行到第$n$行定出的。
+    \item 反向代换适用于上三角系统$\vb{U}\vb{x}=\vb{b}$，因为$\vb{x}$是从第$n$行到第$1$行定出的。
+\end{itemize}
+
+\subsection{列主序的三角系统解法}
+
+在\cref{subsec:前向代换,subsec:反向代换}中，使用的都是行主序（Row Oriented）的求解算法，我们逐行求出各个未知数，并在计算每个新的未知数再移除所有已知的未知数。而本节会介绍另外一种成为列主序（Column Oriented）的求解算法，我们在计算出一个未知数后会立即将其所在列移除。
+
+不妨考虑一个$3\times 3$的下三角系统$\vb{L}\vb{x}=\vb{b}$
+\begin{Equation}[列主序三角系统1]
+    \mqty[
+        l_{11} & 0      & 0      \\
+        l_{21} & l_{22} & 0      \\
+        l_{31} & l_{32} & l_{33} \\
+    ]
+    \mqty[
+        x_1 \\
+        x_2 \\
+        x_3 \\
+    ]
+    =
+    \mqty[
+        b_1 \\
+        b_2 \\
+        b_3 \\
+    ]
+\end{Equation}
+
+显然$x_1=b_1/l_{11}$，随后就可以将三角系统的规模从$\R^{3\times 3}$降低到$\R^{2\times 2}$
+\begin{Equation}[列主序三角系统2]
+    \mqty[
+        l_{22} & 0      \\
+        l_{32} & l_{33} \\
+    ]
+    \mqty[
+        x_2 \\
+        x_3 \\
+    ]
+    =
+    \mqty[
+        b_2 \\
+        b_3 \\
+    ]
+    -
+    \mqty[
+        l_{21} \\
+        l_{31} \\
+    ] 
+    x_1
+\end{Equation}
+
+这就是列主序的想法，在计算量上和行主序没有区别，但给出了另一种可用的计算顺序。
+
+\begin{BoxAlgorithm}[列主序的前向代换]
+    若$\vb{L}\in\R^{n\times n}$是非奇异的下三角矩阵，且$\vb{b}\in\R^{n}$，该算法会以$\vb{L}\vb{x}=\vb{b}$的解覆写$\vb{b}$。
+    \begin{Algoplain}
+        \For{$j=1:n-1$}{
+            $\vb{b}(j)=\vb{b}(j)/\vb{L}(j,j)$\;
+            $\vb{b}(j+1:n)=\vb{b}(j+1:n)-\vb{b}(j)\cdot\vb{b}{L}(j+1:n,j)$\;
+        }
+        $\vb{b}(n)=\vb{b}/\vb{L}(n,n)$\;
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+\begin{BoxAlgorithm}[列主序的反向代换]
+    若$\vb{U}\in\R^{n\times n}$是非奇异的上三角矩阵，且$\vb{b}\in\R^{n}$，该算法会以$\vb{U}\vb{x}=\vb{b}$的解覆写$\vb{b}$。
+    \begin{Algoplain}
+        \For{$j=n:-1:2$}{
+            $\vb{b}(j)=\vb{b}(j)/\vb{U}(j,j)$\;
+            $\vb{b}(1:j-1)=\vb{b}(1:j-1)-\vb{b}(j)\cdot\vb{U}(1:j-1,j)$
+        }
+        $\vb{b}(1)=\vb{b}/\vb{L}(1,1)$\;
+    \end{Algoplain}
+\end{BoxAlgorithm}

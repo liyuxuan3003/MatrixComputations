@@ -1,0 +1,168 @@
+\section{完全选主元的LU分解}
+
+\subsection{增长因子}
+
+通过在LU分解中引入部分选主元的技术，我们可以将$\vb{L}$中所有元素控制在绝对值不超过$1$的范围内，有效提高了数值稳定性。然而，从\cref{eq:选主元例子5}的例子中也可以看出$\vb{U}$中的元素仍是较大的。而事实上，随着矩阵尺寸$n$的增大，迭代过程中$\vb{A}$中的元素数值也会越发膨胀！该系数被称为增长因子（Growth Factor）。在通常情况下，增长因子约为$\rho=n^{2/3}$，基本是无关紧要的，但在某些刻意构造的最坏情况下，增长因子可能来到相当极端的$\rho=2^{n-1}$的水平！
+
+不妨考虑下面的例子，下三角是$-1$，主对角线和最右侧列是$1$，其余元素都是$0$
+\begin{Equation}[指数爆炸的LU分解的例子1]
+    a_{ij}=\begin{cases}
+        1,  &\qif* i=j \qor j=n\\
+        -1, &\qif* i>j\\
+        0,  &\qotherwise*\\
+    \end{cases}
+\end{Equation}
+
+这个矩阵在部分选主元的LU分解下完全不涉及交换，其分解结果是
+\begin{Equation}[指数爆炸的LU分解的例子2]
+    \mqty[
+        1  & 0  & 0  & 1 \\
+        -1 & 1  & 0  & 1 \\
+        -1 & -1 & 1  & 1 \\
+        -1 & -1 & -1 & 1 \\
+    ]=
+    \mqty[
+        1  & 0  & 0  & 0 \\
+        -1 & 1  & 0  & 0 \\
+        -1 & -1 & 1  & 0 \\
+        -1 & -1 & -1 & 1 \\
+    ]
+    \mqty[
+        1 & 0 & 0 & 1 \\
+        0 & 1 & 0 & 2 \\
+        0 & 0 & 1 & 4 \\
+        0 & 0 & 0 & 8 \\
+    ]
+\end{Equation}
+
+注意到最右侧一列的元素$1,2,4,8$在指数增加！直观来说，这是因为该矩阵的构造使第$k$次换元总是将第$k$行加到下面的行中，从而导致最右侧一列的元素在每次换元之后都翻一倍！
+
+\subsection{完全选主元的LU分解}
+
+完全选主元相较部分选主元，最大的区别在于：原先只能用行交换在当且列$\vb{A}(k:n，k)$的范围内选择主元，现在可以用行交换和列交换在矩形区域$\vb{A}(k:n,k:n)$内选择主元！这一改进的意义在于，通过及时将右侧出现的更大的数值交换到主元位置上，使最坏情况下增长因子的上界可以降低到比$\rho=2^{n-1}$更低的水平上，从而避免在极端情况下的数值稳定性问题。
+
+完全选主元本质上就是再增加了一次列变换，因此有
+\begin{Equation}[完全选主元1]
+    \vb{U}=\vb{M}_{n-1}\vb*{\Pi}_{n-1}\cdots\vb{M}_{1}\vb*{\Pi}_{1}\vb{A}\vb*{\Gamma}_1\cdots\vb*{\Gamma}_{n-1}
+\end{Equation}
+
+以第一次迭代$\vb{M}_1\vb*{\Pi}_1\vb{A}\vb*{\Gamma}_1$为例，$\vb*{\Gamma}_1$在右侧进行列变换，$\vb*{\Pi}_1$在左侧进行变换，$\vb{M}_1$最后进行高斯换元变换。$\vb*{\Pi}$和$\vb*{\Gamma}$都是初等置换矩阵，作用在右边是列变换，作用在左边是行变换。另外请不要忘记矩阵乘满足结合律！第$k$次迭代，会从右边结合$\vb*{\Gamma}_k$并从左边结合$\vb*{\Pi}_k$以及$\vb{M}_k$。
+
+我们最终的目标是达成这样的分解
+\begin{Equation}[完全选主元2]
+    \vb{P}\vb{A}\vb{Q}^T=\vb{L}\vb{U}
+\end{Equation}
+
+我们同样引入
+\begin{Equation}[完全选主元3]
+    \vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_1\qquad
+    \vb{Q}=\vb*{\Gamma}_{n-1}\cdots\vb*{\Gamma}_1
+\end{Equation}
+
+这里要说明的是$\vb{Q}=\vb*{\Gamma}_{n-1}\cdots\vb*{\Gamma}_1
+$则$\vb{Q}^T=\vb*{\Gamma}_1\cdots\vb*{\Gamma}_{n-1}
+$，这类矩阵的转置就是倒序乘。
+
+现在将\cref{eq:完全选主元3}代入\cref{eq:完全选主元1}，并再次应用$\xwav{\vb{M}}_k$的技巧
+\begin{Equation}[完全选主元4]
+    \vb{U}=\xwav{\vb{M}}_{n-1}\cdots\xwav{\vb{M}}_1\vb{P}\vb{A}\vb{Q}^T
+\end{Equation}
+
+根据$\vb{P}\vb{A}\vb{Q}^T=\vb{L}\vb{U}$就有
+\begin{Equation}[完全选主元5]
+    \vb{L}=\xwav{\vb{M}}_{1}^{-1}\cdots\xwav{\vb{M}}_{n-1}^{-1}
+\end{Equation}
+
+应指出，这里$\xwav{\vb{M}}_k$的表达式和部分选主元中是相同的。这是因为$\vb*{\Gamma}_k$都位于右侧，实际上并不影响左侧$\vb{M}_k$和$\vb*{\Pi}_k$间的重排，直观上看，当$\vb*{\tau}^{(k)}$就位后，后续列变换不会影响其排列。
+
+\begin{BoxFormula}[完全选主元的LU分解]
+    完全选主元（Complete Pivoting）的LU分解是指，对于$\vb{A}\in\R^{n\times n}$
+    \begin{Equation}[完全选主元的LU分解]
+        \vb{P}\vb{A}\vb{Q}^T=\vb{L}\vb{U}
+    \end{Equation}
+    
+    $\vb{L}\in\R^{n\times n}$是单位下三角矩阵， $\vb{U}\in\R^{n\times n}$是上三角矩阵
+    \begin{Equation}[完全选主元的LU分解的L和U]
+        \vb{L}=\xwav{\vb{M}}_1^{-1}\cdots\xwav{\vb{M}}_{n-1}^{-1}\qquad\vb{U}=\xwav{\vb{M}}_{n-1}\cdots\xwav{\vb{M}}_1\vb{A}\vb{Q}^T
+    \end{Equation}
+
+    $\vb{P}\in\R^{n\times n}$和$\vb{Q}\in\R^{n\times n}$整合了每一步的行交换和列交换
+    \begin{Equation}[完全选主元的LU分解的P]
+        \vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_1\qquad \vb{Q}=\vb*{\Gamma}_{n-1}\cdots\vb*{\Gamma}_1
+    \end{Equation}
+
+    $\xwav{\vb{M}}_1,\cdots,\xwav{\vb{M}}_n\in\R^{n\times n}$是经后续行交换的高斯变换矩阵
+    \begin{Equation}[LU分解的M]
+        \xwav{\vb{M}}_k=\vb{I}_n-(\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{k+1})\vb*{\tau}^{(k)}\vb{e}_k^T
+    \end{Equation}
+\end{BoxFormula}
+
+\begin{BoxAlgorithm}[完全选主元的LU分解]
+    设$\vb{A}\in\R^{n\times n}$，该算法实现$\vb{P}\vb{A}\vb{Q}^T=\vb{L}\vb{U}$的分解。
+    
+    $\vb{L}\in\R^{n\times n}$是单位下三角矩阵，满足$|l_{ij}|\leq 1$，$\vb{U}\in\R^{n\times n}$是上三角矩阵。
+    
+    $\vb{P}\in\R^{n\times n}$和$\vb{Q}\in\R^{n\times n}$分别由$\vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{1}$和$\vb{Q}=\vb*{\Gamma}_{n-1}\cdots\vb*{\Gamma}_{1}$给出。
+    
+    $\vb*{\Pi}_k\in\R^{n\times n}$交换第$k$行与第$\rowpiv(k)$行，$\vb*{\Gamma}_k\in\R^{n\times n}$交换第$k$列与第$\colpiv(k)$列。
+
+    $\vb{A}(k,k:n)$被$\vb{U}(k,k:n)$覆盖，对于$k=1:n-1$。
+    
+    $\vb{A}(k+1:n,k)$被$\vb{L}(k+1:n,k)$覆盖，对于$k=1:n-1$。
+
+    \begin{Algoplain}
+        \For{$k=1:n-1$}{
+            Find $\mu,\lambda$ with $k\leq\mu\leq n$ so $|A(\mu,k)|=\max|\vb{A}(k:n,k:n)|$\;
+            $\rowpiv(k)=\mu$\;
+            $\vb{A}(k,:)\leftrightarrow\vb{A}(\mu,:)$\;
+            $\colpiv(k)=\lambda$\;
+            $\vb{A}(:,k)\leftrightarrow\vb{A}(:,\lambda)$\;
+            \If{$A(k,k)\neq 0$}{
+                $\rho=k+1:n$\;
+                $\vb{A}(\rho,k)=\vb{A}(\rho,k)/\vb{A}(k,k)$\;
+                $\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$
+            }
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+\subsection{LU分解的计算复杂度}
+
+在计算复杂度之前，以下两个公式是有用的
+\begin{Equation}[求和公式]!!
+    1+2+\cdots+m=\frac{m(m+1)}{2}\qquad
+    1^2+2^2+\cdots+m^2=\frac{m(m+1)(2m+1)}{6}
+\end{Equation}
+
+在LU分解中，无论是否选主元，浮点计算量是一致的。浮点计算有两部分，一部分是计算乘数的$\vb{A}(\rho,k)/\vb{A}(k,k)$，一部分是进行消元的外积计算$\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$，显然占主导地位的是外积运算，由于$\rho=k+1:n$，第$k$次迭代要进行$(n-k)^2$次乘法和减法
+\begin{Equation}[浮点计算量]
+    \Sum[k=1][n-1]2(n-k)^2=\frac{2n(n-1)(2n-1)}{6}\approx\frac{2n^2}{3}
+\end{Equation}
+
+部分选主元的LU分解中，第$k$次迭代需要对$\vb{A}(k:n,k)$的元素进行比较
+\begin{Equation}[部分选主元的浮点计算量]
+    \Sum[k=1][n-1](n-k+1)=\frac{n(n+1)}{2}-1\approx\frac{n^2}{2}
+\end{Equation}
+
+完全选主元的LU分解中，第$k$次迭代需要对$\vb{A}(k:n,k:n)$的元素进行比较
+\begin{Equation}[完全选主元的浮点计算量]
+    \Sum[k=1][n-1](n-k+1)^2=\frac{n(n+1)(2n+1)}{6}-1\approx\frac{n^3}{3}
+\end{Equation}
+
+简而言之，LU分解的浮点计算量是$\Obig(2n^2/3)$，部分选主元和完全选主元的应用则会额外导致$\Obig(n^2/2)$和$\Obig(n^3/3)$的比较计算量。完全选主元会使得比较计算量提升一个数量级！
+
+\subsection{LU分解的数值稳定性}
+
+部分选主元的LU分解满足，对于第$k$次迭代
+\begin{Equation}[部分选主元的稳定性]
+    |a_{ij}^{(k+1)}|\leq 2^{k}\max|a_{ij}|
+\end{Equation}
+
+完全选主元的LU分解满足，对于第$k$次迭代
+\begin{Equation}[完全选主元的稳定性]
+    |a_{ij}^{(k+1)}|\leq k^{1/2}(2\cdot 3^{1/2}\cdots k^{1/k-1})^{1/2}\max|a_{ij}|
+\end{Equation}
+
+在\cref{eq:完全选主元的稳定性}中的$k^{1/2}(2\cdot 3^{1/2}\cdots k^{1/k-1})^{1/2}$是一个随$k$增长很慢的函数，这比\cref{eq:部分选主元的稳定性}中指数增长的上界$2^{k}$要好很多，因此，一般我们可以说完全选主元的LU分解是一个数值上稳定的算法。然而，实践上几乎总是可以放心的使用部分选主元！首先，完全选主元的比较计算的额外开销很大，不能忽视。其次，完全选主元确实将$\rho$的理论上界降低了很多，但正如前文所言，实际能达到$\rho=2^{n-1}$上界的情形是非常罕见的！通常情况下部分选主元就完全足够了。
+
+完全选主元的LU分解往往只会被用在某些特殊情况中，例如求解$\vb{A}$的秩。完全选主元的算法下，若$\rank(\vb{A})=r$，在$r+1$次迭代必然出现$\vb{A}(r+1:n,r+1:n)=0$，算法提前结束。

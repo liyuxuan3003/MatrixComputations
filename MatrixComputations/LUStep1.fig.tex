@@ -1,0 +1,68 @@
+\makeatletter\def\input@path{{minimus}{standalone-silicon}}\makeatother
+
+\documentclass{standalone-silicon}
+
+\usepackage{minimus-text}
+\usepackage{minimus-math}
+\usepackage{minimus-tikz}
+
+\begin{document}
+\begin{tikzpicture}
+
+\path (0,0) coordinate (O) ;
+
+\def\xu{1}
+\def\yu{-1}
+
+\foreach \i in {0,1,2}
+{
+    \draw[fill=red!15!white] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(8*\xu,\i*\yu+\yu)$) ;
+}
+
+\foreach \i in {0,1}
+{
+    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle (\i*\xu+\xu,8*\yu) ;
+}
+
+\foreach \i in {2}
+{
+    \draw[fill=black!5!white] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle node[black] (B\i) {$\vb{A}(\rho,\rho)$} ($(O)+(8*\xu,8*\yu)$) ;
+}
+
+\foreach \i in {2}
+{
+    \draw[ultra thick,blue,fill=blue!10!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle node[rotate=-90,black] (L\i) {$\vb{A}(\rho,k)$} (\i*\xu+\xu,8*\yu) ;
+    \draw[ultra thick,white,dashed] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle (\i*\xu+\xu,8*\yu) ;
+}
+
+\foreach \i in {2}
+{
+    \draw[thick,dashed] ($(O)+(\i*\xu+\xu,\i*\yu)$) -- ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ; 
+    \path ($(O)+(\i*\xu,\i*\yu)$) rectangle node[black,yshift=0.3cm,rotate=-90,fill=red!15!white] (C\i) {$\vb{A}(k,k)$} ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ; 
+}
+
+\foreach \i in {2}
+{
+    \path ($(O)+(\i+1*\xu,\i*\yu)$) rectangle node[black] (U\i) {$\vb{A}(k,\rho)$}  ($(O)+(8*\xu,\i*\yu+\yu)$) ;
+}
+
+\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ; 
+
+\draw[-latex,thick] (C2) -- node[right=0.15cm,draw,thick,fill=white,fill opacity=0.9,align=center,pos=0.52] (TXT) {Generate Multipliers\\[-0.1cm] $\vb{A}(\rho,k)=\vb{A}(\rho,k)/\vb{A}(k,k)$\\[-0.1cm] $\vb{A}(\rho,k)\leftarrow\vb{L}(\rho,k)$} (L2) ;
+
+\foreach \i/\t in {0/1,1/\cdots,2/k,7/n}
+{
+    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {0/1,1/\vdots,2/k,7/n}
+{
+    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\draw[very thick] (O) rectangle (P) ; 
+
+\draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
+
+\end{tikzpicture}
+\end{document}

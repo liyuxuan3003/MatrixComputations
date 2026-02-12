@@ -1,0 +1,373 @@
+\section{LU分解}
+
+\subsection{高斯消元}
+
+三角系统的求解是一个简单的$\Obig(n^2)$的计算。高斯消元（Gaussian Elimination）的想法就是将一个一般线性系统$\vb{A}\vb{x}=\vb{b}$转换为等价的上三角系统$\vb{U}\vb{x}=\vb{y}$，其时间复杂度是$\Obig(n^3)$。
+
+高斯消元的过程就是上三角化，不妨考虑这样一个方程组
+\begin{Align}[高斯消元1]
+    1x_1+\hphantom{0}4x_2+\hphantom{0}7x_3&=\hphantom{-0}9\id{a}\\
+    2x_1+\hphantom{0}5x_2+\hphantom{0}8x_3&=\hphantom{-0}4\id{b}\\
+    3x_1+\hphantom{0}6x_2           +10x_3&=\hphantom{-0}2\id{c}
+\end{Align}
+
+第一步是消去第$1$列的$x_1$：\cref{eq:高斯消元1b}减去\cref{eq:高斯消元1a}$\times 2$，\cref{eq:高斯消元1c}减去\cref{eq:高斯消元1a}$\times 3$
+\begin{Align}[高斯消元2]
+    1x_1        +\hphantom{0}4x_2+\hphantom{0}7x_3&=\hphantom{-0}9\id{a}\\
+    \hphantom{0}-\hphantom{0}3x_2-\hphantom{0}6x_3&=-14\id{b}\\
+    \hphantom{0}-\hphantom{0}6x_2-           11x_3&=-25\id{c}
+\end{Align}
+
+第二步是消去第$2$列的$x_2$：\cref{eq:高斯消元1c}减去\cref{eq:高斯消元1b}$\times 2$
+\begin{Align}[高斯消元3]
+    1x_1        +\hphantom{0}4x_2+\hphantom{0}7x_3&=\hphantom{-0}9\id{a}\\
+    \hphantom{0}-\hphantom{0}3x_2-\hphantom{0}6x_3&=-14\id{b}\\
+                                              1x_3&=\hphantom{-0}3\id{c}
+\end{Align}
+
+由于上三角化只需要消去每一列主对角线以下的未知数，因此最后一列不需要再消元了。
+
+\subsection{高斯消元的矩阵表示}
+
+现在的问题是，如何将每一步的高斯消元操作用矩阵乘法表示为一个变换呢？
+
+\cref{subsec:高斯消元}中的例子的初始系数矩阵$\vb{A}$可以写为
+\begin{Equation}[高斯变换1]
+    \vb{A}^{(1)}=\vb{A}=\mqty[
+        1 & 4 & 7 \\
+        2 & 5 & 8 \\
+        3 & 6 & 10 \\
+    ]
+\end{Equation}
+
+第一步变换的目标是将$\vb{A}^{(1)}$的第$1$列中，位于第$1$行以下的元素置为零
+\begin{Equation}[高斯变换2]
+    \mqty[
+        1  & 0 & 0 \\
+        -2 & 1 & 0 \\
+        -3 & 0 & 1 \\
+    ]
+    \mqty[
+        1 \\
+        2 \\
+        3 \\
+    ]
+    =
+    \mqty[
+        1 \\
+        0 \\
+        0 \\
+    ]
+\end{Equation}
+
+将该变换矩阵记为$\vb{M}_1$，它作用在$\vb{A}^{(1)}$上得到$\vb{A}^{(2)}$
+\begin{Equation}[高斯变换3]
+    \vb{A}^{(2)}=\vb{M}_1\vb{A}^{(1)}=\mqty[
+        1 & 4 & 7 \\
+        0 & -3 & -6 \\
+        0 & -6 & -11 \\
+    ]
+\end{Equation}
+
+第二步变换的目标是将$\vb{A}^{(2)}$的第$2$列中，位于第$2$行以下的元素置为零
+\begin{Equation}[高斯变换4]
+    \mqty[
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & -2 & 1 \\
+    ]
+    \mqty[
+        4 \\
+        -3 \\
+        -6 \\
+    ]
+    =
+    \mqty[
+        4 \\
+        -3 \\
+        0 \\
+    ]
+\end{Equation}
+
+将该变换矩阵记为$\vb{M}_2$，它作用在$\vb{A}^{(2)}$上得到$\vb{A}^{(3)}$
+\begin{Equation}[高斯变换5]
+    \vb{A}^{(3)}=\vb{M}_2\vb{A}^{(2)}=\mqty[
+        1 & 4 & 7 \\
+        0 & -3 & -6 \\
+        0 & 0 & 1 \\
+    ]
+\end{Equation}
+
+容易看出，这一变换矩阵构造的一般性形式是：对于第$k$步变换，关注矩阵$\vb{A}^{(k)}$的第$k$列的列向量$\vb{v}=[v_1,\cdots,v_k,v_{k+1},\cdots,0]^T$，其中$v_k$称为主元（Pivots），而$v_{k+1},\cdots,v_n$则是要通过主元消去的系数。构造高斯向量$\vb*{\tau}=[0,\cdots,0,\tau_{k+1},\cdots,\tau_n]^T$用来记录变换乘数，简单来说就是“从当前行减去主元所在行的多少倍”。显然，乘数$\tau_i=v_i/v_k$就是每一行的元素除以主元。最后，只需要将$\vb*{\tau}$叠加到单位阵$\vb{I}_n$的第$k$列上，就可以得到高斯变换矩阵$\vb{M}_k$了！
+\begin{BoxFormula}[高斯变换矩阵]
+    设列向量$\vb{v}\in\R^n$且$v_k\neq 0$，若令
+    \begin{Equation}[高斯变换矩阵1]
+        \vb*{\tau}=[\underbrace{0,\cdots,0}_k,\tau_{k+1},\cdots,\tau_n]^T,\quad 
+        \tau_i=v_i/v_k,\quad
+        i=k+1:n
+    \end{Equation}
+
+    构造以下变换矩阵
+    \begin{Equation}[高斯变换矩阵2]
+        \vb{M}_k=\vb{I}_n-\vb*{\tau}\vb{e}_k^T
+    \end{Equation}
+
+    则有以下性质
+    \begin{Equation}[高斯变换矩阵3]
+        \vb{M}_k\vb{v}=\mqty[
+            1      &\cdots  &0                  &0      &\cdots &0      \\
+            \vdots &\ddots  &\vdots             &\vdots &       &\vdots \\
+            0      &        &1                  &0      &       &0      \\
+            0      &        &-\vb*{\tau}_{k+1}  &1      &       &0      \\       
+            \vdots &\vdots  &\vdots             &\vdots &\ddots &\vdots \\
+            0      &\cdots  &-\vb*{\tau}_{n}    &0      &\cdots &1      \\       
+        ]
+        \mqty[
+            v_1     \\
+            \vdots  \\
+            v_k     \\
+            v_{k+1} \\
+            \vdots  \\
+            v_n     \\
+        ]
+        =
+        \mqty[
+            v_1     \\
+            \vdots  \\
+            v_k     \\
+            0       \\
+            \vdots  \\
+            0       \\
+        ]
+    \end{Equation}
+\end{BoxFormula}
+
+当然，实际计算$\vb{M}_k\vb{A}$显然不需要按一个标准的矩阵乘法来计算。这是数学和算法的一个重要区别：我们确实需要出于数学表示上的目的将高斯消元过程包装为一个变换矩阵，但这不代表实践中就要这样计算！我们在设计算法时要充分利用变换矩阵的实际意义来加速计算。
+\begin{Equation}[高斯变换的快速计算]
+    \vb{M}_k\vb{A}=(\vb{I}_n-\vb*{\tau}\vb{e}_k^T)\vb{A}=\vb{A}-\vb*{\tau}(\vb{e}_k^T\vb{A})=\vb{A}-\vb*{\tau}\vb{A}(k,:)
+\end{Equation}
+
+\cref{eq:高斯变换的快速计算}直观展示了$\vb{M}_k\vb{A}$作为消元$\vb{A}=\vb*{\tau}\vb{A}(k,:)$的意义，若写成算法形式
+\begin{BoxAlgorithm}[高斯变换矩阵的应用]
+    设$\vb{M}_k\in\R^{n\times n},\vb*{\tau}\in\R^{n}$是第$k$次高斯变换矩阵与向量，$\vb{A}\in\R^{n\times n}$是任意矩阵。
+
+    该算法会计算$\vb{M}_k\vb{A}$并用计算结果覆盖$\vb{A}$
+    \begin{Algoplain}
+        \For{$i=k+1:n$}{
+            $\vb{A}(i,:)=\vb{A}(i,:)-\tau_i\cdot\vb{A}(k,:)$
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+\subsection{高斯消元和LU分解的关系}
+
+基于高斯变换矩阵的想法，现在，我们可以将$\vb{A}\vb{x}=\vb{b}$的高斯消元流程表述如下
+
+\begin{BoxProcess}[高斯消元]
+    设$\vb{A}\vb{x}=\vb{b}$且$\vb{A}\in\R^{n\times n}$，该流程演示通过高斯消元将$\vb{A}$上三角化
+    \begin{Algoplain}
+        $\vb{A}^{(1)}=\vb{A}$\;
+        \For{$k=1:n-1$}{
+            \lFor{$i=k+1:n$}{$\tau_i^{(k)}=a_{ik}^{(k)}/a_{kk}^{(k)}$}
+            $\vb{M}_k=\vb{I}_n-\vb*{\tau}^{(k)}\vb{e}_k^T$\;
+            $\vb{A}^{(k+1)}=\vb{M}_k\vb{A}^{(k)}$\;
+        }
+    \end{Algoplain}
+\end{BoxProcess}
+
+在\cref{pro:高斯消元}中，矩阵$\vb{A}$通过$\vb{M}_1,\cdots,\vb{M}_{n-1}$的变换得到了上三角矩阵$\vb{U}$
+\begin{Equation}[高斯消元与LU分解1]
+    \vb{U}=\vb{M}_{n-1}\cdots\vb{M}_1\vb{A}
+\end{Equation}
+
+将\cref{eq:高斯消元与LU分解1}两边乘以$\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}$
+\begin{Equation}[高斯消元与LU分解2]
+    \vb{A}=\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}\vb{U}
+\end{Equation}
+
+不妨记为
+\begin{Equation}[高斯消元与LU分解3]
+    \vb{A}=\vb{L}\vb{U}
+\end{Equation}
+
+其中
+\begin{Equation}[高斯消元与LU分解4]
+    \vb{L}=\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}
+\end{Equation}
+
+这就是LU分解（LU Factorization）！其中，$\vb{U}$是上三角矩阵，$\vb{L}$是单位下三角矩阵，这是一种主对角线均为$1$的下三角矩阵。这一点成立的原因是：高斯变换矩阵$\vb{M}_1,\cdots,\vb{M}_n$的构造方式决定了其都是单位下三角矩阵，而单位下三角矩阵的逆和乘积仍然是单位下三角矩阵。
+
+\begin{BoxFormula}[LU分解]
+    LU分解是指，对于$\vb{A}\in\R^{n\times n}$
+    \begin{Equation}[LU分解]
+        \vb{A}=\vb{L}\vb{U}
+    \end{Equation}
+    
+    $\vb{L}\in\R^{n\times n}$是单位下三角矩阵， $\vb{U}\in\R^{n\times n}$是上三角矩阵
+    \begin{Equation}[LU分解的L和U]
+        \vb{L}=\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}\qquad\vb{U}=\vb{M}_{n-1}\cdots\vb{M}_1\vb{A}
+    \end{Equation}
+    
+    $\vb{M}_1,\cdots,\vb{M}_n\in\R^{n\times n}$是高斯变换矩阵
+    \begin{Equation}[LU分解的M]
+        \vb{M}_k=\vb{I}_n-\vb*{\tau}^{(k)}\vb{e}_k^T
+    \end{Equation}
+\end{BoxFormula}
+
+这里还有一个问题，虽然单位下三角矩阵$\vb{L}=\vb{M}_1^{-1}\cdots\vb{M}_{n-1}^{-1}$形式上被表示出来了，但是在实践中不可能真的去计算一系列逆矩阵！不过，由于$\vb{M}_k$的特殊性，其逆矩阵非常容易计算
+\begin{Equation}[高斯变换矩阵的逆]
+    \vb{M}_k=\vb{I}_n-\vb*{\tau}^{(k)}\vb{e}_k^T\qquad
+    \vb{M}_k^{-1}=\vb{I}_n+\vb*{\tau}^{(k)}\vb{e}_k^T
+\end{Equation}
+
+因此$\vb{L}$实际上就是高斯消元的乘数$\vb{\tau}$组成的矩阵（不包含“减去”的负号）！
+\begin{BoxFormula}[LU分解中单位上三角矩阵的计算]
+    LU分解中，$\vb{L}$可以通过以下方式求出
+    \begin{Equation}[LU分解的L的计算1]
+        \vb{L}=\vb{I}_n+\Sum[k=1][n-1]\vb*{\tau}^{(k)}\vb{e}_k^T
+    \end{Equation}
+
+    即
+    \begin{Equation}[LU分解的L的计算2]
+        \vb{L}(k+1:n,k)=\vb*{\tau}^{(k)}(k+1:n)\qquad k=1:n-1
+    \end{Equation}
+\end{BoxFormula}
+
+例如\cref{eq:高斯变换5}中已经求出$\vb{U}$了，且有$\vb*{\tau}_1=[0,2,3]^T$和$\vb*{\tau}_2=[0,0,2]^T$，则
+\begin{Equation}[LU分解的例子]
+    \vb{A}=\mqty[
+        1 & 4 & 7 \\
+        2 & 5 & 8 \\
+        3 & 6 & 10 \\
+    ]
+    =
+    \mqty[
+        1 & 0 & 0 \\
+        2 & 1 & 0 \\
+        3 & 2 & 1 \\
+    ]
+    \mqty[
+        1 & 4 & 7 \\
+        0 & -3 & -6 \\
+        0 & 0 & 1 \\
+    ]
+    =
+    \vb{L}\vb{U}
+\end{Equation}
+
+LU分解是对高斯消元在矩阵层面的精炼概括，对于一个线性系统
+\begin{Equation}[LU分解化归线性系统1]
+    \vb{A}\vb{x}=\vb{b}
+\end{Equation}
+
+LU分解完成$\vb{A}=\vb{L}\vb{U}$，将其代入\cref{eq:LU分解化归线性系统1}
+\begin{Equation}[LU分解化归线性系统2]
+    \vb{L}\vb{U}\vb{x}=\vb{b}
+\end{Equation}
+
+这就演变为两个三角系统的求解了！
+\begin{Equation}[LU分解化归线性系统3]
+    \vb{L}\vb{y}=\vb{b}\qquad \vb{U}\vb{x}=\vb{y}
+\end{Equation}
+
+在\cref{eq:LU分解化归线性系统3}中，由$\vb{L}\vb{y}=b$给出的$\vb{y}$可以认为是$\vb{M}_1,\cdots,\vb{M}_{n-1}$作用在$\vb{b}$上的结果。
+
+\subsection{LU分解的存在性}
+
+LU分解并不总是存在！一个朴素的观察是，\cref{pro:高斯消元}中应当确保主元$a_{kk}^{(k)}\neq 0$，否则会导致除零的问题。可以证明，LU分解的存在性与$\vb{A}$及其顺序主子矩阵的非奇异性有一定关系。
+\begin{BoxTheorem}[LU分解的存在性]
+    若$\vb{A}\in\R^{n\times n}$且其$k=1:n-1$的顺序主子矩阵$\vb{A}(1:k,1:k)$皆是非奇异的，则存在单位下三角矩阵$\vb{L}\in\R^{n\times n}$和上三角矩阵$\vb{U}\in\R^{n\times n}$，使得
+    \begin{Equation}[LU分解的存在性1]
+        \vb{A}=\vb{L}\vb{U}
+    \end{Equation}
+
+    若$\vb{A}$也是非奇异的，则$\vb{A}=\vb{L}\vb{U}$的分解是唯一的，且满足
+    \begin{Equation}[LU分解的存在性2]
+        \det(\vb{A})=u_{11}\cdots u_{nn}
+    \end{Equation}
+\end{BoxTheorem}
+
+\begin{Proof}[\cref{thm:LU分解的存在性}]
+    不妨考虑\cref{pro:高斯消元}中的第$k-1$步，由于$\vb{A}^{(k)}=\vb{M}_{k-1}\cdots\vb{M}_1\vb{A}$
+    \begin{Equation}[LU分解的存在性证明1]
+        {\det}(\vb{A}^{(k)}(1:k,1:k))=\det(\vb{M}_{k-1}\cdots \vb{M}_1\vb{A}(1:k,1:k))
+    \end{Equation}
+
+    矩阵积的行列式等于行列式的积
+    \begin{Equation}[LU分解的存在性证明2]!
+        {\det}(\vb{A}^{(k)}(1:k,1:k))=\det(\vb{M}_{k-1})\cdots \det(\vb{M}_1)\det(\vb{A}(1:k,1:k))
+    \end{Equation}
+
+    由于$\vb{M}_{k-1},\cdots,\vb{M}_1$都是单位下三角矩阵，而三角矩阵的行列式等于其主对角线元素的乘积
+    \begin{Equation}[LU分解的存在性证明3]
+        {\det}(\vb{A}^{(k)}(1:k,1:k))=\det(\vb{A}(1:k,1:k))
+    \end{Equation}
+
+    由于$\vb{A}^{(k)}$经历了$k-1$次高斯变换，其$\vb{A}^{(k)}(1:k,1:k)$区域已经上三角化，可以用主对角线元素的乘积计算行列式，同时，$\vb{A}(1:k,1:k)$非奇异等价于$\det(\vb{A}(1:k,1:k))\neq 0$
+    \begin{Equation}[LU分解的存在性证明4]
+        {\det}(\vb{A}^{(k)}(1:k,1:k))=a_{11}^{(k)}\cdots a_{kk}^{(k)}\neq 0
+    \end{Equation}
+    
+    即有
+    \begin{Equation}[LU分解的存在性证明5]
+        a_{kk}^{(k)}\neq 0
+    \end{Equation}
+
+    这使得\cref{pro:高斯消元}第$k$步的$\tau_i^{(k)}=a_{ik}^{(k)}/a_{kk}^{(k)}$可以进行，这就证明了$\vb{A}=\vb{L}\vb{U}$的存在性！
+
+    由于$\vb{A}=\vb{L}\vb{U}$，且$\vb{L}$作为单位下三角矩阵行列式为$1$
+    \begin{Equation}[LU分解的存在性证明6]
+        \det(\vb{A})=\det(\vb{L}\vb{U})=\det(\vb{L})\det(\vb{U})=\det(\vb{U})
+    \end{Equation}
+
+    由于$\vb{U}$是上三角矩阵
+    \begin{Equation}[LU分解的存在性证明7]
+        \det(\vb{A})=u_{11}\cdots u_{nn}  
+    \end{Equation}
+
+    最后，若$\vb{A}$是非奇异的，有$\det(\vb{A})\neq 0$，根据\cref{eq:LU分解的存在性证明6}可以确定$\det(\vb{U})\neq 0$，而$\vb{L}$作为单位下三角矩阵一定有$\det(\vb{L})\neq 0$，这就论证了$\vb{L}$和$\vb{U}$是可逆的！现在，假设存在两个不同的分解$\vb{A}=\vb{L}_1\vb{U}_1$和$\vb{A}=\vb{L}_2\vb{U}_2$，利用可逆性，可以得到$\vb{L}_2^{-1}\vb{L}_1=\vb{U}_2\vb{U}_1^{-1}$，然而，单位下三角矩阵的逆与乘积仍然是单位下三角矩阵，上三角矩阵的逆与乘积仍然是上三角矩阵，因此该等式能成立的唯一可能就是$\vb{L}_2^{-1}\vb{L}_1=\vb{U}_2\vb{U}_1^{-1}=\vb{I}_n$，故有$\vb{L}_1=\vb{L}_2$和$\vb{U}_1=\vb{U}_2$，证明了唯一性。
+\end{Proof}
+
+需要注意的是，$\vb{A}$非奇异不等价于$\vb{A}(1:k,1:k)$对于所有$k=1:n-1$非奇异！
+
+\subsection{LU分解的算法}
+
+至此，根据\cref{pro:高斯消元}，我们已经基本可以完成LU分解了！不过，算法层面尚且有几点可以优化的：首先，整个高斯消元过程可以在$\vb{A}$上原位操作，不必重复分配$\vb{A}^{(1)},\cdots,\vb{A}^{(n-1)}$的空间。其次，在第$k$步时，需要更新$\vb{A}$的$k+1:n$行，但实际上只有其中的$k+1:n$列需要被更新。最后，经历高斯消元过程后，矩阵$\vb{A}$被上三角化的$\vb{U}$覆盖，但由于上三角矩阵主对角线以下的元素都是$0$，这部分存储空间事实上被浪费了！这一点上有一个十分精妙的设计：利用下三角区域的第$k$列存储第$k$个高斯向量的非零元素$\vb*{\tau}(k+1:n)$，这不仅解决了$\vb*{\tau}^{(1)},\cdots,\vb*{\tau}^{(n)}$的额外存储空间占用，而且它们组合起来，恰好就是单位下三角矩阵$\vb{L}$，这正是所要求解的！
+
+换言之，按照这一方案进行LU分解$\vb{A}=\vb{L}\vb{U}$后，$\vb{A}$的主对角线及以上会被$\vb{U}$取代，$\vb{A}$的主对角线以下会被$\vb{L}$取代，不需要任何额外空间！$\vb{L}$和$\vb{U}$的有效数据都可以在$\vb{A}$的对应位置找到。需要说明的是，$\vb{A}$的主对角线是被$\vb{U}$占用的，因为$\vb{L}$的主对角线恒为$1$，没必要存储。
+
+\cref{fig:LU分解算法的空间复用}中，红色代表$\vb{U}$，蓝色代表$\vb{L}$，可以直观看出两者是如何逐步复用$\vb{A}$的空间。
+
+\begin{Figure}[LU分解算法的空间复用]
+    \includegraphics[scale=0.8]{LUResult.fig.pdf}
+\end{Figure}
+
+\cref{alg:LU分解}列出了具体的LU分解算法，其中$\rho=k+1:n$代表的是范围而非一系列取值。
+\begin{itemize}
+    \item $\vb{A}(\rho,k)=\vb{A}(\rho,k)/\vb{A}(k,k)$的目的是计算高斯消元的乘数。如\cref{fig:LU分解算法第一步}所示，$\vb{A}(k,k)$是主元，$\vb{A}(\rho,k)/\vb{A}(k,k)$就是将第$k$列中$k+1:n$行的元素除以主元，得到乘数。由于在随后的高斯消元中第$k$列的这些元素都会变为$0$，可以将计算结果$\vb*{\tau}^{(k)}(k+1:n)$原位存储在$\vb*{A}(\rho,k)$的位置。根据\cref{fml:LU分解中单位上三角矩阵的计算}，这一步事实上也完成了$\vb{L}(k+1:n,k)$的定出。
+    \item $\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$的目的是进行高斯消元，如\cref{fig:LU分解算法第二步}所示，消元的本质是将$\vb{A}$的第$k$行乘以$\vb*{\tau}^{(k)}(k+1:n)$中的每一行的系数，并将结果从$\vb{A}$的第$k+1:n$减去。该过程等价于$\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$的外积运算，外积运算就是普通的矩阵乘，只不过是由$m\times 1$和$1\times m$的向量相乘得到$m\times m$的矩阵，这一矩阵就是消元要减去的。在消元后，$\vb{A}(\rho,\rho)$的第一行$\vb{A}(\rho,k+1)$也就固定了，它就是$\vb{U}(k+1:n,k+1)$。由此可见，$\vb{U}(k:n,k)$其实是由第$k-1$次迭代定出，$\vb{U}(1:n,1)$在初始由$\vb{A}$的第一行给出。
+\end{itemize}
+\begin{BoxAlgorithm}[LU分解]
+    设$\vb{A}\in\R^{n\times n}$，满足$\vb{A}(1:k,1:k)$对于$k=1:n-1$非奇异。
+
+    该算法实现$\vb{A}=\vb{L}\vb{U}$的分解，$\vb{L}\in\R^{n\times n}$是单位下三角矩阵，$\vb{U}\in\R^{n\times n}$是上三角矩阵。
+
+    $\vb{A}(k,k:n)$被$\vb{U}(k,k:n)$覆盖，对于$k=1:n-1$。
+    
+    $\vb{A}(k+1:n,k)$被$\vb{L}(k+1:n,k)$覆盖，对于$k=1:n-1$。
+
+    \begin{Algoplain}
+        \For{$k=1:n-1$}{
+            $\rho=k+1:n$\;
+            $\vb{A}(\rho,k)=\vb{A}(\rho,k)/\vb{A}(k,k)$\;
+            $\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}  
+
+\begin{Figure}[LU分解算法的更新过程]
+    \figuresub[第一步;LU分解算法第一步]{\includegraphics[scale=0.8]{LUStep1.fig.pdf}}{0.495}
+    \figuresub[第二步;LU分解算法第二步]{\includegraphics[scale=0.8]{LUStep2.fig.pdf}}{0.495}
+\end{Figure}
+
+
