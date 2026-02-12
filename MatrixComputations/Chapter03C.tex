@@ -235,7 +235,7 @@
 若回顾\cref{alg:LU分解}，我们会十分惊喜的发现，在原有LU的分解算法上叠加选主元后，并不需要任何额外的计算就会自然得到$\vb{L}=\xwav{\vb{M}}_{1}^{-1}\cdots\xwav{\vb{M}}_{n-1}^{-1}$！这是因为$\tau^{(k)}$是原位存储在$\vb{A}$的下三角区域的，它同样会经历后续$\vb*{\Pi}_{k+1},\cdots,\vb*{\Pi}_{n-1}$的变换，这就恰好符合此处的$\xwav{\vb{M}}_k$的表达式。
 
 \begin{BoxFormula}[部分选主元的LU分解]
-    部分选主元的LU分解是指，对于$\vb{A}\in\R^{n\times n}$
+    部分选主元（Partial Pivoting）的LU分解是指，对于$\vb{A}\in\R^{n\times n}$
     \begin{Equation}[部分选主元的LU分解]
         \vb{P}\vb{A}=\vb{L}\vb{U}
     \end{Equation}
@@ -263,7 +263,7 @@
     
     $\vb{L}\in\R^{n\times n}$是单位下三角矩阵，满足$|l_{ij}|\leq 1$，$\vb{U}\in\R^{n\times n}$是上三角矩阵。
     
-    $\vb{P}\in\R^{n\times n}$由$\vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{1}$给出，$\vb*{\Pi}_k\in\R^{n\times n}$是交换第$k$行与第$\piv(k)$行。
+    $\vb{P}\in\R^{n\times n}$由$\vb{P}=\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{1}$给出，$\vb*{\Pi}_k\in\R^{n\times n}$交换第$k$行与第$\piv(k)$行。
 
     $\vb{A}(k,k:n)$被$\vb{U}(k,k:n)$覆盖，对于$k=1:n-1$。
     
