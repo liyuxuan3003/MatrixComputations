@@ -275,7 +275,7 @@ LU分解完成$\vb{A}=\vb{L}\vb{U}$，将其代入\cref{eq:LU分解化归线性�
 \subsection{LU分解的存在性}
 
 LU分解并不总是存在！一个朴素的观察是，\cref{pro:高斯消元}中应当确保主元$a_{kk}^{(k)}\neq 0$，否则会导致除零的问题。可以证明，LU分解的存在性与$\vb{A}$及其顺序主子矩阵的非奇异性有一定关系。
-\begin{BoxTheorem}[LU分解的存在性]
+\begin{BoxTheorem}[LU分解]
     若$\vb{A}\in\R^{n\times n}$且其$k=1:n-1$的顺序主子矩阵$\vb{A}(1:k,1:k)$皆是非奇异的，则存在单位下三角矩阵$\vb{L}\in\R^{n\times n}$和上三角矩阵$\vb{U}\in\R^{n\times n}$，使得
     \begin{Equation}[LU分解的存在性1]
         \vb{A}=\vb{L}\vb{U}
@@ -287,7 +287,7 @@ LU分解并不总是存在！一个朴素的观察是，\cref{pro:高斯消元}�
     \end{Equation}
 \end{BoxTheorem}
 
-\begin{Proof}[\cref{thm:LU分解的存在性}]
+\begin{Proof}[\cref{thm:LU分解}]
     不妨考虑\cref{pro:高斯消元}中的第$k-1$步，由于$\vb{A}^{(k)}=\vb{M}_{k-1}\cdots\vb{M}_1\vb{A}$
     \begin{Equation}[LU分解的存在性证明1]
         {\det}(\vb{A}^{(k)}(1:k,1:k))=\det(\vb{M}_{k-1}\cdots \vb{M}_1\vb{A}(1:k,1:k))
@@ -342,6 +342,11 @@ LU分解并不总是存在！一个朴素的观察是，\cref{pro:高斯消元}�
     \includegraphics[scale=0.8]{LUResult.fig.pdf}
 \end{Figure}
 
+\begin{Figure}[LU分解算法的更新过程]
+    \figuresub[第一步;LU分解算法第一步]{\includegraphics[scale=0.8]{LUStep1.fig.pdf}}{0.495}
+    \figuresub[第二步;LU分解算法第二步]{\includegraphics[scale=0.8]{LUStep2.fig.pdf}}{0.495}
+\end{Figure}
+
 \cref{alg:LU分解}列出了具体的LU分解算法，其中$\rho=k+1:n$代表的是范围而非一系列取值。
 \begin{itemize}
     \item $\vb{A}(\rho,k)=\vb{A}(\rho,k)/\vb{A}(k,k)$的目的是计算高斯消元的乘数。如\cref{fig:LU分解算法第一步}所示，$\vb{A}(k,k)$是主元，$\vb{A}(\rho,k)/\vb{A}(k,k)$就是将第$k$列中$k+1:n$行的元素除以主元，得到乘数。由于在随后的高斯消元中第$k$列的这些元素都会变为$0$，可以将计算结果$\vb*{\tau}^{(k)}(k+1:n)$原位存储在$\vb*{A}(\rho,k)$的位置。根据\cref{fml:LU分解中单位上三角矩阵的计算}，这一步事实上也完成了$\vb{L}(k+1:n,k)$的定出。
@@ -364,10 +369,3 @@ LU分解并不总是存在！一个朴素的观察是，\cref{pro:高斯消元}�
         }
     \end{Algoplain}
 \end{BoxAlgorithm}  
-
-\begin{Figure}[LU分解算法的更新过程]
-    \figuresub[第一步;LU分解算法第一步]{\includegraphics[scale=0.8]{LUStep1.fig.pdf}}{0.495}
-    \figuresub[第二步;LU分解算法第二步]{\includegraphics[scale=0.8]{LUStep2.fig.pdf}}{0.495}
-\end{Figure}
-
-
