@@ -1,0 +1,257 @@
+\section{矩阵与线性空间}
+
+\subsection{子空间}
+
+\begin{BoxDefinition}[子空间]
+    定义$\R^m$的子集$\subspace$为子空间（Subspace），若对任意$x,y\in\subspace$和$\alpha,\beta\in\R$有
+    \begin{Equation}[子空间]
+        \alpha\vb{x}+\beta\vb{y}\in\subspace
+    \end{Equation}
+\end{BoxDefinition}
+
+例如，在三维空间$\R^3$中的一个平面就可以视为$\R^3$的子空间。应指出，并非所有$\R^m$的子集都是子空间，子空间的一个关键要求是子空间内任意两个向量的线性组合仍位于该子空间内。
+
+\begin{BoxProperty}[子空间的和]
+    若$\subspace_1,\subspace_2$是$\R^m$的子空间，则其和$\subspace_1+\subspace_2=\qty{\vb{x}+\vb{y}\mid\vb{x}\in\subspace_1, \vb{y}\in\subspace_2}$也是子空间。
+\end{BoxProperty}
+
+\begin{BoxProperty}[子空间的交集]
+    若$\subspace_1,\subspace_2$是$\R^m$的子空间，则其交集$\subspace_1\cap\subspace_2$也是子空间。
+\end{BoxProperty}
+
+\subsection{生成空间}
+
+\begin{BoxDefinition}[生成空间]
+    定义向量$\vb{a}_1,\cdots,\vb{a}_n\in\R^m$定义为
+    \begin{Equation}[生成空间]
+        \vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}=\qty{y\in\R^m\;\middle|\;\vb{y}=\Sum[i=1][n]\alpha_i\vb{a}_i, \alpha_1,\cdots,\alpha_n\in\R}
+    \end{Equation}
+\end{BoxDefinition}
+
+生成空间的本质是一系列向量$\vb{a}_1,\cdots,\vb{a}_n$的线性组合所构成的集合，显然，也是一个子空间。
+
+\begin{BoxTheorem}[子空间的生成空间表示]
+    令$\subspace$为$\R^m$的子空间，存在正整数$n$和$\vb{a}_1,\cdots,\vb{a}_n\in\R^m$使得
+    \begin{Equation}[子空间的生成空间表示]
+        \subspace=\vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}
+    \end{Equation}
+\end{BoxTheorem}
+
+这表明，总是可以用一组向量的生成空间代表任意一个给定子空间。
+
+\subsection{列空间}
+
+\begin{BoxDefinition}[列空间]
+    定义矩阵$\vb{A}\in\R^{m\times n}$的列空间（Column Space）
+    \begin{Equation}[列空间]
+        \colspace(\vb{A})=\qty{\vb{y}\in\R^m\mid \vb{y}=\vb{A}\vb{x}, \vb{x}\in\R^n}
+    \end{Equation}
+\end{BoxDefinition}
+
+列空间$\colspace(\vb{A})$本质上是$\vb{A}$的列向量的生成空间，其中$\vb{x}\in\R^n$发挥了$\alpha_1,\cdots,\alpha_n\in\R$的作用。
+
+\subsection{零空间}
+
+\begin{BoxDefinition}[零空间]
+    定义矩阵$\vb{A}\in\R^{m\times n}$的零空间（Zero Space）
+    \begin{Equation}[零空间]
+        \nullspace(\vb{A})=\qty{\vb{x}\in\R^n\mid \vb{A}\vb{x}=\vb{0}}
+    \end{Equation}
+\end{BoxDefinition}
+
+零空间$\nullspace(\vb{A})$本质上是$\vb{A}\vb{x}=\vb{0}$的解构成的集合，由于矩阵乘法是线性的，任意两个解的线性组合仍然是解，因此零空间也是子空间。并且，对于矩阵$\vb{A}\in\R^{m\times n}$的零空间$\nullspace(\vb{A})$，一定会存在$r>0$和$\vb{B}\in\R^{n\times r}$使得矩阵$\nullspace(\vb{A})=\colspace(\vb{B})$，即一个矩阵的零空间一定能被表示为另一矩阵的列空间。根据\cref{thm:子空间的生成空间表示}，子空间总是可以用一组向量的生成空间表示，换言之，总是可以用某个矩阵的列空间表示。当然，这只论证了一定存在这样的$\vb{B}$，却并未指导如何找到$\vb{B}$。
+
+\subsection{线性无关}
+
+\begin{BoxDefinition}[线性无关]
+    若存在$\vb*{\alpha}=[\alpha_1,\cdots,\alpha_n]^T\in\R^n,\vb*{\alpha}\neq\vb{0}$使$\vb{a}_1,\cdots,\vb{a}_n\in\R^m$满足
+    \begin{Equation}[线性无关]
+        \Sum[i=1][n]\alpha_i\vb{a}_i=0
+    \end{Equation}
+    则称$\vb{a}_1,\cdots,\vb{a}_n$线性相关（Linear Dependent），否则称线性无关（Linear Independent）。
+\end{BoxDefinition}
+
+\begin{BoxProperty}[线性无关与线性组合]
+    若$\vb{a}_1,\cdots,\vb{a}_n\in\R^m$线性无关，则任意的$\vb{a}_j$无法表示为其他$\vb{a}_i$的线性组合。
+\end{BoxProperty}
+
+\begin{BoxProperty}[线性无关与维度限制]
+    若$\vb{a}_1,\cdots,\vb{a}_n\in\R^m$线性无关，则一定有$n\leq m$。
+\end{BoxProperty}
+
+\begin{BoxProperty}[线性无关与生成空间]
+    若$\vb{a}_1,\cdots,\vb{a}_n\in\R^m$线性无关，而$\vb{y}\in\vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}$，则在表示中
+    \begin{Equation}[线性无关与生成空间]
+        \vb{y}=\Sum[i=1][n]\alpha_i\vb{\alpha_i}
+    \end{Equation}
+    系数$\vb*{\alpha}=[\alpha_1,\cdots,\alpha_n]^T$是唯一的。
+\end{BoxProperty}
+
+\begin{BoxDefinition}[极大线性无关子集]
+    令$\qty{\vb{a}_1,\cdots,\vb{a}_n}\subset\R^m$，对于$\qty{\vb{a}_1,\cdots,\vb{a}_n}$的一个子集$\qty{\vb{a}_{i_1},\cdots,\vb{a}_{i_k}}$，若满足以下条件
+    \begin{enumerate}
+        \item $\qty{\vb{a}_{i_1},\cdots,\vb{a}_{i_k}}$是线性无关的。
+        \item $\qty{\vb{a}_{i_1},\cdots,\vb{a}_{i_k}}$不被$\qty{\vb{a}_1,\cdots,\vb{a}_n}$的其他子集所包含。
+    \end{enumerate}
+    则称其是$\qty{\vb{a}_1,\cdots,\vb{a}_n}$的极大线性无关子集（Maximal Linearly Independent subset）。
+\end{BoxDefinition}
+
+\begin{BoxProperty}[极大线性无关子集的不可扩充性]
+    $\qty{\vb{a}_{i1},\cdots,\vb{a}_{ik}}$是$\qty{\vb{a}_1,\cdots,\vb{a}_n}$的极大线性无关子集，当且仅当$\qty{\vb{a}_{i1},\cdots,\vb{a}_{ik},\vb{a}_j}$是线性相关的，其中$\vb{a}_j$是任意一个属于$\qty{\vb{a}_1,\cdots,\vb{a}_n}$但不在子集$\qty{\vb{a}_{i1},\cdots,\vb{a}_{ik}}$中的向量。
+\end{BoxProperty}
+
+这表明，极大线性无关子集如果继续添加向量，则一定会破坏其线性无关特性。
+
+\begin{BoxProperty}[极大线性无关子集的生成空间的等价性]
+    $\qty{\vb{a}_{i1},\cdots,\vb{a}_{ik}}$若为$\qty{\vb{a}_1,\cdots,\vb{a}_n}$的极大线性无关子集，则
+    \begin{Equation}[极大线性无关子集的生成空间的等价性]
+        \vspan\qty{\vb{a}_{i1},\cdots,\vb{a}_{ik}}=\vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}
+    \end{Equation}
+\end{BoxProperty}
+
+这表明，极大线性无关子集是保证生成空间不缩减的子集。
+
+\subsection{基}
+
+\begin{BoxDefinition}[基]
+    令$\subspace\subseteq\R^m$为一个$\subspace\neq\qty{\vb{0}}$的子空间，若$\qty{\vb{b}_1,\cdots,\vb{b}_k}\subset\R^m$满足以下条件
+    \begin{enumerate}
+        \item $\vb{b}_1,\cdots,\vb{b}_k$是线性无关的。
+        \item $\subspace=\vspan\qty{\vb{b}_1,\cdots,\vb{b}_k}$。
+    \end{enumerate}
+    则称$\qty{\vb{b}_1,\cdots,\vb{b}_k}$为子空间$\subspace$的一组基（Basis）。
+\end{BoxDefinition}
+
+\begin{BoxProperty}[基的不唯一性]
+    对于子空间$\subspace$，可以存在不唯一的基。
+\end{BoxProperty}
+
+\begin{BoxProperty}[基的元素数量一致性]
+    对于子空间$\subspace$，其所有基都包含相同数量的向量。
+\end{BoxProperty}
+
+\begin{BoxProperty}[基与极大线性无关子集]
+    $\qty{\vb{a}_1,\cdots,\vb{a}_n}$的极大线性无关子集$\qty{\vb{a}_{i_1},\cdots,\vb{a}_{i_k}}$是$\vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}$的基。
+\end{BoxProperty}
+
+\subsection{维度}
+
+\begin{BoxDefinition}[维度]
+    对于非零子空间$\subspace\neq\qty{\vb{0}}$，定义其维度$\dim\subspace$（Dimension）为其基的元素数量。
+\end{BoxDefinition}
+
+维度代表了子空间的自由度。尽管显然有$\dim\R^2=2$和$\dim\R^3=3$，但如果要准确论述为何位于$\R^3$中的一个平面的维度和$\R^2$的维度是相同的，就需要用到上面的这些精巧定义。
+
+\begin{BoxProperty}[子空间的维度]
+    若$\qty{\vb{a}_1,\cdots,\vb{a}_n}$的极大线性无关子集$\qty{\vb{a}_{i_1},\cdots,\vb{a}_{i_k}}$的向量数为$k$，则
+    \begin{Equation}[子空间的维度]
+        \dim\vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}=k
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[子空间包含则维度单调]
+    令$\subspace_1,\subspace_2\subseteq\R^m$，若$\subspace_1\subseteq\subspace_2$，则$\dim\subspace_1\leq\dim\subspace_2$。
+\end{BoxProperty}
+
+这表明，包含另一个子空间的子空间一定具有不低于其的维度。
+
+\begin{BoxProperty}[子空间包含等维则相等]
+    令$\subspace_1,\subspace_2\subseteq\R^m$，若$\dim\subspace_1=\dim\subspace_2$，那么$\subspace_1=\subspace_2$。
+\end{BoxProperty}
+
+\begin{BoxProperty}[子空间和全空间的维度关系]
+    令$\subspace_1\subseteq\R^m$，$\dim \subspace_1=m$当前仅当$\subspace_1=\R^m$。
+\end{BoxProperty}
+
+这表明，呈包含关系的两个子空间，如果维度相同，它们实际上是同一子空间。试想被$\R^3$包含的任意直线和平面的维度为$1$和$2$，但能被$\R^3$包含且维度为$3$的子空间只有$\R^3$自身！
+
+\begin{BoxProperty}[子空间和的维度]
+    令$\subspace_1,\subspace_2\subseteq\R^m$，有
+    \begin{Equation}[子空间和的维度]
+        \dim(\subspace_1+\subspace_2)=\dim\subspace_1+\dim\subspace_2-\dim(\subspace_1\cap\subspace_2)
+    \end{Equation}
+\end{BoxProperty}
+
+例如两个平面的维度是$2$，其相交得到的直线维度为$1$，其相加得到的$\R^3$的维度就是$3$。
+
+\subsection{秩}
+
+\begin{BoxDefinition}[秩]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，定义其秩（Rank）
+    \begin{Equation}[秩]
+        \rank(\vb{A})=\dim\colspace(\vb{A})
+    \end{Equation}
+\end{BoxDefinition}
+
+简单来说，矩阵的秩就是其列向量的极大线性无关子集的元素数，即矩阵的列空间的维度。
+
+\begin{BoxProperty}[秩的转置不变性]
+    矩阵的转置不影响秩
+    \begin{Equation}[秩的转置不变性]
+        \rank(\vb{A})=\rank(\vb{A}^T)
+    \end{Equation}
+\end{BoxProperty}
+
+这表明，矩阵的秩实际上同时反映了矩阵列向量和行向量的极大线性无关子集的元素个数！
+\begin{itemize}
+    \item 对于$m>n$的高矩阵$\vb{A}$，矩阵的秩$\rank(\vb{A})$的最大值受限于其列的数量。
+    \item 对于$m<n$的宽矩阵$\vb{A}$，矩阵的秩$\rank(\vb{A})$的最大值受限于其行的数量。
+\end{itemize}
+
+\begin{BoxProperty}[矩阵和的秩]
+    矩阵和的秩一定小于等于秩之和
+    \begin{Equation}[矩阵和的秩]
+        \rank(\vb{A}+\vb{B})\leq\rank(\vb{A})+\rank(\vb{B})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的秩]
+    矩阵积的秩一定小于等于任意一方的秩
+    \begin{Equation}[矩阵积的秩]
+        \rank(\vb{A}\vb{B})\leq\min(\rank(\vb{A}),\rank(\vb{B}))
+    \end{Equation}
+\end{BoxProperty}
+
+在\cref{ppt:矩阵积的秩}中，等号仅在$\vb{A}$的列向量和$\vb{B}$的行向量均线性无关的情况下成立，若提前借用后面的定义来表述，只有当两个相乘的矩阵自身都是满秩时，其乘积矩阵才不会是降秩的。
+
+\begin{BoxDefinition}[列满秩]
+    令$\vb{A}\in\R^{m\times n}$，若满足以下条件，则称$\vb{A}$是列满秩（Full Column Rank）的
+    \begin{Equation}[列满秩]
+        m\geq n,\quad\rank(\vb{A})=n
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[行满秩]
+    令$\vb{A}\in\R^{m\times n}$，若满足以下条件，则称$\vb{A}$是行满秩（Full Row Rank）的
+    \begin{Equation}[列满秩]
+        m\leq n,\quad\rank(\vb{A})=m
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[满秩]
+    令$\vb{A}\in\R^{m\times n}$，若满足以下条件
+    \begin{Equation}[列满秩]
+        \rank(\vb{A})=\min\qty{m,n}
+    \end{Equation}
+    则称$\vb{A}$是满秩（Full Rank）的，否则称$\vb{A}$是降秩（Rank Deficient）的。
+\end{BoxDefinition}
+
+应指出，满秩只需要符合列满秩或行满秩中的一种情况即可（否则只有方阵才能满秩了）。
+
+\subsection{奇异矩阵}
+
+\begin{BoxDefinition}[奇异矩阵]
+    令$\vb{A}\in\R^{n\times n}$，若其列向量线性相关，即
+    \begin{Equation}[奇异矩阵]
+        \rank(\vb{A})<n
+    \end{Equation}
+    则称$\vb{A}$是奇异矩阵（Singular），否则称$\vb{A}$是非奇异矩阵（Nonsingular）。
+\end{BoxDefinition}
+
+有趣的是，尽管定义的出发点不同，可逆矩阵的条件是存在一个逆矩阵，非奇异矩阵的条件是列向量线性无关，但两者本质上是同一个东西！直观上的一个解释是：单位矩阵$\vb{I}$可以视为维度为$n$的$\R^n$的一组基，如果$\vb{A}$的列向量线性相关，生成空间的维度就一定会小于$n$，变为嵌入在$\R^n$中的一个低维子空间。损失的维度是无法还原的，因此不存在$\vb{A}^{-1}$使$\vb{A}^{-1}\vb{A}=\vb{I}$。
+
+\begin{itemize}
+    \item 可逆矩阵，非奇异矩阵，满秩，列向量线性无关，行列式非零。
+    \item 奇异矩阵，非可逆矩阵，降秩，列向量线性相关，行列式为零。
+\end{itemize}
+

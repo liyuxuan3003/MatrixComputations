@@ -1,0 +1,298 @@
+\section{矩阵基础}
+
+\subsection{向量的定义}
+
+\begin{BoxDefinition}[实向量的定义]
+    $\vb{x}\in\R^n$：$\vb{x}$是一个$n$维的实向量（Real-Valued Vector）
+    \begin{Equation}[实向量的定义]
+        \vb{x}=\begin{bmatrix}
+            x_1\\
+            x_2\\
+            \vdots\\
+            x_n
+        \end{bmatrix},\quad x_i\in\R
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[复向量的定义]
+    $\vb{x}\in\C^n$：$\vb{x}$是一个$n$维复向量（Complex-Valued Vector）
+    \begin{Equation}[复向量的定义]
+        \vb{x}=\begin{bmatrix}
+            x_1\\
+            x_2\\
+            \vdots\\
+            x_n
+        \end{bmatrix},\quad x_i\in\C
+    \end{Equation}
+\end{BoxDefinition}
+
+在线性代数的语境中，向量$\vb{x}$默认指的都是列向量（Column Vector），通过转置的记法$\vb{x}^T$表示行向量（Row Vector）。行内公式中，常用$\vb{x}=\qty[x_1, x_2, \cdots, x_n]^T$表示列向量以节约空间。
+
+\subsection{矩阵的定义}
+
+\begin{BoxDefinition}[实矩阵的定义]
+    $\vb{A}\in\R^{m\times n}$：$\vb{A}$是一个$m\times n$维的实矩阵（Real-Valued Matrix）
+    \begin{Equation}[实矩阵的定义]
+        \vb{A}=\begin{bmatrix}
+            a_{11}&a_{12}&\cdots&a_{1n}\\
+            a_{21}&a_{22}&\cdots&a_{2n}\\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{m1}&a_{m2}&\cdots&a_{mn}\\
+        \end{bmatrix},\quad a_{ij}\in\R
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[复矩阵的定义]
+    $\vb{A}\in\C^{m\times n}$：$\vb{A}$是一个$m\times n$维的复矩阵（Complex-Valued Matrix）
+    \begin{Equation}[复矩阵的定义]
+        \vb{A}=\begin{bmatrix}
+            a_{11}&a_{12}&\cdots&a_{1n}\\
+            a_{21}&a_{22}&\cdots&a_{2n}\\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{m1}&a_{m2}&\cdots&a_{mn}\\
+        \end{bmatrix},\quad a_{ij}\in\C
+    \end{Equation}
+\end{BoxDefinition}
+
+矩阵$\vb{A}\in\R^{m\times n}$称为$m$行$n$列，元素$a_{ij}$的下标代表其是$\vb{A}$的第$i$行第$j$列处的元素。
+
+矩阵可以视为若干列向量横向拼接的结果，例如$\vb{A}\in\R^{m\times n}$可以记为
+\begin{Equation}[矩阵的列向量拼接]
+    \vb{A}=\qty[\vb{a_1},\vb{a_2},\cdots,\vb{a_n}]
+\end{Equation}
+
+其中$\vb{a}_j\in\R^m$代表代表矩阵$\vb{A}$的第$j$列。
+
+\subsection{特殊的向量和矩阵}
+
+\begin{BoxDefinition}[方阵]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，若$m=n$，称$\vb{A}$为方阵（Square）。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[高矩阵]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，若$m>n$，称$\vb{A}$为高矩阵（Tall）。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[宽矩阵]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，若$m<n$，称$\vb{A}$为宽矩阵（Tall）。
+\end{BoxDefinition}
+
+简而言之，行比列多的矩阵是高矩阵，行比列少的矩阵是宽矩阵。
+
+\begin{BoxDefinition}[上三角矩阵]
+    对于矩阵$\vb{A}\in\R^{n\times n}$，若$i>j$皆有$a_{ij}=0$，称$\vb{A}$为上三角矩阵（Upper Traiangular）。
+    \begin{Equation}[上三角矩阵的例子]
+        \vb{A}=\begin{bmatrix}
+            a_{11} & a_{12} & \cdots & a_{1n} \\
+            0      & a_{22} & \cdots & a_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            0      & 0      & \cdots & a_{nn} \\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[下三角矩阵]
+    对于矩阵$\vb{A}\in\R^{n\times n}$，若$i<j$皆有$a_{ij}=0$，称$\vb{A}$为下三角矩阵（Lower Traiangular）。
+    \begin{Equation}[下三角矩阵的例子]
+        \vb{A}=\begin{bmatrix}
+            a_{11}&0     &\cdots&0     \\
+            a_{21}&a_{22}&\cdots&0     \\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{n1}&a_{n2}&\cdots&a_{nn}\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+上三角矩阵和下三角矩阵讨论的都是方阵，另外，其“上”和“下”指的是有元素的部分
+\begin{itemize}
+    \item 上三角矩阵是指，主对角线以下（不包含主对角线）的元素（$i>j$）都为零。
+    \item 下三角矩阵是指，主对角线以上（不包含主对角线）的元素（$i<j$）都为零。
+\end{itemize}
+
+\begin{BoxDefinition}[零向量]
+    记号$\vb{0}$表示一个所有元素都为$0$的零向量（Zero Vector）
+    \begin{Equation}[零向量]
+        \vb{0}=\begin{bmatrix}
+            0\\
+            \vdots\\
+            0\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+需要指出的是，记号$\vb{0}$不仅可以用来表示零向量，也可以用来表示零矩阵。
+
+\begin{BoxDefinition}[全一向量]
+    记号$\vb{1}$表示一个所有元素都为$1$的全一向量（All-One Vector）
+    \begin{Equation}[全一向量]
+        \vb{1}=\begin{bmatrix}
+            1\\
+            \vdots\\
+            1\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[单位向量]
+    记号$\vb{e}_i$表示仅有第$i$个元素为$1$的单位向量（Unit Vector）
+    \begin{Equation}[单位向量]
+        \vb{e}_i=\begin{bmatrix}
+            0\\
+            \vdots\\
+            1\\
+            \vdots\\
+            0\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[单位矩阵]
+    记号$\vb{I}$表示仅有主对角线元素为$1$的单位矩阵（Identity Matrix）
+    \begin{Equation}[单位矩阵]
+        \vb{I}=\begin{bmatrix}
+            1 &        &  \\
+              & \ddots &  \\
+              &        & 1\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[对角矩阵]
+    记号$\Diag(a_1,\cdots,a_n)$表示仅有主对角线元素的对角矩阵（Diagonal Matrix）
+    \begin{Equation}[对角矩阵]
+        \Diag(a_1,\cdots,a_n)=\begin{bmatrix}
+            a_1 &        &     \\
+                & \ddots &     \\
+                &        & a_n \\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+若对角元素表示为向量$\vb{a}=[a_1,\cdots,a_n]^T$，也可以将$\Diag(a_1,\cdots,a_n)$简记为$\Diag(\vb{a})$。
+
+\subsection{转置}
+
+\begin{BoxDefinition}[转置]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，定义其转置$\vb{A^T}\in\R^{n\times m}$（Transpose）
+    \begin{Equation}[转置]
+        \vb{A}^T=\begin{bmatrix}
+            a_{11}&a_{21}&\cdots&a_{n1}\\
+            a_{12}&a_{22}&\cdots&a_{n2}\\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{1m}&a_{2m}&\cdots&a_{nm}\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+转置的实质就是将矩阵的行和列对调，原先的行变成了列，原先的列变成了行。
+
+\begin{BoxProperty}[矩阵数乘的伴随]
+    矩阵数乘的转置，等于矩阵伴随的数乘
+    \begin{Equation}[矩阵数乘的伴随]
+        \qty(c\vb{A})^H=c\vb{A}^H
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵和的转置]
+    矩阵和的转置，等于矩阵转置的和
+    \begin{Equation}[矩阵和的转置]
+        \qty(\vb{A}+\vb{B})^T=\vb{A}^T+\vb{B}^T
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的转置]
+    矩阵积的转置，等于矩阵转置的逆序积
+    \begin{Equation}[矩阵和的转置]
+        \qty(\vb{A}\vb{B})^T=\vb{B}^T\vb{A}^T
+    \end{Equation}
+\end{BoxProperty}
+
+转置计算可以提到矩阵乘积内进行，但务必记得交换乘法顺序！（矩阵乘法不满足交换律）
+
+\begin{BoxProperty}[双重转置还原]
+    矩阵转置的转置等于原矩阵自身
+    \begin{Equation}[双重转置还原]
+        (\vb{A}^T)^T=\vb{A}
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{伴随}
+
+\begin{BoxDefinition}[伴随]
+    对于矩阵$\vb{A}\in\C^{m\times n}$，定义其伴随$\vb{A^H}\in\C^{n\times m}$（Adjoint）
+    \begin{Equation}[伴随]
+        \vb{A}^T=\begin{bmatrix}
+            a_{11}^{*}&a_{21}^{*}&\cdots&a_{n1}^{*}\\
+            a_{12}^{*}&a_{22}^{*}&\cdots&a_{n2}^{*}\\
+            \vdots&\vdots&\ddots&\vdots\\
+            a_{1m}^{*}&a_{2m}^{*}&\cdots&a_{nm}^{*}\\
+        \end{bmatrix}
+    \end{Equation}
+\end{BoxDefinition}
+
+伴随也可以称为共轭转置（Conjugate Transpose）或厄米转置（Hermitian Transpose）。
+
+伴随的实质是：对复矩阵求转置后对每一元素求复共轭。
+
+\begin{BoxProperty}[矩阵数乘的转置]
+    矩阵数乘的转置，等于矩阵转置的数乘
+    \begin{Equation}[矩阵数乘的转置]
+        \qty(c\vb{A})^T=c\vb{A}^T
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵和的伴随]
+    矩阵和的伴随，等于矩阵伴随的和
+    \begin{Equation}[矩阵和的伴随]
+        \qty(\vb{A}+\vb{B})^H=\vb{A}^H+\vb{B}^H
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的伴随]
+    矩阵积的伴随，等于矩阵伴随的逆序积
+    \begin{Equation}[矩阵和的伴随]
+        \qty(\vb{A}\vb{B})^H=\vb{B}^H\vb{A}^H
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[双重伴随还原]
+    矩阵伴随的伴随等于原矩阵自身
+    \begin{Equation}[双重伴随还原]
+        (\vb{A}^H)^H=\vb{A}
+    \end{Equation}
+\end{BoxProperty}
+
+% 伴随的运算性质和转置的运算性质完全一样！（两次复共轭也会得到原来的复数）
+
+\subsection{迹}
+
+\begin{BoxDefinition}[迹]
+    对于矩阵$\vb{A}\in\R^{n\times n}$，定义其迹（Trace）
+    \begin{Equation}[迹]
+        \tr(\vb{A})=\Sum[i=1][n]a_{ii}
+    \end{Equation}
+\end{BoxDefinition} 
+
+简而言之，矩阵的迹就是矩阵主对角线上的元素之和！
+
+\begin{BoxProperty}[矩阵转置的迹]
+    矩阵及其转置具有相同的迹
+    \begin{Equation}[矩阵转置的迹]
+        \tr(\vb{A}^T)=\tr(\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵和的迹]
+    矩阵和的迹，等于矩阵迹的和   
+    \begin{Equation}[矩阵和的迹]
+        \tr(\vb{A}+\vb{B})=\tr(\vb{A})+\tr(\vb{B})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的迹]
+    矩阵的相乘顺序，不影响乘积的迹
+    \begin{Equation}[矩阵积的迹]
+        \tr(\vb{A}\vb{B})=\tr(\vb{B}\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
