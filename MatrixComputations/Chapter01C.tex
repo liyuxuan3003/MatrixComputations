@@ -128,13 +128,168 @@
 
 接下来，我们将不再区分可逆矩阵和非奇异矩阵这两个概念了。
 
+\begin{BoxDefinition}[逆矩阵]
+    对于非奇异方阵$\vb{A}\in\R^{n\times n}$，记$\vb{A}$的逆（Inverse）为$\vb{A}^{-1}$，定义为
+    \begin{Equation}[逆矩阵]
+        \vb{A}^{-1}\vb{A}=\vb{I}
+    \end{Equation}
+\end{BoxDefinition}
 
-% \begin{BoxDefinition}[奇异矩阵]
-%     令$\vb{A}\in\R^{n\times n}$，若其列向量线性相关，即
-%     \begin{Equation}[奇异矩阵]
-%         \rank(\vb{A})<n
-%     \end{Equation}
-%     则称$\vb{A}$是奇异矩阵（Singular），否则称$\vb{A}$是非奇异矩阵（Nonsingular）。
-% \end{BoxDefinition}
+\begin{BoxProperty}[逆的存在性与唯一性]
+    对于非奇异方阵$\vb{A}$，逆$\vb{A}^{-1}$总是存在且唯一。
+\end{BoxProperty}
 
+\begin{BoxProperty}[逆的非奇异性]
+    对于非奇异方阵$\vb{A}$，逆$\vb{A}^{-1}$也是非奇异的
+\end{BoxProperty}
 
+\begin{BoxProperty}[矩阵数乘的逆]
+    矩阵数乘的逆，等于倒数与逆的数乘
+    \begin{Equation}[矩阵数乘]
+        (k\vb{A})=k^{-1}\vb{A}^{-1}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵与逆的积]
+    矩阵与逆的乘积，无论顺序，等于单位矩阵
+    \begin{Equation}[矩阵与逆的积]
+        \vb{A}\vb{A}^{-1}=\vb{A}^{-1}\vb{A}=\vb{I}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵逆的逆]
+    矩阵逆的逆，等于自身
+    \begin{Equation}[矩阵逆的逆]
+        (\vb{A}^{-1})^{-1}=\vb{A}
+    \end{Equation}
+\end{BoxProperty}
+
+逆、转置、伴随应用于矩阵的乘积，都要将乘法顺序逆序！ 
+
+\begin{BoxProperty}[矩阵积的逆]
+    矩阵乘积的逆，等于矩阵逆的逆序积
+    \begin{Equation}[矩阵积的逆]
+        (\vb{A}\vb{B})^{-1}=\vb{B}^{-1}\vb{A}^{-1}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵转置的逆]
+    矩阵转置的逆，等于矩阵逆的转置
+    \begin{Equation}[矩阵转置的逆]
+        (\vb{A}^T)^{-1}=(\vb{A}^{-1})^T=\vb{A}^{-T}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵伴随的逆]
+    矩阵伴随的逆，等于矩阵逆的伴随
+    \begin{Equation}[矩阵伴随的逆]
+        (\vb{A}^H)^{-1}=(\vb{A}^{-1})^H=\vb{A}^{-H}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵幂的逆]
+    矩阵幂的逆，等于矩阵逆的幂
+    \begin{Equation}[矩阵幂的逆]
+        (\vb{A}^k)^{-1}=(\vb{A}^{-1})^k=\vb{A}^{-k}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxLemma}[矩阵求逆引理]
+    对于非奇异矩阵$\vb{A}\in\R^{n\times n}$和$\vb{C}\in\R^{k\times k}$以及$\vb{U},\vb{V}\in\R^{n\times k}$，有
+    \begin{Equation}[矩阵求逆引理]!
+        (\vb{A}+\vb{U}\vb{C}\vb{V}^T)^{-1}=\vb{A}^{-1}-\vb{A}^{-1}\vb{U}(\vb{C}^{-1}+\vb{V}^T\vb{A}^{-1}\vb{U})^{-1}\vb{V}^T\vb{A}^{-1}
+    \end{Equation}
+\end{BoxLemma}
+
+\cref{lem:矩阵求逆引理}也称为伍德伯里公式（Woodbury formula），当$k=1$和$\vb{C}=1$时称为谢尔曼-莫里森公式（Sherman-Morrison Formula）。当矩阵$\vb{A}$加上一个秩为$k$的修正项$\vb{U}\vb{C}\vb{V}^T$后，可以直接通过修正$\vb{A}^{-1}$来得到新矩阵的逆，从而可以将$n\times n$的求逆转换为$k\times k$的求逆。
+
+\subsection{行列式}
+
+\begin{BoxDefinition}[行列式]
+    对于方阵$\vb{A}\in\R^{n\times n}$，记$\vb{A}$的行列式（Deterninant）为$\det(\vb{A})$，递归定义如下。
+
+    若$n=1$，则
+    \begin{Equation}[行列式1]
+        \det(\vb{A})=a_{11}
+    \end{Equation}
+
+    若$n\geq 2$，记$\vb{A}_{ij}\in\R^{(n-1)\times (n-1)}$是$\vb{A}$移除$i$行$j$列的子矩阵，定义相关系数（Cofactor）
+    \begin{Equation}[行列式2]
+        c_{ij}=(-1)^{i+j}\det(\vb{A}_{ij})
+    \end{Equation}
+
+    行展开是指，对于任意取定的行$i=1,\cdots,n$
+    \begin{Equation}[行列式3]
+        \det(\vb{A})=\Sum[j=1][n]a_{ij}c_{ij}
+    \end{Equation}
+
+    列展开是指，对于任意取定的列$j=1,\cdots,n$
+    \begin{Equation}[行列式3]
+        \det(\vb{A})=\Sum[i=1][n]a_{ij}c_{ij}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxProperty}[非奇异矩阵的行列式]
+    矩阵$\vb{A}$是非奇异的，当且仅当$\vb{A}$的行列式非零
+    \begin{Equation}[非奇异矩阵的行列式]
+        \det(\vb{A})\neq 0
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的行列式]
+    矩阵积的行列式，等于矩阵行列式的积
+    \begin{Equation}[矩阵积的行列式]
+        \det(\vb{A}\vb{B})=\det(\vb{A})\det(\vb{B})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵转置的行列式]
+    矩阵转置的行列式，等于矩阵的行列式
+    \begin{Equation}[矩阵转置的行列式]
+        \det(\vb{A}^T)=\det(\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵伴随的行列式]
+    矩阵伴随的行列式，等于矩阵的行列式的复共轭
+    \begin{Equation}[矩阵伴随的行列式]
+        \det(\vb{A}^H)=\det(\vb{A})^{*}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵数乘的行列式]
+    矩阵数乘的行列式，等于矩阵的行列式乘以该数的$n$次幂
+    \begin{Equation}[矩阵数乘的行列式]
+        \det(\alpha\vb{A})=\alpha^n\det(\vb{A})\qquad \vb{A}\in\R^{n\times n}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵逆的行列式]
+    矩阵逆的行列式，等于矩阵行列式的倒数
+    \begin{Equation}[矩阵逆的行列式]
+        \det(\vb{A}^{-1})=1/\det(\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵逆和古典伴随]
+    矩阵的逆，等于矩阵的伴随阵（Adjugate）除以行列式
+    \begin{Equation}[矩阵逆和古典伴随]
+        \vb{A}^{-1}=\xwav{\vb{A}}\det(\vb{A})\qquad \xwav{a}_{ij}=c_{ij}
+    \end{Equation}
+\end{BoxProperty}
+
+关于伴随歧义的澄清：这里所谓的伴随阵$\xwav{\vb{A}}$是指由$\vb{A}$的相关系数$c_{ij}$组成的矩阵，这和代表共轭转置或的伴随$\vb{A}^H$没有任何联系，英语中可以用Adjugate和Adjoint区分$\xwav{\vb{A}}$和$\vb{A}^H$。
+
+\begin{BoxProperty}[三角矩阵的行列式]
+    三角矩阵的行列式等于对角线元素的乘积
+    \begin{Equation}[三角矩阵的行列式]
+        \det(\vb{A})=\Prod[i=1][m]a_{ii}\qquad \vb{A}\in\R^{n\times n}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxLemma}[矩阵行列式引理]
+    对于非奇异矩阵$\vb{A}\in\R^{n\times n}$和$\vb{C}\in\R^{k\times k}$以及$\vb{U},\vb{V}\in\R^{n\times k}$，有
+    \begin{Equation}[矩阵行列式引理]!
+        \det(\vb{A}+\vb{U}\vb{C}\vb{V}^T)=\det(\vb{A})\det(\vb{C}^{-1}+\vb{V}^T\vb{A}^{-1}\vb{U})\det(\vb{C})
+    \end{Equation}
+\end{BoxLemma}
