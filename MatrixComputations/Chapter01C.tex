@@ -1,0 +1,140 @@
+\section{秩、逆、行列式}
+
+\subsection{秩}
+
+\begin{BoxDefinition}[秩]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，定义其秩（Rank）
+    \begin{Equation}[秩]
+        \rank(\vb{A})=\dim\colspace(\vb{A})
+    \end{Equation}
+\end{BoxDefinition}
+
+简单来说，矩阵的秩就是其列向量的极大线性无关子集的元素数，即矩阵的列空间的维度。
+
+\begin{BoxProperty}[秩的转置不变性]
+    矩阵的转置不影响秩
+    \begin{Equation}[秩的转置不变性]
+        \rank(\vb{A})=\rank(\vb{A}^T)
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[秩的上限]
+    矩阵的秩不会超过行数和列数
+    \begin{Equation}[秩的上限]
+        \rank(\vb{A})\leq\min\qty{m,n}
+    \end{Equation}
+\end{BoxProperty}
+
+这表明，矩阵的秩实际上同时反映了矩阵列向量和行向量的极大线性无关子集的元素个数！
+\begin{itemize}
+    \item 对于$m>n$的高矩阵$\vb{A}$，矩阵的秩$\rank(\vb{A})$的最大值受限于其列的数量。
+    \item 对于$m<n$的宽矩阵$\vb{A}$，矩阵的秩$\rank(\vb{A})$的最大值受限于其行的数量。
+\end{itemize}
+
+\begin{BoxProperty}[零矩阵的秩]
+    矩阵的秩为零当且仅当矩阵是零矩阵
+    \begin{Equation}[零矩阵的秩]
+        \rank(\vb{A})=0\quad\Longleftrightarrow\quad\vb{A}=\vb{0}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵与转置积的秩]
+    矩阵的秩，总是等于其与自身转置的积的秩
+    \begin{Equation}[矩阵与转置积的秩]
+        \rank(\vb{A})=\rank(\vb{A}\vb{A}^T)=\rank(\vb{A}^T\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵和的秩]
+    矩阵和的秩一定小于等于秩之和
+    \begin{Equation}[矩阵和的秩]
+        \rank(\vb{A}+\vb{B})\leq\rank(\vb{A})+\rank(\vb{B})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的秩]
+    矩阵积的秩一定小于等于任意一方的秩
+    \begin{Equation}[矩阵积的秩]
+        \rank(\vb{A}\vb{B})\leq\min(\rank(\vb{A}),\rank(\vb{B}))
+    \end{Equation}
+    其中，等号在$\vb{A}$的列向量和$\vb{B}$的行向量均线性无关的情况下成立。
+\end{BoxProperty}
+
+现在，作为例子，我们来证明一下\cref{ppt:矩阵和的秩}的矩阵和的秩。
+
+\begin{Proof}[\cref{ppt:矩阵和的秩}]
+    矩阵和的生成空间可以写为 
+    \begin{Equation}[矩阵和的秩1]
+        \colspace(\vb{A}+\vb{B})=\qty{\vb{y}\mid\vb{y}=(\vb{A}+\vb{B})\vb{x}=\vb{A}\vb{x}+\vb{B}\vb{x},\ \vb{x}\in\R^n} 
+    \end{Equation}
+
+    矩阵生成空间的和可以写为
+    \begin{Equation}[矩阵和的秩2]
+        \colspace(\vb{A})+\colspace(\vb{B})=\qty{\vb{y}\mid\vb{y}=\vb{A}\vb{x}_1+\vb{B}\vb{x}_2,\ \vb{x}_1,\vb{x}_2\in\R^n} 
+    \end{Equation}
+
+    比较\cref{eq:矩阵和的秩1,eq:矩阵和的秩2}可以得到
+    \begin{Equation}[矩阵和的秩3]
+        \colspace(\vb{A}+\vb{B})\subseteq\colspace(\vb{A})+\colspace(\vb{B})
+    \end{Equation}
+
+    根据\cref{ppt:子空间包含则维度单调,ppt:子空间和的维度}
+    \begin{Equation}[矩阵和的秩4]!
+        \dim\colspace(\vb{A}+\vb{B})\leq\dim(\colspace(\vb{A})+\colspace(\vb{B}))\leq\dim\colspace(A)+\dim\colspace(B)
+    \end{Equation}
+
+    根据\cref{def:秩}，\cref{eq:矩阵和的秩4}的两端实际上就是$\rank(\vb{A}+\vb{B})\leq\rank(\vb{A})+\rank(\vb{B})$。
+\end{Proof}
+
+\begin{BoxProperty}[西尔维斯特秩不等式]
+    西尔维斯特秩不等式（Sylvester Rank Inequality）是指，对于$\vb{A}\in\R^{m\times n}$和$\vb{B}\in\R^{n\times p}$
+    \begin{Equation}[西尔维斯特秩不等式]
+        \rank(\vb{A}\vb{B})\geq\rank(\vb{A})+\rank(\vb{B})-n 
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxDefinition}[列满秩]
+    令$\vb{A}\in\R^{m\times n}$，若满足以下条件，则称$\vb{A}$是列满秩（Full Column Rank）的
+    \begin{Equation}[列满秩]
+        m\geq n,\quad\rank(\vb{A})=n
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[行满秩]
+    令$\vb{A}\in\R^{m\times n}$，若满足以下条件，则称$\vb{A}$是行满秩（Full Row Rank）的
+    \begin{Equation}[列满秩]
+        m\leq n,\quad\rank(\vb{A})=m
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[满秩]
+    令$\vb{A}\in\R^{m\times n}$，若满足以下条件
+    \begin{Equation}[列满秩]
+        \rank(\vb{A})=\min\qty{m,n}
+    \end{Equation}
+    则称$\vb{A}$是满秩（Full Rank）的，否则称$\vb{A}$是降秩（Rank Deficient）的。
+\end{BoxDefinition}
+
+应指出，满秩只需要符合列满秩或行满秩中的一种情况即可（否则只有方阵才能满秩了）。
+
+\subsection{逆}
+
+有趣的是，尽管定义的出发点不同，可逆矩阵的条件是存在一个逆矩阵，非奇异矩阵的条件是列向量线性无关，但两者本质上是同一个东西！直观上的一个解释是：单位矩阵$\vb{I}$可以视为维度为$n$的$\R^n$的一组基，如果$\vb{A}$的列向量线性相关，生成空间的维度就一定会小于$n$，变为嵌入在$\R^n$中的一个低维子空间。损失的维度是无法还原的，因此不存在$\vb{A}^{-1}$使$\vb{A}^{-1}\vb{A}=\vb{I}$。
+
+\begin{itemize}
+    \item 可逆矩阵，非奇异矩阵，满秩，列向量线性无关，行列式非零。
+    \item 奇异矩阵，非可逆矩阵，降秩，列向量线性相关，行列式为零。
+\end{itemize}
+
+接下来，我们将不再区分可逆矩阵和非奇异矩阵这两个概念了。
+
+
+% \begin{BoxDefinition}[奇异矩阵]
+%     令$\vb{A}\in\R^{n\times n}$，若其列向量线性相关，即
+%     \begin{Equation}[奇异矩阵]
+%         \rank(\vb{A})<n
+%     \end{Equation}
+%     则称$\vb{A}$是奇异矩阵（Singular），否则称$\vb{A}$是非奇异矩阵（Nonsingular）。
+% \end{BoxDefinition}
+
+
