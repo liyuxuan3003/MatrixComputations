@@ -1,0 +1,309 @@
+\section{范数、内积、正交性}
+
+\subsection{范数}
+
+向量范数是对于标量绝对值的概念延伸，反映的是向量的广义长度。
+
+\begin{BoxDefinition}[范数]
+    向量范数（Vector Norm）是指满足以下条件的函数$f: \R^n\to\R$，记作$\norm{\cdot}$
+    \begin{itemize}
+        \item 正定性：$f(\vb{x})\geq 0$对于任意的$\vb{x}\in\R^n$成立，$f(\vb{x})=0$当且仅当$\vb{x}=\vb{0}$。
+        \item 齐次性：$f(\alpha\vb{x})=\abs{\alpha}f(\vb{x})$对于任意的$\alpha\in\R$和$\vb{x}\in\R^n$。
+        \item 三角不等式：$f(\vb{x}+\vb{y})\leq f(\vb{x})+f(\vb{y})$对于任意的$\vb{x},\vb{y}\in\ R^n$。
+    \end{itemize}
+\end{BoxDefinition}
+
+% \cref{def:范数}只规定了什么样的函数可以定义为范数，实践中常用的是$p$-范数。
+
+\begin{BoxDefinition}[$p$\,-范数;p范数]
+    定义$p$\,-范数为
+    \begin{Equation}[p范数]
+        \norm{\vb{x}}_p=\qty(\Sum[i=1][n]\abs{x_i}^p)^{1/p}
+    \end{Equation}
+\end{BoxDefinition}
+
+$1$-范数或曼哈顿距离是
+\begin{Equation}[1范数]
+    \norm{x}_{1}=\abs{x_1}+\cdots+\abs{x_n}
+\end{Equation}
+
+$2$-范数或欧几里德距离是
+\begin{Equation}[2范数]
+    \norm{x}_{2}=\sqrt{\abs{x_1}^2+\cdots+\abs{x_n}^2}
+\end{Equation}
+
+$\infty$-范数或最大值范数是
+\begin{Equation}[无穷大范数]
+    \norm{x}_{\infty}=\max\qty{\abs{x_1},\cdots,\abs{x_n}}
+\end{Equation}
+
+这三者是实践中比较常用的范数。
+
+\subsection{内积}
+
+\begin{BoxDefinition}[内积]
+    对于向量$\vb{x},\vb{y}\in\R^n$，定义其内积（Inner Product）为
+    \begin{Equation}[内积]
+        \<\vb{x},\vb{y}>=\vb{y}^T\vb{x}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[角度]
+    对于向量$\vb{x},\vb{y}\in\R^n$，定义其角度（Angle）为
+    \begin{Equation}[角度]
+        \cos\theta=\frac{\<\vb{x},\vb{y}>}{\norm{\vb{x}}_2\norm{\vb{y}}_2}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxTheorem}[柯西-施瓦茨不等式]
+    柯西-施瓦茨不等式（Cauchy-Schwartz Inequality）是指
+    \begin{Equation}[柯西-施瓦茨不等式]
+        \<\vb{x},\vb{y}>\leq\norm{\vb{x}}_2\norm{\vb{y}}_2
+    \end{Equation}
+\end{BoxTheorem}
+
+\begin{BoxTheorem}[赫尔德不等式]
+    赫尔德不等式（H\"older Inequality）是指
+    \begin{Equation}[赫尔德不等式]
+        \<\vb{x},\vb{y}>\leq\norm{\vb{x}}_p\norm{\vb{y}}_q
+    \end{Equation}
+    其中$p,q$满足
+    \begin{Equation}[赫尔德不等式条件]
+        1/p+1/q=1\qquad p\geq 1
+    \end{Equation}
+\end{BoxTheorem}
+
+简而言之，柯西-施瓦茨不等式指出两个向量内积总是会小于等于它们的欧氏范数之积，赫尔德不等式进一步将其推广到一般的范数，其常见的组和有$(p,q)=(2,2)$和$(p,q)=(1,\infty)$。
+
+\subsection{正交性}
+
+\begin{BoxDefinition}[正交性]
+    对于非空集合$\subspace_1,\subspace_2\subseteq\R^m$，若对于任意的$\vb{x}\in\subspace_1$和$\vb{y}\in\subspace_2$，满足
+    \begin{Equation}[正交性]
+        \vb{y}^T\vb{x}=0
+    \end{Equation}
+    则称$\subspace_1,\subspace_2$是正交（Orthogonal）的，记为$\subspace_1\perp\subspace_2$。
+\end{BoxDefinition}
+
+\begin{BoxProperty}[正交与生成空间]
+    对于非空集合$\subspace_1,\subspace_2\subseteq\R^m$，若$\subspace_1\perp\subspace_2$，则有
+    \begin{Equation}[正交与生成空间]
+        \subspace_1\perp\vspan\subspace_2     
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交集的交]
+    对于非空集合$\subspace_1,\subspace_2\subseteq\R^m$，若$\subspace_1\perp\subspace_2$，其交集只存在两种情况
+    \begin{Equation}[正交集的交]
+        \subspace_1\cap\subspace_2=\qty{\vb{0}}\qqtext{or}\subspace_1\cap\subspace_2=\emptyset
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{投影}
+
+\begin{BoxDefinition}[投影]
+    对于非空闭集合$\subspace\subseteq\R^m$和$\vb{y}\in\R^m$，定义$\vb{y}$在$\subspace$上的投影（Projection）为下式的解
+    \begin{Equation}[投影]
+        \min_{\vb{y}_S\in\subspace}\norm{\vb{y}_S-\vb{y}}_2^2
+    \end{Equation}
+\end{BoxDefinition}
+
+简而言之，投影就是找到$\subspace$上距离$\vb{y}$最近的点$\vb{y}_S$，这里的距离使用$2$-范数。%当然仅从定义上来说，投影$\vb{y}_S$未必是唯一的，不过下面的定理将指出子空间上的投影$\vb{y}_S$确实是唯一的。
+
+\begin{BoxTheorem}[投影定理]
+    对于子空间$\subspace\subseteq\R^m$和$\vb{y}\in\R^m$，存在唯一的投影$\vb{y}_S$，记作$\vb{y}_S=\Pi_\subspace(\vb{y})$
+    \begin{Equation}[投影记号]
+        \Pi_\subspace(\vb{y})=\arg\min_{\vb{y}_S\in\subspace}\norm{\vb{y}_S-\vb{y}}_2^2
+    \end{Equation}
+    同时$\vb{y}_S=\Pi_\subspace(\vb{y})$等价于$\vb{y}_S\in\subspace$且对于任意的$\vb{z}\in\subspace$
+    \begin{Equation}[投影定理]
+       \vb{z}^T(\vb{y}-\vb{y}_S)=0
+    \end{Equation}
+\end{BoxTheorem}
+
+投影的原始定义是向量$\vb{y}$在子空间$\subspace$上的最近点$\vb{y}_S$，投影定理的意义是证明了向量和向量在子空间$\subspace$上的投影之差$\vb{y}-\vb{y}_S$必然是正交于子空间$\subspace$的，从而将投影和正交联系在一起！
+
+投影定理还证明了子空间$\subspace$上的投影是唯一的，因此可以引入$\Pi_\subspace(\vb{y})$的记号！
+
+\subsection{正交补空间}
+
+\begin{BoxDefinition}[正交补空间]
+    对于非空集合$\subspace\subseteq\R^m$，定义其正交补空间（Orthogonal Complement）为
+    \begin{Equation}[正交补空间]
+        \subspace^\perp=\qty{\vb{z}\in\R^m\mid\vb{y}^T\vb{z}=0, \vb{y}\in\subspace}
+    \end{Equation}
+\end{BoxDefinition}
+
+正交补空间$\subspace^{\perp}$是在$\R^m$下正交于$\subspace$的最大子集，正交补空间$\subspace^{\perp}$唯一且也是子空间。
+
+\begin{BoxTheorem}[正交分解定理]
+    对于子空间$\subspace\subseteq\R^m$和任意$\vb{y}\in\R^m$，存在唯一的$\vb{y}_S\in\subspace$和$\vb{y}_C\in\subspace^{\perp}$使
+    \begin{Equation}[正交分解定理]
+        \vb{y}=\vb{y}_S+\vb{y}_C
+    \end{Equation}
+    且$\vb{y}_S$和$\vb{y}_C$分别是$\vb{y}$在$\subspace$和$\subspace^{\perp}$的投影，满足
+    \begin{Equation}[正交分解定理和投影]
+        \vb{y}_S=\Pi_\subspace(\vb{y})\qquad
+        \vb{y}_C=\Pi_{\subspace^\perp}(\vb{y})=\vb{y}-\Pi_\subspace(\vb{y})
+    \end{Equation}
+\end{BoxTheorem}
+
+\begin{BoxProperty}[正交补空间的交]
+    对于子空间$\subspace\subseteq\R^m$，其与正交补空间的交集有以下两个可能
+    \begin{Equation}[正交补空间的交]
+         \subspace\cap\subspace^\perp=\qty{\vb{0}}\qquad\subspace\cap\subspace^\perp=\emptyset
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交补空间的和]
+    对于子空间$\subspace\subseteq\R^m$，其与正交补空间的和满足
+    \begin{Equation}[正交补空间的和]
+        \subspace+\subspace^\perp=\R^m
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交补空间的维度和]
+    对于子空间$\subspace\subseteq\R^m$，其与正交补空间的维度和等于$\R^m$的维度
+    \begin{Equation}[正交补空间的维度和]
+        \dim(\subspace)+\dim(\subspace^\perp)=m
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交补空间的自反性]
+    对于子空间$\subspace\subseteq\R^m$，其正交补的正交补是其自身
+    \begin{Equation}[正交补空间的自反性]
+        \qty(\subspace^\perp)^\perp=\subspace
+    \end{Equation}
+\end{BoxProperty}
+
+正交补空间的的补，并非是集合意义上的补集，而是与维度和基的互补有关！
+
+当我们谈及子空间$\subspace\in\R^m$时，它本质上是从全空间$\R^m$中移除了一些维度，那么，这些移除的维度到哪里去了呢？它们其实就藏在$\subspace$正交补空间$\subspace^{\perp}$中了：例如在$\R^3$中一条过原点的直线是一个子空间，直线对应的正交补空间就是和它垂直的平面。直线和平面的交集只有原点$\vb{0}$，直线和平面的和（注意不是并集）可以张成完整的$\R^3$，它们分别提供$1$和$2$的维度。
+
+\begin{BoxProperty}[正交补空间的包含关系]
+    对于子空间$\subspace_1,\subspace_2\subseteq\R^m$，若有$\subspace_1\subset\subspace_2$，则
+    \begin{Equation}[正交补空间的包含关系]
+        \subspace_2^{\perp}\subseteq\subspace_1^{\perp}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[交的正交补]
+    对于子空间$\subspace_1,\subspace_2\subseteq\R^m$，其交的正交补满足
+    \begin{Equation}[交的正交补]
+        (\subspace_1\cap\subspace_2)^{\perp}=\subspace_1^{\perp}+\subspace_2^{\perp}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[和的正交补]
+    对于子空间$\subspace_1,\subspace_2\subseteq\R^m$，其和的正交补满足
+    \begin{Equation}[和的正交补]
+        (\subspace_1+\subspace_2)^{\perp}=\subspace_1^{\perp}\cap\subspace_2^{\perp}
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{四大基本子空间}
+
+有趣的是，在\cref{tab:四大基本子空间}中提到的四大基本子空间，它们两两构成正交补！
+
+\begin{BoxProperty}[行空间和右零空间的正交性]
+    矩阵$\vb{A}\in\R^{m\times n}$的行空间$\rangespace(\vb{A}^T)$和右零空间$\nullspace(\vb{A})$是正交补
+    \begin{Equation}[行空间和右零空间的正交性]
+        \rangespace(\vb{A}^T)^{\perp}=\nullspace(\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[列空间和左零空间的正交性]
+    矩阵$\vb{A}\in\R^{m\times n}$的列空间$\rangespace(\vb{A})$和左零空间$\nullspace(\vb{A}^T)$是正交补
+    \begin{Equation}[列空间和左零空间的正交性]
+        \rangespace(\vb{A})^{\perp}=\nullspace(\vb{A}^T)
+    \end{Equation}
+\end{BoxProperty}
+
+\cref{fig:四大基本子空间}形象展示了四大基本子空间的正交关系，其用矩形表示一个子空间：矩形靠内的边代表该子空间所在全空间的维度，矩形靠外的边代表该子空间自身的维度。值得关注的是
+\begin{itemize}
+    \item 设矩阵$\vb{A}\in\R^{m\times n}$，且其秩为$\rank\vb{A}=r$。
+    \item 行空间和右零空间$\rangespace(\vb{A}^T),\nullspace(\vb{A})$均位于和$\vb{A}$列数有关的$\R^n$\hspace{5.7pt}中。
+    \item 列空间和左零空间$\rangespace(\vb{A}),\nullspace(\vb{A}^T)$均位于和$\vb{A}$行数有关的$\R^m$中。
+    \item 列空间和行空间的维度和$\vb{A}$的秩$r$有关，有$\dim\rangespace(\vb{A}^T)=\dim\rangespace(\vb{A})=r$成立。
+\end{itemize}
+
+\begin{Figure}[四大基本子空间]
+    \includegraphics[scale=0.8]{FundamentalSubspace.fig.pdf}  
+\end{Figure}
+
+\subsection{正交向量}
+
+\begin{BoxDefinition}[正交向量]
+    对于非零向量$\vb{a}_1,\cdots,\vb{a}_n\in\R^m$，若满足
+    \begin{Equation}[正交]
+        \vb{a}_i^T\vb{a}_j=0\qquad (i\neq j)
+    \end{Equation}
+    则称为正交（Orthogonal），若还满足$\norm{\vb{a}_i}_2=1$，称为单位正交（Orthonormal）。
+\end{BoxDefinition}
+
+\cref{def:正交向量}的定义也适用于$\C^m$下的复向量，但需要将转置$T$替换为伴随$H$。
+
+\begin{BoxProperty}[正交向量的线性无关性]
+    若一组向量是正交的，那么这组向量一定是线性无关的。
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交基的存在性]
+    若一个子空间$\subspace\neq\qty{\vb{0}}$，那么$\subspace$一定存在一组正交基。
+\end{BoxProperty}
+
+\cref{ppt:正交基的存在性}的证明需要依赖一个名为格拉姆-施密特（Gram-Schmidt）正交化的算法。
+
+\subsection{正交矩阵}
+
+\begin{BoxDefinition}[正交矩阵]
+    若实矩阵$\vb{Q}\in\R^{n\times n}$的列向量是单位正交的，则称为正交矩阵（Orthogonal Matrix）。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[酉矩阵]
+    若复矩阵$\vb{Q}\in\R^{n\times n}$的列向量是单位正交的，则称为酉矩阵（Unitary Matrix）。
+\end{BoxDefinition}
+
+简而言之，酉矩阵是正交矩阵在复矩阵上的推广！
+
+\begin{BoxProperty}[正交矩阵的逆]
+    正交矩阵的逆，等于其转置，且也是一个正交矩阵
+    \begin{Equation}[正交矩阵的逆]
+        \vb{Q}^{-1}=\vb{Q}^T
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交矩阵的转置]
+    正交矩阵与其转置的积恒为单位矩阵
+    \begin{Equation}[正交矩阵的转置]
+        \vb{Q}^T\vb{Q}=\vb{Q}\vb{Q}^T=\vb{I}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交矩阵的行列式]
+    正交矩阵的行列式恒为$1$
+    \begin{Equation}[正交矩阵的行列式]
+        \abs{\det(Q)}=1
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxFormula}[旋转矩阵]
+    在$\R^2$下的旋转可以用以下正交矩阵表示
+    \begin{Equation}[旋转矩阵]
+        \vb{Q}=\mqty[
+            \cos\theta&\sin\theta\\
+            -\sin\theta&\cos\theta\\
+        ]
+    \end{Equation}
+    其中$\theta\in[0,2\pi)$，该矩阵描述了一个绕$\theta$的旋转（Rotation）。
+\end{BoxFormula}
+
+\begin{BoxFormula}[反射矩阵]
+    在$\R^2$下的反射可以用以下正交矩阵表示
+    \begin{Equation}[反射矩阵]
+        \vb{Q}=\mqty[
+            \cos\theta&\sin\theta\\
+            \sin\theta&-\cos\theta\\
+        ]
+    \end{Equation}
+    其中$\theta\in[0,2\pi)$，该矩阵描述了一个沿$\theta/2$的反射（Reflection）。
+\end{BoxFormula}

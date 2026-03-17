@@ -1,0 +1,295 @@
+\section{秩、逆、行列式}
+
+\subsection{秩}
+
+\begin{BoxDefinition}[秩]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，定义其秩（Rank）
+    \begin{Equation}[秩]
+        \rank(\vb{A})=\dim\rangespace(\vb{A})
+    \end{Equation}
+\end{BoxDefinition}
+
+简单来说，矩阵的秩就是其列向量的极大线性无关子集的元素数，即矩阵的列空间的维度。
+
+\begin{BoxProperty}[秩的转置不变性]
+    矩阵的转置不影响秩
+    \begin{Equation}[秩的转置不变性]
+        \rank(\vb{A})=\rank(\vb{A}^T)
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[秩的上限]
+    矩阵的秩不会超过行数和列数
+    \begin{Equation}[秩的上限]
+        \rank(\vb{A})\leq\min\qty{m,n}
+    \end{Equation}
+\end{BoxProperty}
+
+这表明，矩阵的秩实际上同时反映了矩阵列向量和行向量的极大线性无关子集的元素个数！
+\begin{itemize}
+    \item 对于$m>n$的高矩阵$\vb{A}$，矩阵的秩$\rank(\vb{A})$的最大值受限于其列的数量。
+    \item 对于$m<n$的宽矩阵$\vb{A}$，矩阵的秩$\rank(\vb{A})$的最大值受限于其行的数量。
+\end{itemize}
+
+\begin{BoxProperty}[零矩阵的秩]
+    矩阵的秩为零当且仅当矩阵是零矩阵
+    \begin{Equation}[零矩阵的秩]
+        \rank(\vb{A})=0\quad\Longleftrightarrow\quad\vb{A}=\vb{0}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵与转置积的秩]
+    矩阵的秩，总是等于其与自身转置的积的秩
+    \begin{Equation}[矩阵与转置积的秩]
+        \rank(\vb{A})=\rank(\vb{A}\vb{A}^T)=\rank(\vb{A}^T\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵和的秩]
+    矩阵和的秩一定小于等于秩之和
+    \begin{Equation}[矩阵和的秩]
+        \rank(\vb{A}+\vb{B})\leq\rank(\vb{A})+\rank(\vb{B})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的秩]
+    矩阵积的秩一定小于等于任意一方的秩
+    \begin{Equation}[矩阵积的秩]
+        \rank(\vb{A}\vb{B})\leq\min(\rank(\vb{A}),\rank(\vb{B}))
+    \end{Equation}
+    其中，等号在$\vb{A}$的列向量和$\vb{B}$的行向量均线性无关的情况下成立。
+\end{BoxProperty}
+
+现在，作为例子，我们来证明一下\cref{ppt:矩阵和的秩}的矩阵和的秩。
+
+\begin{Proof}[\cref{ppt:矩阵和的秩}]
+    矩阵和的生成空间可以写为 
+    \begin{Equation}[矩阵和的秩1]
+        \rangespace(\vb{A}+\vb{B})=\qty{\vb{y}\mid\vb{y}=(\vb{A}+\vb{B})\vb{x}=\vb{A}\vb{x}+\vb{B}\vb{x},\ \vb{x}\in\R^n} 
+    \end{Equation}
+
+    矩阵生成空间的和可以写为
+    \begin{Equation}[矩阵和的秩2]
+        \rangespace(\vb{A})+\rangespace(\vb{B})=\qty{\vb{y}\mid\vb{y}=\vb{A}\vb{x}_1+\vb{B}\vb{x}_2,\ \vb{x}_1,\vb{x}_2\in\R^n} 
+    \end{Equation}
+
+    比较\cref{eq:矩阵和的秩1,eq:矩阵和的秩2}可以得到
+    \begin{Equation}[矩阵和的秩3]
+        \rangespace(\vb{A}+\vb{B})\subseteq\rangespace(\vb{A})+\rangespace(\vb{B})
+    \end{Equation}
+
+    根据\cref{ppt:子空间包含则维度单调,ppt:子空间和的维度}可得以下不等式
+    \begin{Equation}[矩阵和的秩4]!
+        \dim\rangespace(\vb{A}+\vb{B})\leq\dim(\rangespace(\vb{A})+\rangespace(\vb{B}))\leq\dim\rangespace(A)+\dim\rangespace(B)
+    \end{Equation}
+
+    根据\cref{def:秩}，\cref{eq:矩阵和的秩4}的两端实际上就是$\rank(\vb{A}+\vb{B})\leq\rank(\vb{A})+\rank(\vb{B})$。
+\end{Proof}
+
+\begin{BoxProperty}[西尔维斯特秩不等式]
+    西尔维斯特秩不等式（Sylvester Rank Inequality）是指，对于$\vb{A}\in\R^{m\times n}$和$\vb{B}\in\R^{n\times p}$
+    \begin{Equation}[西尔维斯特秩不等式]
+        \rank(\vb{A}\vb{B})\geq\rank(\vb{A})+\rank(\vb{B})-n 
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxDefinition}[列满秩]
+    令$\vb{A}\in\R^{m\times n}$，若满足以下条件，则称$\vb{A}$是列满秩（Full Column Rank）的
+    \begin{Equation}[列满秩]
+        m\geq n,\quad\rank(\vb{A})=n
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[行满秩]
+    令$\vb{A}\in\R^{m\times n}$，若满足以下条件，则称$\vb{A}$是行满秩（Full Row Rank）的
+    \begin{Equation}[列满秩]
+        m\leq n,\quad\rank(\vb{A})=m
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[满秩]
+    令$\vb{A}\in\R^{m\times n}$，若满足以下条件
+    \begin{Equation}[列满秩]
+        \rank(\vb{A})=\min\qty{m,n}
+    \end{Equation}
+    则称$\vb{A}$是满秩（Full Rank）的，否则称$\vb{A}$是降秩（Rank Deficient）的。
+\end{BoxDefinition}
+
+应指出，满秩只需要符合列满秩或行满秩中的一种情况即可（否则只有方阵才能满秩了）。
+
+\subsection{逆}
+
+有趣的是，尽管定义的出发点不同，可逆矩阵的条件是存在一个逆矩阵，非奇异矩阵的条件是列向量线性无关，但两者本质上是同一个东西！直观上的一个解释是：单位矩阵$\vb{I}$可以视为维度为$n$的$\R^n$的一组基，如果$\vb{A}$的列向量线性相关，生成空间的维度就一定会小于$n$，变为嵌入在$\R^n$中的一个低维子空间。损失的维度是无法还原的，因此不存在$\vb{A}^{-1}$使$\vb{A}^{-1}\vb{A}=\vb{I}$。
+
+\begin{itemize}
+    \item 可逆矩阵，非奇异矩阵，满秩，列向量线性无关，行列式非零。
+    \item 奇异矩阵，非可逆矩阵，降秩，列向量线性相关，行列式为零。
+\end{itemize}
+
+接下来，我们将不再区分可逆矩阵和非奇异矩阵这两个概念了。
+
+\begin{BoxDefinition}[逆矩阵]
+    对于非奇异方阵$\vb{A}\in\R^{n\times n}$，记$\vb{A}$的逆（Inverse）为$\vb{A}^{-1}$，定义为
+    \begin{Equation}[逆矩阵]
+        \vb{A}^{-1}\vb{A}=\vb{I}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxProperty}[逆的存在性与唯一性]
+    对于非奇异方阵$\vb{A}$，逆$\vb{A}^{-1}$总是存在且唯一。
+\end{BoxProperty}
+
+\begin{BoxProperty}[逆的非奇异性]
+    对于非奇异方阵$\vb{A}$，逆$\vb{A}^{-1}$也是非奇异的
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵数乘的逆]
+    矩阵数乘的逆，等于倒数与逆的数乘
+    \begin{Equation}[矩阵数乘]
+        (k\vb{A})=k^{-1}\vb{A}^{-1}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵与逆的积]
+    矩阵与逆的乘积，无论顺序，等于单位矩阵
+    \begin{Equation}[矩阵与逆的积]
+        \vb{A}\vb{A}^{-1}=\vb{A}^{-1}\vb{A}=\vb{I}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵逆的逆]
+    矩阵逆的逆，等于自身
+    \begin{Equation}[矩阵逆的逆]
+        (\vb{A}^{-1})^{-1}=\vb{A}
+    \end{Equation}
+\end{BoxProperty}
+
+逆、转置、伴随应用于矩阵的乘积，都要将乘法顺序逆序！ 
+
+\begin{BoxProperty}[矩阵积的逆]
+    矩阵乘积的逆，等于矩阵逆的逆序积
+    \begin{Equation}[矩阵积的逆]
+        (\vb{A}\vb{B})^{-1}=\vb{B}^{-1}\vb{A}^{-1}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵转置的逆]
+    矩阵转置的逆，等于矩阵逆的转置
+    \begin{Equation}[矩阵转置的逆]
+        (\vb{A}^T)^{-1}=(\vb{A}^{-1})^T=\vb{A}^{-T}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵伴随的逆]
+    矩阵伴随的逆，等于矩阵逆的伴随
+    \begin{Equation}[矩阵伴随的逆]
+        (\vb{A}^H)^{-1}=(\vb{A}^{-1})^H=\vb{A}^{-H}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵幂的逆]
+    矩阵幂的逆，等于矩阵逆的幂
+    \begin{Equation}[矩阵幂的逆]
+        (\vb{A}^k)^{-1}=(\vb{A}^{-1})^k=\vb{A}^{-k}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxLemma}[矩阵求逆引理]
+    对于非奇异矩阵$\vb{A}\in\R^{n\times n}$和$\vb{C}\in\R^{k\times k}$以及$\vb{U},\vb{V}\in\R^{n\times k}$，有
+    \begin{Equation}[矩阵求逆引理]!
+        (\vb{A}+\vb{U}\vb{C}\vb{V}^T)^{-1}=\vb{A}^{-1}-\vb{A}^{-1}\vb{U}(\vb{C}^{-1}+\vb{V}^T\vb{A}^{-1}\vb{U})^{-1}\vb{V}^T\vb{A}^{-1}
+    \end{Equation}
+\end{BoxLemma}
+
+\cref{lem:矩阵求逆引理}也称为伍德伯里公式（Woodbury formula），当$k=1$和$\vb{C}=1$时称为谢尔曼-莫里森公式（Sherman-Morrison Formula）。当矩阵$\vb{A}$加上一个秩为$k$的修正项$\vb{U}\vb{C}\vb{V}^T$后，可以直接通过修正$\vb{A}^{-1}$来得到新矩阵的逆，从而可以将$n\times n$的求逆转换为$k\times k$的求逆。
+
+\subsection{行列式}
+
+\begin{BoxDefinition}[行列式]
+    对于方阵$\vb{A}\in\R^{n\times n}$，记$\vb{A}$的行列式（Deterninant）为$\det(\vb{A})$，递归定义如下。
+
+    若$n=1$，则
+    \begin{Equation}[行列式1]
+        \det(\vb{A})=a_{11}
+    \end{Equation}
+
+    若$n\geq 2$，记$\vb{A}_{ij}\in\R^{(n-1)\times (n-1)}$是$\vb{A}$移除$i$行$j$列的子矩阵，定义相关系数（Cofactor）
+    \begin{Equation}[行列式2]
+        c_{ij}=(-1)^{i+j}\det(\vb{A}_{ij})
+    \end{Equation}
+
+    行展开是指，对于任意取定的行$i=1,\cdots,n$
+    \begin{Equation}[行列式3]
+        \det(\vb{A})=\Sum[j=1][n]a_{ij}c_{ij}
+    \end{Equation}
+
+    列展开是指，对于任意取定的列$j=1,\cdots,n$
+    \begin{Equation}[行列式3]
+        \det(\vb{A})=\Sum[i=1][n]a_{ij}c_{ij}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxProperty}[非奇异矩阵的行列式]
+    矩阵$\vb{A}$是非奇异的，当且仅当$\vb{A}$的行列式非零
+    \begin{Equation}[非奇异矩阵的行列式]
+        \det(\vb{A})\neq 0
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵积的行列式]
+    矩阵积的行列式，等于矩阵行列式的积
+    \begin{Equation}[矩阵积的行列式]
+        \det(\vb{A}\vb{B})=\det(\vb{A})\det(\vb{B})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵转置的行列式]
+    矩阵转置的行列式，等于矩阵的行列式
+    \begin{Equation}[矩阵转置的行列式]
+        \det(\vb{A}^T)=\det(\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵伴随的行列式]
+    矩阵伴随的行列式，等于矩阵的行列式的复共轭
+    \begin{Equation}[矩阵伴随的行列式]
+        \det(\vb{A}^H)=\det(\vb{A})^{*}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵数乘的行列式]
+    矩阵数乘的行列式，等于矩阵的行列式乘以该数的$n$次幂
+    \begin{Equation}[矩阵数乘的行列式]
+        \det(\alpha\vb{A})=\alpha^n\det(\vb{A})\qquad \vb{A}\in\R^{n\times n}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵逆的行列式]
+    矩阵逆的行列式，等于矩阵行列式的倒数
+    \begin{Equation}[矩阵逆的行列式]
+        \det(\vb{A}^{-1})=1/\det(\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[矩阵逆和古典伴随]
+    矩阵的逆，等于矩阵的伴随阵（Adjugate）除以行列式
+    \begin{Equation}[矩阵逆和古典伴随]
+        \vb{A}^{-1}=\xwav{\vb{A}}\det(\vb{A})\qquad \xwav{a}_{ij}=c_{ij}
+    \end{Equation}
+\end{BoxProperty}
+
+关于伴随歧义的澄清：这里所谓的伴随阵$\xwav{\vb{A}}$是指由$\vb{A}$的相关系数$c_{ij}$组成的矩阵，这和代表共轭转置或的伴随$\vb{A}^H$没有任何联系，英语中可以用Adjugate和Adjoint区分$\xwav{\vb{A}}$和$\vb{A}^H$。
+
+\begin{BoxProperty}[三角矩阵的行列式]
+    三角矩阵的行列式等于对角线元素的乘积
+    \begin{Equation}[三角矩阵的行列式]
+        \det(\vb{A})=\Prod[i=1][m]a_{ii}\qquad \vb{A}\in\R^{n\times n}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxLemma}[矩阵行列式引理]
+    对于非奇异矩阵$\vb{A}\in\R^{n\times n}$和$\vb{C}\in\R^{k\times k}$以及$\vb{U},\vb{V}\in\R^{n\times k}$，有
+    \begin{Equation}[矩阵行列式引理]!
+        \det(\vb{A}+\vb{U}\vb{C}\vb{V}^T)=\det(\vb{A})\det(\vb{C}^{-1}+\vb{V}^T\vb{A}^{-1}\vb{U})\det(\vb{C})
+    \end{Equation}
+\end{BoxLemma}
