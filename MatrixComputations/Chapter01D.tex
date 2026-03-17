@@ -230,3 +230,80 @@ $\infty$-范数或最大值范数是
 \begin{Figure}[四大基本子空间]
     \includegraphics[scale=0.8]{FundamentalSubspace.fig.pdf}  
 \end{Figure}
+
+\subsection{正交向量}
+
+\begin{BoxDefinition}[正交向量]
+    对于非零向量$\vb{a}_1,\cdots,\vb{a}_n\in\R^m$，若满足
+    \begin{Equation}[正交]
+        \vb{a}_i^T\vb{a}_j=0\qquad (i\neq j)
+    \end{Equation}
+    则称为正交（Orthogonal），若还满足$\norm{\vb{a}_i}_2=1$，称为单位正交（Orthonormal）。
+\end{BoxDefinition}
+
+\cref{def:正交向量}的定义也适用于$\C^m$下的复向量，但需要将转置$T$替换为伴随$H$。
+
+\begin{BoxProperty}[正交向量的线性无关性]
+    若一组向量是正交的，那么这组向量一定是线性无关的。
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交基的存在性]
+    若一个子空间$\subspace\neq\qty{\vb{0}}$，那么$\subspace$一定存在一组正交基。
+\end{BoxProperty}
+
+\cref{ppt:正交基的存在性}的证明需要依赖一个名为格拉姆-施密特（Gram-Schmidt）正交化的算法。
+
+\subsection{正交矩阵}
+
+\begin{BoxDefinition}[正交矩阵]
+    若实矩阵$\vb{Q}\in\R^{n\times n}$的列向量是单位正交的，则称为正交矩阵（Orthogonal Matrix）。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[酉矩阵]
+    若复矩阵$\vb{Q}\in\R^{n\times n}$的列向量是单位正交的，则称为酉矩阵（Unitary Matrix）。
+\end{BoxDefinition}
+
+简而言之，酉矩阵是正交矩阵在复矩阵上的推广！
+
+\begin{BoxProperty}[正交矩阵的逆]
+    正交矩阵的逆，等于其转置，且也是一个正交矩阵
+    \begin{Equation}[正交矩阵的逆]
+        \vb{Q}^{-1}=\vb{Q}^T
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交矩阵的转置]
+    正交矩阵与其转置的积恒为单位矩阵
+    \begin{Equation}[正交矩阵的转置]
+        \vb{Q}^T\vb{Q}=\vb{Q}\vb{Q}^T=\vb{I}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交矩阵的行列式]
+    正交矩阵的行列式恒为$1$
+    \begin{Equation}[正交矩阵的行列式]
+        \abs{\det(Q)}=1
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxFormula}[旋转矩阵]
+    在$\R^2$下的旋转可以用以下正交矩阵表示
+    \begin{Equation}[旋转矩阵]
+        \vb{Q}=\mqty[
+            \cos\theta&\sin\theta\\
+            -\sin\theta&\cos\theta\\
+        ]
+    \end{Equation}
+    其中$\theta\in[0,2\pi)$，该矩阵描述了一个绕$\theta$的旋转（Rotation）。
+\end{BoxFormula}
+
+\begin{BoxFormula}[反射矩阵]
+    在$\R^2$下的反射可以用以下正交矩阵表示
+    \begin{Equation}[反射矩阵]
+        \vb{Q}=\mqty[
+            \cos\theta&\sin\theta\\
+            \sin\theta&-\cos\theta\\
+        ]
+    \end{Equation}
+    其中$\theta\in[0,2\pi)$，该矩阵描述了一个沿$\theta/2$的反射（Reflection）。
+\end{BoxFormula}
