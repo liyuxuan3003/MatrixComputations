@@ -5,7 +5,7 @@
 \begin{BoxDefinition}[秩]
     对于矩阵$\vb{A}\in\R^{m\times n}$，定义其秩（Rank）
     \begin{Equation}[秩]
-        \rank(\vb{A})=\dim\colspace(\vb{A})
+        \rank(\vb{A})=\dim\rangespace(\vb{A})
     \end{Equation}
 \end{BoxDefinition}
 
@@ -65,22 +65,22 @@
 \begin{Proof}[\cref{ppt:矩阵和的秩}]
     矩阵和的生成空间可以写为 
     \begin{Equation}[矩阵和的秩1]
-        \colspace(\vb{A}+\vb{B})=\qty{\vb{y}\mid\vb{y}=(\vb{A}+\vb{B})\vb{x}=\vb{A}\vb{x}+\vb{B}\vb{x},\ \vb{x}\in\R^n} 
+        \rangespace(\vb{A}+\vb{B})=\qty{\vb{y}\mid\vb{y}=(\vb{A}+\vb{B})\vb{x}=\vb{A}\vb{x}+\vb{B}\vb{x},\ \vb{x}\in\R^n} 
     \end{Equation}
 
     矩阵生成空间的和可以写为
     \begin{Equation}[矩阵和的秩2]
-        \colspace(\vb{A})+\colspace(\vb{B})=\qty{\vb{y}\mid\vb{y}=\vb{A}\vb{x}_1+\vb{B}\vb{x}_2,\ \vb{x}_1,\vb{x}_2\in\R^n} 
+        \rangespace(\vb{A})+\rangespace(\vb{B})=\qty{\vb{y}\mid\vb{y}=\vb{A}\vb{x}_1+\vb{B}\vb{x}_2,\ \vb{x}_1,\vb{x}_2\in\R^n} 
     \end{Equation}
 
     比较\cref{eq:矩阵和的秩1,eq:矩阵和的秩2}可以得到
     \begin{Equation}[矩阵和的秩3]
-        \colspace(\vb{A}+\vb{B})\subseteq\colspace(\vb{A})+\colspace(\vb{B})
+        \rangespace(\vb{A}+\vb{B})\subseteq\rangespace(\vb{A})+\rangespace(\vb{B})
     \end{Equation}
 
     根据\cref{ppt:子空间包含则维度单调,ppt:子空间和的维度}可得以下不等式
     \begin{Equation}[矩阵和的秩4]!
-        \dim\colspace(\vb{A}+\vb{B})\leq\dim(\colspace(\vb{A})+\colspace(\vb{B}))\leq\dim\colspace(A)+\dim\colspace(B)
+        \dim\rangespace(\vb{A}+\vb{B})\leq\dim(\rangespace(\vb{A})+\rangespace(\vb{B}))\leq\dim\rangespace(A)+\dim\rangespace(B)
     \end{Equation}
 
     根据\cref{def:秩}，\cref{eq:矩阵和的秩4}的两端实际上就是$\rank(\vb{A}+\vb{B})\leq\rank(\vb{A})+\rank(\vb{B})$。
