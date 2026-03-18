@@ -1,20 +1,20 @@
 [submodule "NotebookNeon"]
 	path = MatrixComputations/notebook-neon
-	url = git@Lithium:LaTeX/NotebookNeon.git
+	url = git@github.com:liyuxuan3003/NotebookNeon.git
 	branch = master
 [submodule "Minimus"]
 	path = MatrixComputations/minimus
-	url = git@Lithium:LaTeX/Minimus.git
+	url = git@github.com:liyuxuan3003/Minimus.git
 	branch = master
 [submodule "StandaloneSilicon"]
 	path = MatrixComputations/standalone-silicon
-	url = git@Lithium:LaTeX/StandaloneSilicon.git
+	url = git@github.com:liyuxuan3003/StandaloneSilicon.git
 	branch = master
 [submodule "MakefileLaTeX"]
 	path = MatrixComputations/makefile-latex
-	url = git@Lithium:LaTeX/MakefileLaTeX.git
+	url = git@github.com:liyuxuan3003/MakefileLaTeX.git
 	branch = master
 [submodule "PyJool"]
 	path = MatrixComputations/pyjool
-	url = git@Lithium:LaTeX/PyJool.git
+	url = git@github.com:liyuxuan3003/PyJool.git
 	branch = master
