@@ -24,24 +24,24 @@
 
 \path (R) node[draw,very thick,fill=blue!20!white,anchor=north east,mw=4*\factor cm,mh=2*\factor cm,rotate=45,align=center,inner sep=0cm] (LNULL) {Left Null Space\\ $\nullspace(\vb{A}^T)$} ;  
 
-\path (O) node[font=\Large,align=center] (LBM1) {$\vb{A}\in\R^{m\times n}$\\ $\rank(\vb{A})=r$} ;  
+\path (O) node[font=\Large,align=center] (LBM1) {$\vb{A}\subseteq\R^{m\times n}$\\ $\rank(\vb{A})=r$} ;  
 
-\path (ROW.south) node[below right] (ROWSub1) {$\rangespace(\vb{A}^T)\in\R^n$} ;
+\path (ROW.south) node[below right] (ROWSub1) {$\rangespace(\vb{A}^T)\subseteq\R^n$} ;
 \path (ROW.north) node[above left] (ROWSub2) {$n$} ;
 \path (ROW.east) node[above right] (ROWDim1) {$\dim\rangespace(\vb{A}^T)=r$} ;
 \path (ROW.west) node[below left] (ROWDim2) {$r$} ;
 
-\path (COL.south) node[below left] (COLSub1) {$\rangespace(\vb{A})\in\R^m$} ;
+\path (COL.south) node[below left] (COLSub1) {$\rangespace(\vb{A})\subseteq\R^m$} ;
 \path (COL.north) node[above right] (COLSub2) {$m$} ;
 \path (COL.west) node[above left] (COLDim1) {$\dim\rangespace(\vb{A})=r$} ;
 \path (COL.east) node[below right] (COLDim2) {$r$} ;
 
-\path (RNULL.north) node[above right] (RNULLSub1) {$\nullspace(\vb{A})\in\R^n$} ;
+\path (RNULL.north) node[above right] (RNULLSub1) {$\nullspace(\vb{A})\subseteq\R^n$} ;
 \path (RNULL.south) node[below left] (RNULLSub2) {$n$} ;
 \path (RNULL.east) node[below right] (RNULLDim1) {$\dim\nullspace(\vb{A})=n-r$} ;
 \path (RNULL.west) node[above left] (RNULLDim2) {$n-r$} ;
 
-\path (LNULL.north) node[above left] (LNULLSub1) {$\nullspace(\vb{A}^T)\in\R^m$} ;
+\path (LNULL.north) node[above left] (LNULLSub1) {$\nullspace(\vb{A}^T)\subseteq\R^m$} ;
 \path (LNULL.south) node[below right] (LNULLSub2) {$m$} ;
 \path (LNULL.west) node[below left] (LNULLDim1) {$\dim\nullspace(\vb{A}^T)=m-r$} ;
 \path (LNULL.east) node[above right] (LNULLDim2) {$m-r$} ;
