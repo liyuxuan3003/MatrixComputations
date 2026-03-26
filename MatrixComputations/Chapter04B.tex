@@ -1,2 +1,181 @@
 \section{对称系统的LDL分解}
 
+若$\vb{A}$是对称的，且存在$\vb{A}=\vb{L}\vb{U}$的LU分解，那$\vb{L}$和$\vb{U}$间起始存在某种联系。
+
+不妨考察一个$n=2$的矩阵
+\begin{Equation}[对称例子1]
+    \mqty[
+        a & c \\
+        c & d \\
+    ]=
+    \mqty[
+        1 & 0 \\
+        c/a & 1 \\
+    ]
+    \mqty[
+        a & c \\
+        0 & d-(c/a)c \\
+    ]
+\end{Equation}
+
+它可以再表示为
+\begin{Equation}[对称例子2]
+    \mqty[
+        a & c \\
+        c & d \\
+    ]=
+    \mqty[
+        1 & 0 \\
+        c/a & 1 \\
+    ]
+    \mqty[
+        a & 0 \\
+        0 & d-(c/a)c \\
+    ]
+    \mqty[
+        1 & c/a \\
+        0 & 1 \\
+    ]
+\end{Equation}
+
+这个形式可以写作$\vb{A}=\vb{L}\vb{D}\vb{L}^T$并称为LDL分解，它的特殊性在于上三角矩阵$\vb{U}$进一步分解出一个对角矩阵$\vb{D}$之后，剩余的部分恰好是下三角矩阵的转置$\vb{L}^T$，可以视为对称性的反映。
+
+\subsection{LDL分解的存在性}
+
+\begin{BoxTheorem}[LDL分解的存在性]
+    若$\vb{A}\in\R^{n\times n}$是对称矩阵，且其$k=1:n-1$的顺序主子矩阵$\vb{A}(1:k,1:k)$皆是非奇异的，则存在单位下三角矩阵$\vb{L}\in\R^{n\times n}$和对角矩阵$\vb{D}=\diag(d_1,\cdots,d_n)\in\R^{n\times n}$，使得
+    \begin{Equation}[LDL分解的存在性]
+        \vb{A}=\vb{L}\vb{D}\vb{L}^T
+    \end{Equation}
+
+    若$\vb{A}$是非奇异的，那么该分解是唯一的。
+\end{BoxTheorem}
+
+\begin{Proof}[\cref{thm:LDL分解的存在性}]
+    根据\cref{thm:LU分解}，我们知道$\vb{A}$存在LU分解$\vb{A}=\vb{L}\vb{U}$，由此可得
+    \begin{Equation}[LDL分解的存在性1]
+        \vb{L}^{-1}\vb{A}\vb{L}^{-T}=\vb{U}\vb{L}^{-T}
+    \end{Equation}
+
+    注意到，$\vb{U}\vb{L}^{-T}$是上三角矩阵，因为$\vb{U}$和$\vb{L}^{-T}$都是上三角矩阵，$\vb{L}^{-1}\vb{A}\vb{L}^{-T}$是对称矩阵，因为$(\vb{L}^{-1}\vb{A}\vb{L}^{-T})^T=\vb{L}^{-1}\vb{A}^T\vb{L}^{-T}=\vb{L}^{-1}\vb{A}\vb{L}^{-T}$，而只有对角矩阵的结构能同时满足这两个条件。
+
+    因此，这样构造对角矩阵$\vb{D}$
+    \begin{Equation}[LDL分解的存在性]
+        \vb{D}=\vb{U}\vb{L}^{-T}
+    \end{Equation}
+
+    即有$\vb{U}=\vb{D}L^T$，代入$\vb{A}=\vb{L}\vb{U}$即得$\vb{A}=\vb{L}\vb{D}\vb{L}^T$。
+\end{Proof}
+
+\begin{BoxFormula}[LDL分解]
+    LDL分解是指，对于对称矩阵$\vb{A}\in\R^{n\times n}$
+    \begin{Equation}[LDL分解]
+        \vb{A}=\vb{L}\vb{D}\vb{L}^T
+    \end{Equation}
+    $\vb{D}\in\R^{n\times n}$是对角矩阵
+    \begin{Equation}[LDL分解对角矩阵]
+        \vb{D}=\vb{U}\vb{L}^T
+    \end{Equation}
+\end{BoxFormula}
+
+\begin{BoxFormula}[LDL分解的方程求解]
+    若$\vb{A}=\vb{L}\vb{D}\vb{L}^T$已知，求解$\vb{A}\vb{x}=\vb{b}$可以用三步完成
+    \begin{Equation}[LDL分解的方程求解]
+        \vb{L}\vb{z}=\vb{b}\qquad
+        \vb{D}\vb{y}=\vb{z}\qquad
+        \vb{L}^T\vb{x}=\vb{y}
+    \end{Equation}
+\end{BoxFormula}
+
+\begin{Proof}[\cref{fml:LDL分解的方程求解}]
+    这是因为$\vb{A}\vb{x}=\vb{L}(\vb{D}(\vb{L}^T\vb{x}))=\vb{L}(\vb{D}\vb{y})=\vb{L}\vb{z}=\vb{b}$，上述构造可行。
+\end{Proof}
+
+\subsection{LDL分解的算法}
+
+尽管LDL分解的结果可以由LU分解得到，但这样就失去了提出LDL分解的目的：对称系统具有一半相同的元素，求解的计算量理应可以减小一半！因此，需要为此设计专门的算法。
+
+\begin{Figure}[LDL分解算法的空间复用]
+    \includegraphics[scale=0.8]{LDLResult.fig.pdf}
+\end{Figure}
+
+该算法的迭代思路是，对于$k=1:n$，计算第$k$列$\vb{L}(k+1:n,k)$及其上方的$\vb{d}(k)$。
+
+已知$\vb{A}=\vb{L}\vb{U}=\vb{L}\vb{D}\vb{L}^T$，注意到
+\begin{Equation}[LDL算法1]
+    \vb{A}(k:n,k)=\vb{L}(k:n,1:k)\vb{U}(1:k,k)
+\end{Equation}
+
+由于$\vb{U}(1:k)$的实质是$\vb{D}\vb{L}^T$的第$k$列，对于第$i$行的元素，是$\vb{D}$的第$i$行和$\vb{L}^T$的第$k$列也就是$\vb{L}$的第$k$行的乘积。由于$\vb{D}$是对角矩阵，因此乘积其实只有$\vb{d}(i)\vb{L}(k,i)$这一项，特别的，在$i=k$时有$\vb{L}(k,k)=1$。现在，我们将$\vb{U}(1:k)$记为$\vb{v}(1:k)$，作为重要的中间变量
+\begin{Equation}[LDL算法2]
+    \vb{v}(1:k)=\vb{U}(1:k)=\mqty[
+        \vb{d}(1)\vb{L}(k,1)\\
+        \vb{d}(2)\vb{L}(k,2)\\
+        \vdots\\
+        \vb{d}(k-1)\vb{L}(k,k-1)\\
+        \vb{d}(k)\\
+    ]
+\end{Equation}
+
+引入范围符号
+\begin{Equation}[LDL算法3]
+    \sigma=1:k-1\qquad
+    \rho=k+1:n
+\end{Equation}
+
+由\cref{eq:LDL算法1}，考虑$\vb{A}(k,k)$
+\begin{Equation}[LDL算法4]
+    \vb{A}(k,k)=\vb{L}(k,1:k)\vb{v}(1:k)=\vb{L}(k,\sigma)\vb{v}(\sigma)+\vb{d}(k)    
+\end{Equation}
+
+这就可以求解出$\vb{d}(k)$
+\begin{Equation}[LDL算法5]
+    \vb{d}(k)=\vb{A}(k,k)-\vb{L}(k,\sigma)\vb{v}(\sigma)
+\end{Equation}
+
+由\cref{eq:LDL算法1}，考虑$\vb{A}(\rho,k)$
+\begin{Equation}[LDL算法6]
+    \vb{A}(\rho,k)=\vb{L}(\rho,1:k)\vb{v}(1:k)=\vb{L}(\rho,\sigma)\vb{v}(\sigma)+\vb{L}(\rho,k)\vb{d}(k)    
+\end{Equation}
+
+这就可以求解出$\vb{A}(\rho,k)$
+\begin{Equation}[LDL算法7]
+    \vb{L}(\rho,k)=\frac{1}{\vb{d}(k)}(\vb{A}(\rho,k)-\vb{L}(\rho,\sigma)\vb{v}(\sigma))
+\end{Equation}
+
+\begin{Figure}[LDL分解算法的更新过程]
+    \figuresub[第一步;LDL分解算法第一步]{\includegraphics[scale=0.8]{LDLStep1.fig.pdf}}{0.495}
+
+    \figuresub[第二步;LDL分解算法第二步]{\includegraphics[scale=0.8]{LDLStep2.fig.pdf}}{0.495}
+    \figuresub[第三步;LDL分解算法第三步]{\includegraphics[scale=0.8]{LDLStep3.fig.pdf}}{0.495}
+\end{Figure}
+
+至此，只要迭代的使用\cref{eq:LDL算法6,eq:LDL算法7}，就可以构造一个初步的算法了
+\begin{Algoplain}
+    \For{$k=1:n$}{
+        \For{$i=1:k-1$}{$\vb{v}(i)=\vb{L}(k,i)\vb{d}(i)$\;}
+        $\vb{d}(k)=\vb{A}(k,k)-\vb{L}(k,\sigma)\vb{v}(\sigma)$\;
+        $\vb{L}(\rho,k)=(\vb{A}(\rho,k)-\vb{L}(\rho,\sigma)\vb{v}(\sigma))/\vb{d}(k)$\;
+    }
+\end{Algoplain}
+
+配合\cref{fig:LDL分解算法的空间复用}的空间复用，就可以得到\cref{fig:LDL分解算法的更新过程}的正式算法了
+\begin{BoxAlgorithm}[LDL分解]
+    设$\vb{A}\in\R^{n\times n}$，满足$\vb{A}$是对称矩阵且$\vb{A}(1:k,1:k)$对于$k=1:n-1$非奇异。
+
+    该算法实现$\vb{A}=\vb{L}\vb{D}\vb{L}^T$的分解，$\vb{L}\in\R^{n\times n}$是单位下三角矩阵，$\vb{D}\in\R^{n\times n}$是对角矩阵。
+
+    $\vb{A}(k,k)$被$\vb{d}(k)$覆盖，对于$k=1:n$。
+    
+    $\vb{A}(k+1:n,k)$被$\vb{L}(k+1:n,k)$覆盖，对于$k=1:n-1$。
+
+    \begin{Algoplain}
+        \For{$k=1:n$}{
+            $\sigma=1:k-1$\;
+            $\rho=k+1:n$\;
+            \For{$i=1:k-1$}{$\vb{v}(i)=\vb{L}(k,i)\vb{d}(i)$\;}
+            $\vb{A}(k,k)=\vb{A}(k,k)-\vb{L}(k,\sigma)\vb{v}(\sigma)$\;
+            $\vb{A}(\rho,k)=(\vb{A}(\rho,k)-\vb{L}(\rho,\sigma)\vb{v}(\sigma))/\vb{A}(k,k)$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
