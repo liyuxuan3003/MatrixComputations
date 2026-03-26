@@ -43,12 +43,10 @@
 \subsection{LDL分解的存在性}
 
 \begin{BoxTheorem}[LDL分解的存在性]
-    若$\vb{A}\in\R^{n\times n}$是对称矩阵，且其$k=1:n-1$的顺序主子矩阵$\vb{A}(1:k,1:k)$皆是非奇异的，则存在单位下三角矩阵$\vb{L}\in\R^{n\times n}$和对角矩阵$\vb{D}=\diag(d_1,\cdots,d_n)\in\R^{n\times n}$，使得
+    若$\vb{A}\in\R^{n\times n}$是对称矩阵，且其$k=1:n-1$的顺序主子矩阵$\vb{A}(1:k,1:k)$皆是非奇异的，则存在唯一的单位下三角矩阵$\vb{L}\in\R^{n\times n}$和对角矩阵$\vb{D}=\diag(d_1,\cdots,d_n)\in\R^{n\times n}$
     \begin{Equation}[LDL分解的存在性]
         \vb{A}=\vb{L}\vb{D}\vb{L}^T
     \end{Equation}
-
-    若$\vb{A}$是非奇异的，那么该分解是唯一的。
 \end{BoxTheorem}
 
 \begin{Proof}[\cref{thm:LDL分解的存在性}]
@@ -66,6 +64,8 @@
 
     即有$\vb{U}=\vb{D}L^T$，代入$\vb{A}=\vb{L}\vb{U}$即得$\vb{A}=\vb{L}\vb{D}\vb{L}^T$。
 \end{Proof}
+
+有趣的是，这里其实没有证明LDL分解的唯一性为何不依赖矩阵非奇异。
 
 \begin{BoxFormula}[LDL分解]
     LDL分解是指，对于对称矩阵$\vb{A}\in\R^{n\times n}$
@@ -179,3 +179,5 @@
         }
     \end{Algoplain}
 \end{BoxAlgorithm}
+
+LDL分解的复杂度是$\Obig(n^2/3)$，计算量比LU分解减少了一半！
