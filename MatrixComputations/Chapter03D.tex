@@ -126,6 +126,21 @@ $，这类矩阵的转置就是倒序乘。
     \end{Algoplain}
 \end{BoxAlgorithm}
 
+\begin{BoxFormula}[LU分解的方程求解]
+    若$\vb{P}\vb{A}\vb{Q}^T=\vb{L}\vb{U}$已知，求解$\vb{A}\vb{x}=\vb{b}$可以用三步完成
+    \begin{Equation}[LDL分解的方程求解]
+        \vb{L}\vb{z}=\vb{P}\vb{b}\qquad
+        \vb{U}\vb{y}=\vb{z}\qquad
+        \vb{x}=\vb{Q}^T\vb{y}
+    \end{Equation}
+\end{BoxFormula}
+
+\begin{Proof}[\cref{fml:LDL分解的方程求解}]
+    这是因为$\vb{P}\vb{A}\vb{x}=\vb{L}(\vb{U}(\vb{Q}\vb{x}))=\vb{L}(\vb{U}\vb{y})=\vb{L}\vb{z}=\vb{P}\vb{b}$，上述构造可行。
+\end{Proof}
+
+请注意可以写$\vb{x}=\vb{Q}^T\vb{y}$的原因是$\vb{Q}$是置换矩阵，逆等于转置！
+
 \subsection{LU分解的计算复杂度}
 
 在计算复杂度之前，以下两个公式是有用的

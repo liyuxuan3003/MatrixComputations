@@ -1,0 +1,86 @@
+\section{对角占优的特性}
+
+若$\vb{A}$的对角元素比非对角元素大，那就可以安全的实施$\vb{A}=\vb{L}\vb{U}$而不需要进行换主元。
+
+\begin{BoxDefinition}[对角占优]
+    若$\vb{A}\in\R^{n\times n}$满足以下特性，则称为行对角占优（Row Diagonally Dominant）
+    \begin{Equation}[行对角占优]
+        \abs{a_{ii}}\geq\Sum[j=1,j\neq i][n]\abs{a_{ij}},\quad i=1:n
+    \end{Equation}
+    若$\vb{A}\in\R^{n\times n}$满足以下特性，则称为列对角占优（Column Diagonally Dominant）
+    \begin{Equation}[行对角占优]
+        \abs{a_{jj}}\geq\Sum[i=1,i\neq j][n]\abs{a_{ij}},\quad j=1:n
+    \end{Equation}
+\end{BoxDefinition}
+
+因此，对角占优是指：对角元素的绝对值比其所在行或列的其他元素的绝对值之和更大！
+
+\begin{BoxTheorem}[列对角占优的LU分解]
+    若$\vb{A}\in\R^{n\times n}$非奇异且列对角占优，那其存在满足$\abs{l_{ij}}\leq 1$的LU分解。
+\end{BoxTheorem}
+
+\begin{Proof}[\cref{thm:列对角占优的LU分解}]
+    假设定理对于$(n-1)\times(n-1)$成立，现在证明它对于$n\times n$成立。
+
+    尝试将$\vb{A}$分解为以下形式
+    \begin{Equation}[对角占优1]
+        \vb{A}=\mqty[
+            \alpha & \vb{w}^T \\
+            \vb{v} & \vb{C} \\ 
+        ],\quad
+        \alpha\in\R,\ \vb{v},\vb{w}\in\R^{n-1},\ \vb{C}\in\R^{(n-1)\times(n-1)}
+    \end{Equation}
+
+    现在论证必然有$\alpha\neq 0$：反证法，假设$\alpha=0$，根据$\vb{A}$的列对角占优的特性，有$\vb{v}=\vb{0}$，这意味着$\det\vb{A}=0$，但这和$\vb{A}$是一个非奇异矩阵矛盾了，因此必然有$\alpha\neq 0$。故可有分解
+    \begin{Equation}[对角占优2]
+        \vb{A}=
+        \mqty[
+            1 & 0 \\
+            \vb{v}/\alpha & \vb{I} \\
+        ]
+        \mqty[
+            1 & 0 \\
+            0 & \vb{B} \\
+        ]
+        \mqty[
+            \alpha & \vb{w}^T \\
+            0 & \vb{I} \\
+        ]
+    \end{Equation}
+    
+    其中
+    \begin{Equation}[对角占优3]
+        \vb{B}=\vb{C}-\frac{1}{\alpha}\vb{v}\vb{w}^T
+    \end{Equation}
+
+    现在的关键，就是要证明$\vb{B}\in\R^{(n-1)\times (n-1)}$满足非奇异且列对角占优！
+
+    $\vb{B}$是非奇异的吗？由于$\vb{A}$非奇异，有$\det(\vb{A})=\alpha\det\vb{B}$且$\alpha\neq 0$，故$\vb{B}$是非奇异的。
+
+    $\vb{B}$是对角占优的吗？这需要用到下面的不等式分析，对于某个取定的$j$
+    \begin{Split}[对角占优4]
+        \Sum[i=1,i\neq j][n-1]\abs{b_{ij}}
+        &=\Sum[i=1,i\neq j][n-1]\abs{c_{ij}-v_iw_j/\alpha}\leq\Sum[i=1,i\neq j][n-1]\abs{c_{ij}}+\frac{\abs{w_{j}}}{\abs{\alpha}}\Sum[i=1,i\neq j][n-1]\abs{v_i}\\
+        &\leq (\abs{c_{jj}}-\abs{w_j})+\frac{\abs{w_j}}{\abs{\alpha}}(\abs{\alpha}-\abs{v_j})=\abs{c_{jj}}-\frac{\abs{w_j}}{\abs{\alpha}}\abs{v_j}\\
+        &\leq\abs{c_{jj}-\frac{w_{j}v_{j}}{\alpha}}=\abs{b_{jj}}
+    \end{Split}
+
+    第一和第三个不等号来自绝对值不等式，第二个不等号是证明的关键，它来自$\vb{A}$对角占优的应用：$\abs{c_{jj}}$大于等于其他$\abs{c_{ij}}$与第一行的$\abs{w_j}$的和，$\abs{\alpha}$大于等于$i\neq j$的$\abs{v_i}$和$v_j$的和。
+
+    由于定理对于$n-1$成立，故非奇异且列对角占优的$\vb{B}$存在LU分解$\vb{B}=\vb{L}_1\vb{U}_1$。
+
+    将$\vb{B}=\vb{L}_1\vb{U}_1$的LU分解代入\cref{eq:对角占优2}
+    \begin{Equation}[对角占优5]
+        \vb{A}=
+        \mqty[
+            1 & 0 \\
+            \vb{v}/\alpha & \vb{L}_1 \\
+        ]
+        \mqty[
+            \alpha & \vb{w}^T \\
+            0 & \vb{U}_1 \\
+        ]=\vb{L}\vb{U}
+    \end{Equation}
+
+    最后，由于列对角占优，元素$\vb{v}/\alpha$必然小于等于$1$的，这就证明了定理在$n$下成立。
+\end{Proof}

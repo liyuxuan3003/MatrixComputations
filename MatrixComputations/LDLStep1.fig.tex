@@ -1,0 +1,92 @@
+\makeatletter\def\input@path{{minimus}{standalone-silicon}}\makeatother
+
+\documentclass{standalone-silicon}
+
+\usepackage{minimus-text}
+\usepackage{minimus-math}
+\usepackage{minimus-tikz}
+
+\begin{document}
+\begin{tikzpicture}
+
+\path (0,0) coordinate (O) ;
+
+\def\xu{1}
+\def\yu{-1}
+
+\foreach \i in {0,1,2}
+{
+    \draw[fill=red!15!white] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ;
+}
+
+\foreach \i in {0,1,2}
+{
+    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle ($(O)+(\i*\xu+\xu,8*\yu)$) ;
+}
+
+\draw[fill=green!5!white] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ; 
+
+\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ; 
+\draw[very thick] (O) rectangle (P) ; 
+
+\path (O|-P) ++ (0,-1.0) coordinate (A) ; 
+\draw[very thin,dotted] (A) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(A)+(8*\xu,1*\yu)$) coordinate (B) ; 
+\draw[very thick] (A) rectangle (B) ; 
+
+\foreach \i/\t in {0/1,1/\cdots,2/\cdots,3/k,7/n}
+{
+    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {0/1,1/\vdots,2/\vdots,3/k,7/n}
+{
+    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {1/\sigma,5.5/\rho}
+{
+    \path ($(O)+(\i*\xu+0.5*\xu,0*\yu)$) node[above=0.05cm] (Xr\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {1/\sigma,5.5/\rho}
+{
+    \path ($(O)+(0*\xu,\i*\yu+0.5*\yu)$) node[left=0.05cm] (Yr\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \ia/\ib in{0/2,4/7}
+{
+    \draw[very thin] ($(O)+(\ia*\xu,0*\yu)$) -- ++ (0,0.3) ;
+    \draw[very thin] ($(O)+(\ib*\xu+\xu,0*\yu)$) -- ++ (0,0.3) ;
+    \draw[very thin,latex-latex] ($(O)+(\ia*\xu,0*\yu+0.12)$) -- ($(O)+(\ib*\xu+\xu,0*\yu+0.12)$) ;
+}
+
+\foreach \ia/\ib in{0/2,4/7}
+{
+    \draw[very thin] ($(O)+(0*\xu,\ia*\yu)$) -- ++ (-0.3,0) ;
+    \draw[very thin] ($(O)+(0*\xu,\ib*\yu+\yu)$) -- ++ (-0.3,0) ;
+    \draw[very thin,latex-latex] ($(O)+(0*\xu-0.12,\ia*\yu)$) -- ($(O)+(0*\xu-0.12,\ib*\yu+\yu)$) ;
+}
+
+\foreach \i in {0,1,2}
+{
+    \draw[ultra thick,white] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ;
+    \draw[ultra thick,gray,dashed] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ;
+}
+
+\draw[ultra thick,white] ($(O)+(0*\xu,3*\yu)$) rectangle ($(O)+(2*\xu+\xu,3*\yu+\yu)$) ;
+\draw[ultra thick,gray,dashed] ($(O)+(0*\xu,3*\yu)$) rectangle ($(O)+(2*\xu+\xu,3*\yu+\yu)$) ;
+
+\draw[ultra thick,white] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ; 
+\draw[ultra thick,green,dashed] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ; 
+
+\path ($(O)+(1*\xu+0.5\xu,1*\yu+0.5*\yu)$) node[] (A1) {\scalebox{0.8}{$\vb{A}(i,i)$}} ;  
+\path ($(O)+(1*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[fill=blue!15!white] (A2) {\scalebox{0.8}{$\vb{A}(k,i)$}} ;  
+\path ($(O)+(1*\xu+0.5\xu,9*\yu+0.5*\yu)$) node[fill=green!5!white] (V) {\scalebox{0.8}{$\vb{v}(i)$}} ;  
+
+\draw[thick] (A1) -- (A2) ;
+\draw[thick,-latex] (A2) -- node[right=0.1cm,draw,fill=white,fill opacity=0.9,pos=0.92] (TXT) {$\vb{v}(i)=\vb{A}(k,i)\vb{A}(i,i),\ i=\sigma$} (V) ;
+
+\draw[ultra thin] ($(A|-B)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
+
+\end{tikzpicture}
+\end{document}
