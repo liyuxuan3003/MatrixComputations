@@ -26,24 +26,24 @@
 
 \foreach \i in {2}
 {
-    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle node[rotate=-90,black] (L\i) {$\vb{A}(\rho,k)$} (\i*\xu+\xu,8*\yu) ;
+    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle node[rotate=-90,black] (L\i) {\scalebox{0.8}{$\vb{A}(\rho,k)$}} (\i*\xu+\xu,8*\yu) ;
 }
 
 \foreach \i in {2}
 {
     \draw[thick,dashed] ($(O)+(\i*\xu+\xu,\i*\yu)$) -- ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ; 
-    \path ($(O)+(\i*\xu,\i*\yu)$) rectangle node[black,yshift=0.3cm,rotate=-90,fill=red!15!white] (C\i) {$\vb{A}(k,k)$} ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ; 
+    \path ($(O)+(\i*\xu,\i*\yu)$) rectangle node[black,yshift=0.3cm,rotate=-90,fill=red!15!white] (C\i) {\scalebox{0.8}{$\vb{A}(k,k)$}} ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ; 
 }
 
 \foreach \i in {2}
 {
-    \path ($(O)+(\i*\xu+\xu,\i*\yu)$) rectangle node[black] (U\i) {$\vb{A}(k,\rho)$}  ($(O)+(8*\xu,\i*\yu+\yu)$) ;
+    \path ($(O)+(\i*\xu+\xu,\i*\yu)$) rectangle node[black] (U\i) {\scalebox{0.8}{$\vb{A}(k,\rho)$}}  ($(O)+(8*\xu,\i*\yu+\yu)$) ;
 }
 
 \foreach \i in {2}
 {
-    \path[fill=black!5!white] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle node[black] (B\i) {$\vb{A}(\rho,\rho)$} ($(O)+(8*\xu,8*\yu)$) ;
-    \path[fill=red!10!white] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle node[black] (U\fpeval{\i+1}) {$\vb{A}(k+1,\rho)$} ($(O)+(8*\xu,\i*\yu+2*\yu)$) ;
+    \path[fill=black!5!white] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle node[black] (B\i) {\scalebox{0.8}{$\vb{A}(\rho,\rho)$}} ($(O)+(8*\xu,8*\yu)$) ;
+    \path[fill=red!10!white] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle node[black] (U\fpeval{\i+1}) {\scalebox{0.8}{$\vb{A}(k+1,\rho)$}} ($(O)+(8*\xu,\i*\yu+2*\yu)$) ;
     \draw[ultra thick,red,dashed] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle  ($(O)+(8*\xu,8*\yu)$) ;
 }
 
