@@ -1,5 +1,170 @@
 \section{正定系统的Cholesky分解}
 
+若$\vb{A}$是正定的，我们可以在LDL分解上的基础上进一步使用Cholesky分解。它的基本想法是将正定矩阵$\vb{A}$分解为$\vb{A}=\vb{G}\vb{G}^T$的形式，其中$\vb{G}$是一个对角元素均为正的下三角矩阵。
 
+\begin{BoxDefinition}[正定矩阵]
+    若$\vb{A}$是对称的，且对于任意的非零$\vb{x}\in\R^n$满足$\vb{x}^T\vb{A}\vb{x}>0$，则称$\vb{A}$是正定的。
+\end{BoxDefinition}
 
+\begin{BoxProperty}[正定矩阵的列满秩变换]
+    若$\vb{A}\in\R^{n\times n}$正定，而$\vb{X}\in\R^{n\times k}$列满秩，则$\vb{B}=\vb{X}^T\vb{A}\vb{X}\in\R^{k\times k}$也是正定的。
+\end{BoxProperty}
+
+\begin{BoxProperty}[正定矩阵的主子矩阵]
+    若$\vb{A}\in\R^{n\times n}$正定，则其所有主子矩阵也是正定的。
+\end{BoxProperty}
+
+\subsection{Cholesky分解的存在性}
+
+\begin{BoxTheorem}[Cholesky分解的存在性]
+    若$\vb{A}\in\R^{n\times n}$是正定矩阵，则存在唯一的对角元素均为正的下三角矩阵$\vb{G}\in\R^{n\times n}$，使得
+    \begin{Equation}[Cholesky分解的存在性]
+        \vb{A}=\vb{G}\vb{G}^T
+    \end{Equation}
+\end{BoxTheorem}
+
+\begin{Proof}[\cref{thm:Cholesky分解的存在性}]
+    根据\cref{thm:LDL分解的存在性}和\cref{ppt:正定矩阵的主子矩阵}，我们知道$\vb{A}$存在LDL分解$\vb{A}=\vb{L}\vb{D}\vb{L}^T$，由此可得
+    \begin{Equation}[Cholesky分解的存在性1]
+        \vb{L}^{-1}\vb{A}\vb{L}^{-T}=\vb{D}
+    \end{Equation}
+    由于$\vb{L}$显然是满秩的，因此$\vb{D}=\vb{L}^{-1}\vb{A}\vb{L}^{-T}$是正定的。
+    
+    这意味着$\vb{D}=\diag(d_1,\cdots,d_n)$的所有对角元素都为正，不妨构造
+    \begin{Equation}[Cholesky分解的存在性2]
+        \vb{G}=\vb{L}\diag(\sqrt{d_1},\cdots,\sqrt{d_n})
+    \end{Equation}
+    
+    显然$\vb{G}$是一个对角元素均为正的下三角矩阵，代入$\vb{A}=\vb{L}\vb{D}\vb{L}^{T}$即得$\vb{G}\vb{G}^T$。
+\end{Proof}
+
+\begin{BoxFormula}[Cholesky分解]
+    Cholesky分解是指，对于正定矩阵$\vb{A}\in\R^{n\times n}$
+    \begin{Equation}[Cholesky分解]
+        \vb{A}=\vb{G}\vb{G}^T
+    \end{Equation}
+    $\vb{G}\in\R^{n\times n}$是对角元素均为正的下三角矩阵
+    \begin{Equation}[Cholesky分解的G矩阵]
+        \vb{G}=\vb{L}\diag(\sqrt{d_1},\cdots,\sqrt{d_n})
+    \end{Equation}
+\end{BoxFormula}
+
+\begin{BoxFormula}[Cholesky分解的方程求解]
+    若$\vb{A}=\vb{G}\vb{G}^T$已知，求解$\vb{A}\vb{x}=\vb{b}$可以用两步完成
+    \begin{Equation}[Cholesky分解的方程求解]
+        \vb{G}\vb{y}=\vb{b}\qquad
+        \vb{G}^T\vb{x}=\vb{y}
+    \end{Equation}
+\end{BoxFormula}
+
+\begin{Proof}[\cref{fml:Cholesky分解的方程求解}]
+    这是因为$\vb{A}\vb{x}=\vb{G}(\vb{G}^T\vb{x})=\vb{G}\vb{y}=\vb{b}$，上述构造可行。
+\end{Proof}
+
+\subsection{Cholesky分解的算法}
+
+类似的，尽管Cholesky分解可以复用LDL分解的算法，但我们可以设计更高效的算法。
+
+\begin{Figure}[Cholesky分解算法的空间复用]
+    \includegraphics[scale=0.8]{CholeskyResult.fig.pdf}
+\end{Figure}
+
+已知$\vb{A}=\vb{G}\vb{G}^T$，那$\vb{A}(i,k)$由$\vb{G}$的第$i$行和$\vb{G}$的第$k$行的内积给出
+\begin{Equation}[Cholesky分解的算法1]
+    \vb{A}(i,k)=\Sum[j=1][n]\vb{G}(i,j)\vb{G}^T(j,k)=\Sum[j=1][n]\vb{G}(i,j)\vb{G}(k,j)
+\end{Equation}
+
+我们假设$k$是固定的，由于$\vb{G}$作为下三角矩阵，其第$k$行只有前$k$个元素是非零的
+\begin{Equation}[Cholesky分解的算法2]
+    \vb{A}(i,k)=\Sum[j=1][k]\vb{G}(i,j)\vb{G}(k,j)
+\end{Equation}
+
+我们现在由$\vb{A}(i,k)$转向$\vb{A}(:,k)$
+\begin{Equation}[Cholesky分解的算法3]
+    \vb{A}(:,k)=\Sum[j=1][k]\vb{G}(:,j)\vb{G}(k,j)
+\end{Equation}
+
+这表明，$\vb{A}$的第$k$列，是$\vb{G}$的第$1$至$k$列以各自列的第$k$行的元素为权重的加权和。
+
+它可以分解为
+\begin{Equation}[Cholesky分解的算法4]
+    \vb{A}(:,k)=\vb{G}(:,k)\vb{G}(k,k)+\Sum[j=1][k-1]\vb{G}(:,j)\vb{G}(k,j)
+\end{Equation}
+
+这给出了一个计算$\vb{G}(:,k)\vb{G}(k,k)$的重要的递进关系，记为$\vb{v}(:)$
+\begin{Equation}[Cholesky分解的算法5]
+    \vb{G}(:,k)\vb{G}(k,k)=\vb{A}(:,k)-\Sum[j=1][k-1]\vb{G}(:,j)\vb{G}(k,j)=\vb{v}(:)
+\end{Equation}
+
+由于$\vb{G}(:,k)$中其实只有$\vb{G}(k:n,k)$存在非零元素，故可以缩减范围
+\begin{Equation}[Cholesky分解的算法6]!
+    \vb{G}(k:n,k)\vb{G}(k,k)=\vb{A}(k:n,k)-\Sum[j=1][k-1]\vb{G}(k:n,j)\vb{G}(k,j)=\vb{v}(k:n)
+\end{Equation}
+
+有趣的是
+\begin{Equation}[Cholesky分解的算法7]
+    \vb{v}(k)=\vb{G}(k,k)\vb{G}(k,k)
+\end{Equation}
+
+因此就有
+\begin{Equation}[Cholesky分解的算法8]
+    \vb{v}(k:n)=\vb{G}(k:n,k)\sqrt{\vb{v}(k)}
+\end{Equation}
+
+这就可以由$\vb{v}(k:n)$计算出$\vb{G}(k:n,k)$了
+\begin{Equation}[Cholesky分解的算法9]
+    \vb{G}(k:n,k)=\vb{v}(k:n)/\sqrt{\vb{v}(k)}
+\end{Equation}
+
+换言之， 若已知$\vb{G}$的前$k-1$列，就可以求出$\vb{v}(k:n)$进而求出$\vb{G}$的第$k$列！
+
+\begin{Figure}[Cholesky分解算法的更新过程]
+    \figuresub[第一步;Cholesky分解算法第一步]{\includegraphics[scale=0.8]{CholeskyStep1.fig.pdf}}{0.495}
+    \figuresub[第二步;Cholesky分解算法第二步]{\includegraphics[scale=0.8]{CholeskyStep2.fig.pdf}}{0.495}
+\end{Figure}
+
+现在，让我们回到\cref{eq:Cholesky分解的算法6}，不妨将求和改写为矩阵乘，但要注意在第二项上加转置以保证矩阵的长宽相乘时能对应（究其根源，是因为最初第二项是通过$\vb{G}^T(j,k)=\vb{G}(k,j)$得出的）
+\begin{Equation}[Cholesky分解的算法10]
+    \vb{v}(k:n)=\vb{A}(k:n,k)-\vb{G}(k:n,1:k-1)\vb{G}(k,1:k-1)^T
+\end{Equation}
+
+引入范围符号
+\begin{Equation}[Cholesky分解的算法11]
+    \sigma=1:k-1\qquad \rho'=k:n
+\end{Equation}
+
+这样一来，\cref{eq:Cholesky分解的算法10,eq:Cholesky分解的算法9}这两个最关键的迭代式就可以简化为
+\begin{Gather}[Cholesky分解的算法]
+    \vb{v}(\rho')=\vb{A}(\rho',k)-\vb{G}(\rho',\sigma)\vb{G}(k,\sigma)^T\id{12}\\
+    \vb{G}(\rho',k)=\vb{v}(\rho')/\sqrt{\vb{v}(k)}\id{13}
+\end{Gather}
+
+至此，就可以写出一个初步的算法了
+\begin{Algoplain}
+    \For{$k=1:n$}{
+        $\vb{v}(\rho')=\vb{A}(\rho',k)-\vb{G}(\rho',\sigma)\vb{G}(k,\sigma)^T$\;
+        $\vb{G}(\rho',k)=\vb{v}(\rho')/\sqrt{\vb{v}(k)}$\;
+    }
+\end{Algoplain}
+
+很明显的是，$\vb{G}(\rho',k)$和计算它需要的中间变量$\vb{v}(\rho')$都可以复用$\vb{A}(\rho',k)$的空间。
+
+\begin{BoxAlgorithm}[Cholesky分解]
+    设$\vb{A}\in\R^{n\times n}$，满足$\vb{A}$是正定矩阵。
+
+    该算法实现$\vb{A}=\vb{G}\vb{G}^T$的分解，$\vb{G}\in\R^{n\times n}$是对角元素为正的下三角矩阵。
+
+    $\vb{A}(k:n,k)$被$\vb{G}(k:n,k)$覆盖，对于$k=1:n$。
+    
+    \begin{Algoplain}
+        \For{$k=1:n$}{
+            $\sigma=1:k-1$\;
+            $\rho'=k:n$\;
+            $\vb{A}(\rho',k)=\vb{A}(\rho',k)-\vb{A}(\rho',\sigma)\vb{A}(k,\sigma)^T$\;
+            $\vb{A}(\rho',k)=\vb{A}(\rho',k)/\sqrt{\vb{A}(k,k)}$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+Cholesky分解的复杂度是$\Obig(n^2/3)$，计算量和LDL分解其实是一致的！
 

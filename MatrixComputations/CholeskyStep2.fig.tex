@@ -1,0 +1,75 @@
+\makeatletter\def\input@path{{minimus}{standalone-silicon}}\makeatother
+
+\documentclass{standalone-silicon}
+
+\usepackage{minimus-text}
+\usepackage{minimus-math}
+\usepackage{minimus-tikz}
+
+\begin{document}
+\begin{tikzpicture}
+
+\path (0,0) coordinate (O) ;
+
+\def\xu{1}
+\def\yu{-1}
+
+\foreach \i in {0,1,2}
+{
+    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(\i*\xu+\xu,8*\yu)$) ;
+}
+
+\path[fill=blue!7!white] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,7*\yu+\yu)$) ;
+
+\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ; 
+\draw[very thick] (O) rectangle (P) ; 
+
+\foreach \i/\t in {0/1,1/\cdots,2/\cdots,3/k,7/n}
+{
+    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {0/1,1/\vdots,2/\vdots,3/k,7/n}
+{
+    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {1/\sigma,5/\rho'}
+{
+    \path ($(O)+(\i*\xu+0.5*\xu,0*\yu)$) node[above=0.05cm] (Xr\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {1/\sigma,5/\rho'}
+{
+    \path ($(O)+(0*\xu,\i*\yu+0.5*\yu)$) node[left=0.05cm] (Yr\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \ia/\ib in{0/2,3/7}
+{
+    \draw[very thin] ($(O)+(\ia*\xu,0*\yu)$) -- ++ (0,0.3) ;
+    \draw[very thin] ($(O)+(\ib*\xu+\xu,0*\yu)$) -- ++ (0,0.3) ;
+    \draw[very thin,latex-latex] ($(O)+(\ia*\xu,0*\yu+0.12)$) -- ($(O)+(\ib*\xu+\xu,0*\yu+0.12)$) ;
+}
+
+\foreach \ia/\ib in{0/2,3/7}
+{
+    \draw[very thin] ($(O)+(0*\xu,\ia*\yu)$) -- ++ (-0.3,0) ;
+    \draw[very thin] ($(O)+(0*\xu,\ib*\yu+\yu)$) -- ++ (-0.3,0) ;
+    \draw[very thin,latex-latex] ($(O)+(0*\xu-0.12,\ia*\yu)$) -- ($(O)+(0*\xu-0.12,\ib*\yu+\yu)$) ;
+}
+
+\draw[ultra thick,white] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
+\draw[ultra thick,gray,dashed] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
+
+\draw[ultra thick,white] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,7*\yu+\yu)$) ;
+\draw[ultra thick,blue,dashed] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,7*\yu+\yu)$) ;
+
+\path ($(O)+(3*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[fill=blue!7!white,inner sep=0.02cm] (A3) {\scalebox{0.8}{$\vb{A}(k,k)$}} ;  
+\path ($(O)+(3*\xu+0.5\xu,5*\yu+0.5*\yu)$) node[fill=blue!0!white,inner sep=0.02cm] (AX) {\scalebox{0.8}{$\vb{A}(\rho'\!,k)$}} ;  
+
+\draw[thick,-latex] (A3) to[out=0,in=45] node[draw,fill=white,fill opacity=0.9,pos=0.64] (TXT) {$\vb{A}(\rho',k)=\vb{A}(\rho',k)/\sqrt{\vb{A}(k,k)}$} (AX) ;
+
+\draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
+
+\end{tikzpicture}
+\end{document}
