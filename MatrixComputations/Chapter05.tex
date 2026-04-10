@@ -1,0 +1,10 @@
+\chapter{正交与最小二乘法}
+
+在这一章中，我们将重点分析$m>n$的高矩阵$\vb{A}\in\R^{m\times n}$的分解问题。该问题适用本章引入的QR分解$\vb{A}=\vb{Q}\vb{R}$，其中$\vb{Q}\in\R^{m\times m}$是正交矩阵而$\vb{R}\in^{m\times n}$是高的上三角矩阵。首先，我们将介绍两种重要的正交变换：代表反射的Householder矩阵，代表旋转的Givens矩阵。随后将引入QR分解的概念并证明其存在性和唯一性，接下来将会探讨基于Householder变换和Givens变换的QR分解算法，以及经典的基于Gram-Schmidt变换的QR分解算法。最后我们会探讨QR分解的应用：在$\vb{A}$超定的情况下解决$\min_{\vb{x\in\R^n}}\norm{\vb{y}-\vb{A}\vb{x}}_2^2$的最小二乘问题。
+
+\input{Chapter05A.tex}
+\input{Chapter05B.tex}
+\input{Chapter05C.tex}
+\input{Chapter05D.tex}
+\input{Chapter05E.tex}
+\input{Chapter05F.tex}
