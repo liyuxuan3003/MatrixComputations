@@ -92,7 +92,7 @@ $，这类矩阵的转置就是倒序乘。
     \end{Equation}
 
     $\xwav{\vb{M}}_1,\cdots,\xwav{\vb{M}}_n\in\R^{n\times n}$是经后续行交换的高斯变换矩阵
-    \begin{Equation}[LU分解的M]
+    \begin{Equation}[完全选主元的LU分解的M]
         \xwav{\vb{M}}_k=\vb{I}_n-(\vb*{\Pi}_{n-1}\cdots\vb*{\Pi}_{k+1})\vb*{\tau}^{(k)}\vb{e}_k^T
     \end{Equation}
 \end{BoxFormula}
@@ -128,14 +128,14 @@ $，这类矩阵的转置就是倒序乘。
 
 \begin{BoxFormula}[LU分解的方程求解]
     若$\vb{P}\vb{A}\vb{Q}^T=\vb{L}\vb{U}$已知，求解$\vb{A}\vb{x}=\vb{b}$可以用三步完成
-    \begin{Equation}[LDL分解的方程求解]
+    \begin{Equation}[LU分解的方程求解]
         \vb{L}\vb{z}=\vb{P}\vb{b}\qquad
         \vb{U}\vb{y}=\vb{z}\qquad
         \vb{x}=\vb{Q}^T\vb{y}
     \end{Equation}
 \end{BoxFormula}
 
-\begin{Proof}[\cref{fml:LDL分解的方程求解}]
+\begin{Proof}[\cref{fml:LU分解的方程求解}]
     这是因为$\vb{P}\vb{A}\vb{x}=\vb{L}(\vb{U}(\vb{Q}\vb{x}))=\vb{L}(\vb{U}\vb{y})=\vb{L}\vb{z}=\vb{P}\vb{b}$，上述构造可行。
 \end{Proof}
 
