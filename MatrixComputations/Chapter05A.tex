@@ -32,24 +32,25 @@
 
 \subsection{Householder反射变换}
 
-在$\R^m$下，通常会选取一个法向量$\vb{v}\in\R^m$并讨论$\vb{x}\in\R^m$对于垂直$\vb{v}$的超平面的镜像。
+在$\R^m$下，通常反射会选取一个法向量$\vb{v}\in\R^m$并讨论$\vb{x}\in\R^m$对于垂直$\vb{v}$的超平面的镜像。
 
 \begin{BoxFormula}[Householder反射变换]
-    Householder反射变换矩阵$\vb{H}\in\R^{m\times m}$可以表示为以下形式，其中$\vb{v}\in\R^m$为反射轴
+    Householder反射变换矩阵$\vb{H}\in\R^{m\times m}$可以表示为以下形式
     \begin{Equation}[Householder反射变换]
         \vb{H}(\vb{v})=\vb{I}-\beta\vb{v}\vb{v}^T\qquad\beta=\frac{2}{\vb{v}^T\vb{v}}
     \end{Equation}
+    其中$\vb{v}\in\R^m$为反射超平面的法向量。
 \end{BoxFormula}
 
 现在的问题是，对于任意的$\vb{x}$，如何找到对应的$\vb{v}$构造出变换矩阵$\vb{H}$，使$\vb{H}\vb{x}=\vb{e}_1$成立，换言之，这就是将$\vb{x}$变换为只有第一个元素为$1$其余元素都为$0$的单位向量$\vb{e}_1$，即所谓消元！
 \begin{Equation}[反射变换1]
     \mqty[
-        x_1\\
-        x_2\\
+        \vb{x}(1)\\
+        \vb{x}(2)\\
         \vdots\\
-        x_m
+        \vb{x}(m)\\
     ]\to\mqty[
-        1\\
+        \times\\
         0\\
         \vdots\\
         0
@@ -114,13 +115,13 @@
 \end{Equation}
 
 我们将这个结论整理如下
-\begin{BoxFormula}[Householder向量的构造]
+\begin{BoxFormula}[Householder矩阵的构造]
     对于$\vb{x}\in\R^m$，若选取以下Householder向量$\vb{v}\in\R^m$
-    \begin{Equation}[Householder向量的构造1]
+    \begin{Equation}[Householder矩阵的构造1]
         \vb{v}=\vb{x}\pm\norm{\vb{x}}_2\vb{e}_1
     \end{Equation}
     则$\vb{v}$构造的Householder矩阵满足
-    \begin{Equation}[Householder向量的构造2]
+    \begin{Equation}[Householder矩阵的构造2]
         \vb{H}\vb{x}=\mp\norm{\vb{x}}_2\vb{e}_1
     \end{Equation}
 \end{BoxFormula}
@@ -187,3 +188,109 @@
 除此之外，在\cref{alg:Householder参数}中，还有一些值得注意的细节。算法期望缩放$\vb{v}$使$\vb{v}(1)=1$，目的是存储$\vb{v}$时可以少用一位，这固然可行，但这种缩放一定会影响$\vb{H}=\vb{I}-\beta\vb{v}\vb{v}^T$的结果。由于$\beta$也由算法给出，因此在计算$\beta$时额外引入了$\vb{v}(1)^2$以补偿稍后$\vb{v}=\vb{v}/\vb{v}(1)$在$\beta\vb{v}\vb{v}^T$上的损失。
 
 \subsection{Givens旋转变换}
+
+在$\R^m$下，通常旋转仍是对其中特定的两个元素进行，需要将\cref{eq:2x2正交旋转}放到$\R^{m\times m}$中完成。
+
+\begin{BoxFormula}[Givens旋转变换]
+    Givens旋转变换矩阵$\vb{G}\in\R^{m\times m}$可以表示为以下形式
+    \begin{Equation}[Givens旋转变换]
+        \vb{G}(i,j,\theta)=
+        \begin{bNiceMatrix}[first-row, last-col]
+                    &i      &       &j      &       &       \\
+            \vb{I}  &       &       &       &       &       \\
+                    &+c     &       &+s     &       &i      \\
+                    &       &\vb{I} &       &       &       \\
+                    &-s     &       &+c     &       &j      \\
+                    &       &       &       &\vb{I} &       \\
+        \end{bNiceMatrix}
+    \end{Equation}
+    其中$\theta$是旋转角（$c=\cos\theta,\ s=\sin\theta$），而$i,j$是将要旋转的元素下标。
+\end{BoxFormula}
+
+现在我们想要达成的是，对于任意的$\vb{x}$，通过对$\vb{x}(i)$和$\vb{x}(j)$的旋转使后者归零。
+\begin{Equation}[旋转变换1]
+    \mqty[
+        \vb{x}(1)\\
+        \vdots\\
+        \vb{x}(i)\\
+        \vdots\\
+        \vb{x}(j)\\
+        \vdots\\
+        \vb{x}(m)
+    ]\to
+    \mqty[
+        \vb{x}(1)\\
+        \vdots\\
+        \times\\
+        \vdots\\
+        0\\
+        \vdots\\
+        \vb{x}(m)
+    ]
+\end{Equation}
+
+请注意Givens矩阵$\vb{G}$表旋转示$\theta$时需要$\vb{G}^T$左乘，不妨记
+\begin{Equation}[旋转变换2]
+    \vb{G}(i,k,\theta)^T\vb{x}=\vb{y}
+\end{Equation}
+
+注意到$\vb{y}(k)$满足
+\begin{Equation}[旋转变换3]
+    \vb{y}(k)=\begin{cases}
+        c\vb{x}(i)-s\vb{x}(j),&k=i\\
+        s\vb{x}(i)+c\vb{x}(j),&k=j\\
+        \vb{x}(k),&k\neq i,j\\
+    \end{cases}
+\end{Equation}
+
+通过\cref{eq:旋转变换3}，可以确定，如果要令$\vb{y}(j)=0$，应当将$c,s$取为
+\begin{Equation}[旋转变换4]
+    c=\frac{\vb{x}(i)}{\sqrt{\vb{x}(i)^2+\vb{x}(j)^2}}\qquad
+    s=\frac{-\vb{x}(j)}{\vb{x}(i)^2+\vb{x}(j)^2}
+\end{Equation}
+
+我们可以将结论整理如下
+\begin{BoxFormula}[Givens矩阵的构造]
+    对于$\vb{x}\in\R^m$，若选取以下Givens参数$c,s$
+    \begin{Equation}[Givens矩阵的构造1]
+        c=\frac{\vb{x}(i)}{\sqrt{\vb{x}(i)^2+\vb{x}(j)^2}}\qquad
+        s=\frac{-\vb{x}(j)}{\sqrt{\vb{x}(i)^2+\vb{x}(j)^2}}
+    \end{Equation}
+    并记$c,s$构造的Givens矩阵作用在$\vb{x}$上的变换结果为$\vb{y}$
+    \begin{Equation}[Givens矩阵的构造2]
+        \vb{G}^T\vb{x}=\vb{y}
+    \end{Equation}
+    则其满足
+    \begin{Equation}[Givens矩阵的构造3]
+        \vb{y}(j)=0
+    \end{Equation}
+\end{BoxFormula}
+
+在算法层面，只关注需要旋转的元素，且有一些技巧可以减少运算并提高数值精度。
+
+\begin{BoxAlgorithm}[Givens参数]
+    对于$\vb{x}\in\R^2$，该函数计算$c\in\R$和$s\in\R$的Givens参数，并满足
+    \begin{Equation}[Givens参数算法]
+        \mqty[
+            c & s \\ 
+            -s & c \\
+        ]^T
+        \mqty[
+            a\\
+            b\\
+        ]=
+        \mqty[
+            r\\
+            0\\
+        ]
+    \end{Equation}
+    \begin{Algoplain}
+        \Function{$[c,s]=\mathrm{givens}(x)$}{
+            \uIf{$b=0$}{$c=1,\ s=0$}
+            \Else{
+                \uIf{$\abs{b}>\abs{a}$}{$\tau=-a/b,\ s=1/\sqrt{1+\tau^2},\ c=s\tau$\;}
+                \Else{$\tau=-b/a,\ c=1/\sqrt{1+\tau^2},\ s=c\tau$\;}
+            }
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
