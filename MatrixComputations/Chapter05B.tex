@@ -1,1 +1,199 @@
 \section{QR分解}
+
+QR分解是适用于$m>n$的高矩阵$\vb{A}\in\R^{m\times n}$的分解$\vb{A}=\vb{Q}\vb{R}$，其中，$\vb{Q}\in\R^{m\times m}$是正交矩阵，$\vb{R}\in\R^{m\times n}$是高的上三角矩阵。本质上来说，QR分解其实也是一个将$\vb{A}$通过消元上三角化为$\vb{R}$的过程。消元依赖的就是\cref{sec:两种正交变换}介绍的Householder反射和Givens旋转，它们可以分别将一列或一个元素消为$0$，相乘就构成了$\vb{Q}$。本节先讨论QR分解的存在性和唯一性。
+
+\subsection{QR分解的存在性}
+
+\begin{BoxTheorem}[QR分解]
+    若$\vb{A}\in\R^{m\times n}$，则存在正交矩阵$\vb{Q}=\R^{m\times m}$和上三角矩阵$\vb{R}\in\R^{m\times n}$，使
+    \begin{Equation}[QR分解]
+        \vb{A}=\vb{Q}\vb{R}
+    \end{Equation}
+\end{BoxTheorem}
+
+\begin{Proof}[\cref{thm:QR分解}]
+    使用数学归纳法，先考虑$n=1$即$\vb{A}$只有一列的情况，此时目标的$\vb{R}$实际上就是正比于$\vb{e}_1$的列向量。此时，只要构造Householder矩阵$\vb{Q}^T$使$\vb{R}=\vb{Q}^T\vb{A}$，就满足$\vb{R}(2:m)=\vb{0}$。由于正交矩阵的逆$\vb{Q}^{-1}$和其转置$\vb{Q}^T$相同，这就证明了$n=1$的情形下存在$\vb{A}=\vb{Q}\vb{R}$的分解。
+
+    而对于$n>1$的情况，假设QR分解对于$n$成立，证明其对于$n+1$成立，将$\vb{A}$划分为
+    \begin{Equation}[QR分解的存在性1]
+        \vb{A}=\qty[
+            \begin{array}{c|c}
+                \vb{A}_1 & \vb{v} \\
+            \end{array}
+        ]
+    \end{Equation}
+    
+    其中$\vb{A}\in\R^{m\times (n+1)}$，而$\vb{A}_1=\vb{A}(:,n)\in\R^{m\times n}$，存在QR分解
+    \begin{Equation}[QR分解的存在性2]
+        \vb{A}_1=\vb{Q}_1\vb{R}_1
+    \end{Equation}
+    
+    或者写为
+    \begin{Equation}[QR分解的存在性3]
+        \vb{R}_1=\vb{Q}_1^T\vb{A}_1
+    \end{Equation}
+
+    当然，我们也可以将$\vb{Q}_1^T$作用在$\vb{v}$上
+    \begin{Equation}[QR分解的存在性4]
+        \vb{w}=\vb{Q}_1^T\vb{v}
+    \end{Equation}
+
+    这里$\vb{w}$显然不会是我们期望的分解，然而，不妨进一步对$\vb{w}(n:m)$做QR分解
+    \begin{Equation}[QR分解的存在性5]
+        \vb{w}(n:m)=\vb{Q}_2\vb{R}_2
+    \end{Equation}
+
+    我们宣称构造这样的$\vb{Q}$和$\vb{R}$，容易验证其分别是正交矩阵和上三角矩阵
+    \begin{Equation}[QR分解的存在性6]
+        \vb{Q}=\vb{Q}_1\mqty[
+            \vb{I}&\vb{0}\\
+            \vb{0}&\vb{Q}_2\\
+        ]\qquad
+        \vb{R}=\qty[
+            \begin{array}{c|c}
+                \multirow{2}{*}{$\vb{R}_1$} & \vb{w}(1:n-1)\\
+                & \vb{R}_2 \\
+            \end{array}
+        ]
+    \end{Equation}
+
+    我们现在验证\cref{eq:QR分解的存在性6}给出的$\vb{Q},\vb{R}$，满足$\vb{A}=\vb{Q}\vb{R}$
+    \begin{Equation}[QR分解的存在性7]
+        \vb{Q}\vb{R}=\vb{Q}_1\mqty[
+            \vb{I}&\vb{0}\\
+            \vb{0}&\vb{Q}_2\\
+        ]\qty[
+            \begin{array}{c|c}
+                \multirow{2}{*}{$\vb{R}_1$} & \vb{w}(1:n-1)\\
+                & \vb{R}_2 \\
+            \end{array}
+        ]
+    \end{Equation}
+
+    很容易将后两个矩阵相乘
+    \begin{Equation}[QR分解的存在性8]
+        \vb{Q}\vb{R}=\vb{Q}_1\qty[
+            \begin{array}{c|c}
+                \multirow{2}{*}{$\vb{R}_1$} & \vb{w}(1:n-1)\\
+                & \vb{Q}_2\vb{R}_2 \\
+            \end{array}
+        ]
+    \end{Equation}
+
+    根据\cref{eq:QR分解的存在性5}，这里$\vb{Q}_2\vb{R}_2$实际上就是$\vb{w}(n:m)$
+    \begin{Equation}[QR分解的存在性9]
+        \vb{Q}\vb{R}=\vb{Q}_1
+        \qty[
+            \begin{array}{c|c}
+                \vb{R}_1 & \vb{w}
+            \end{array}
+        ]=
+        \qty[
+            \begin{array}{c|c}
+                \vb{Q}_1\vb{R}_1 & \vb{Q}_1\vb{w}
+            \end{array}
+        ]=
+        \qty[
+            \begin{array}{c|c}
+                \vb{A}_1 & \vb{v}
+            \end{array}
+        ]=
+        \vb{A}
+    \end{Equation}
+
+    这就证明了$n>1$的情形下$\vb{A}$存在QR分解！
+\end{Proof}
+
+\begin{BoxProperty}[QR分解的性质1]
+    若$\vb{A}\in\R^{m\times n}$列满秩，$\vb{A}=\vb{Q}\vb{R}$是QR分解，并记
+    \begin{Equation}[QR分解列划分]
+        \vb{A}=\qty[
+            \begin{array}{c|c|c}
+                \vb{a}_1 & \cdots & \vb{a}_n \\
+            \end{array}
+        ]\qquad
+        \vb{Q}=\qty[
+            \begin{array}{c|c|c|c|c}
+                \vb{q}_1 & \cdots & \vb{q}_n & \cdots & \vb{q}_m \\
+            \end{array}
+        ]
+    \end{Equation}
+    那么，对于$j:1:n$，有以下结论成立
+    \begin{Gather}[QR分解的性质1]
+        \vspan\qty{\vb{a}_1,\cdots,\vb{a}_j}=\vspan\qty{\vb{q}_1,\cdots,\vb{q}_j}\id{a}\\
+        r_{jj}\neq 0\id{b}
+    \end{Gather}
+\end{BoxProperty}
+
+\begin{Proof}[\cref{ppt:QR分解的性质1}]
+    不妨根据$\vb{A}=\vb{Q}\vb{R}$考虑$\vb{A}$的第$j$列
+    \begin{Equation}[QR分解的性质1-1]
+        \vb{a}_j=\Sum[i=1][j]r_{ij}\vb{q}_i\in\vspan\qty{\vb{q}_1,\cdots,\vb{q}_k}
+    \end{Equation}
+
+    这就告诉我们
+    \begin{Equation}[QR分解的性质1-2]
+        \vspan\qty{\vb{a}_1,\cdots,\vb{a}_j}\subseteq\vspan\qty{\vb{q}_1,\cdots,\vb{q}_j}
+    \end{Equation}
+
+    而$\vb{A}$作为满秩矩阵，其前$j$个列向量是线性无关的，生成空间的维度为$j$，故有
+    \begin{Equation}[QR分解的性质1-3]
+        \vspan\qty{\vb{a}_1,\cdots,\vb{a}_j}=\vspan\qty{\vb{q}_1,\cdots,\vb{q}_j}
+    \end{Equation}
+
+    同时，在\cref{eq:QR分解的性质1-1}中，若$r_{jj}=0$，则$\vb{a}_1,\cdots,\vb{a}_j$就是线性相关的，违背满秩条件。
+\end{Proof}
+
+\begin{BoxProperty}[QR分解的性质2]
+    若$\vb{A}\in\R^{m\times n}$列满秩，$\vb{A}=\vb{Q}\vb{R}$是QR分解，并记
+    \begin{Equation}[QR分解Q划分]
+        \vb{Q}_1=\vb{Q}(:,1:n)\qquad
+        \vb{Q}_2=\vb{Q}(:,n+1:m)
+    \end{Equation}
+    则有
+    \begin{Gather}[QR分解的性质2]
+        \rank(\vb{A})=\rank(\vb{Q}_1)\id{a}\\
+        \rank(\vb{A})^{\perp}=\rank(\vb{Q}_2)\id{b}
+    \end{Gather}
+\end{BoxProperty}
+
+\begin{Proof}[\cref{ppt:QR分解的性质2}]
+    根据\cref{ppt:QR分解的性质1}，有$\vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}=\vspan\qty{\vb{q}_1,\cdots,\vb{q}_n}$，因此$\rank(\vb{A})=\rank(\vb{Q}_1)$。而$\vb{A}$的正交补空间，则是由$\R^{m}$中剩下的$m-n$个正交向量$\vb{Q}_2$表征，因此$\rank(\vb{A})^{\perp}=\rank(\vb{Q}_2)$。
+\end{Proof}
+
+\cref{ppt:QR分解的性质2}也给了我们了一个启示，尽管$\vb{A}=\vb{Q}\vb{R}$中$\vb{Q}\in\R^{m\times m}$，但其实表达$\vb{A}$只需要$\vb{Q}$的前$n$列的$\vb{Q}\in\R^{m\times n}$就够了！而QR分解本身也可以仅由$\vb{Q}_1$来表示，这就是Thin QR！
+
+\begin{BoxTheorem}[Thin QR分解]
+    若$\vb{A}\in\R^{m\times n}$，则其QR分解还可以写为Thin QR的形式
+    \begin{Equation}[Thin QR分解]
+        \vb{A}=\vb{Q}\vb{R}=
+        \qty[
+            \begin{array}{c|c}
+                \vb{Q}_1 & \vb{Q}_2\\
+            \end{array}
+        ]
+        \qty[
+            \begin{array}{c}
+                \vb{R}_1 \\
+                \vb{0} \\
+            \end{array}
+        ]=
+        \vb{Q}_1\vb{R}_1
+    \end{Equation}
+    其中，$\vb{Q}_1\in\R^{m\times n}$，$\vb{Q}_2\in\R^{m\times(m-n)}$，$\vb{R}_1\in\R^{n\times n}$。
+
+    若$\vb{A}$是满秩的，则$\vb{Q}_1,\vb{R}_1$是唯一的，且$\vb{R}_1$主对角线元素为正。
+\end{BoxTheorem}
+
+\begin{Proof}[\cref{thm:Thin QR分解}]
+    Thin QR分解的形式是显然的，本质上和$\vb{Q}_2$相乘的那部分是作为高的上三角矩阵$\vb{R}$中恒定是零的下半部分，因此$\vb{A}=\vb{Q}\vb{R}=\vb{Q}_1\vb{R}_2+\vb{Q}_2\vb{0}=\vb{Q}_1\vb{R}_1$其实就是滤除了这部分无效计算。
+
+    Thin QR分解的唯一性要借助Cholesky分解来证明，注意到
+    \begin{Equation}[Thin QR分解1]
+        \vb{A}^T\vb{A}=(\vb{Q}_1\vb{R}_1)^T(\vb{Q}_1\vb{R}_1)=\vb{R}_1^T\vb{Q}_1^T\vb{Q}_1\vb{R}_1=\vb{R}_1^T\vb{R}_1
+    \end{Equation}
+
+    根据\cref{thm:Cholesky分解}，$\vb{G}=\vb{R}_1^T$是$\vb{A}^T\vb{A}$的Choleskey分解矩阵，这就论证了$\vb{R}_1$是主对角线元素为正的上三角矩阵并且$\vb{R}_1$唯一。最后，再结合$\vb{Q}_1=\vb{A}\vb{R}_1^{-1}$，这就论证了$\vb{Q}_1$也是唯一的。
+\end{Proof}
+
+Thin QR是$\R^{m\times n}=\R^{m\times n}\times\R^{n\times n}$的过程，QR是$\R^{m\times n}=\R^{m\times m}\times\R^{m\times n}$的过程。
