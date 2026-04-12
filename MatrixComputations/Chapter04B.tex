@@ -42,14 +42,14 @@
 
 \subsection{LDL分解的存在性}
 
-\begin{BoxTheorem}[LDL分解的存在性]
+\begin{BoxTheorem}[LDL分解]
     若$\vb{A}\in\R^{n\times n}$是对称矩阵，且其$k=1:n-1$的顺序主子矩阵$\vb{A}(1:k,1:k)$皆是非奇异的，则存在唯一的单位下三角矩阵$\vb{L}\in\R^{n\times n}$和对角矩阵$\vb{D}=\diag(d_1,\cdots,d_n)\in\R^{n\times n}$
     \begin{Equation}[LDL分解的存在性]
         \vb{A}=\vb{L}\vb{D}\vb{L}^T
     \end{Equation}
 \end{BoxTheorem}
 
-\begin{Proof}[\cref{thm:LDL分解的存在性}]
+\begin{Proof}[\cref{thm:LDL分解}]
     根据\cref{thm:LU分解}，我们知道$\vb{A}$存在LU分解$\vb{A}=\vb{L}\vb{U}$，由此可得
     \begin{Equation}[LDL分解的存在性1]
         \vb{L}^{-1}\vb{A}\vb{L}^{-T}=\vb{U}\vb{L}^{-T}
