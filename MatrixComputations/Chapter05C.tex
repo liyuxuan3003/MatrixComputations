@@ -132,6 +132,6 @@ Householder QR分解的原理是：在每次迭代中，用Householder变换对�
     \end{Algoplain}
 \end{BoxAlgorithm}
 
-Householder QR的复杂度是$\Obig(3n^2(m-n/3))$，计算$\vb{Q}$再增加$\Obig(4(m^2n-mn^2+n^3/3))$。
+Householder QR的复杂度是$\Obig(2n^2(m-n/3))$，计算$\vb{Q}$再增加$\Obig(4(m^2n-mn^2+n^3/3))$。
 
 算法中特别要注意的是，必须将$\vb{H}\vb{A}=(\vb{I}-\beta\vb{v}\vb{v}^T)\vb{A}$转换为$\vb{A}-\beta\vb{v}(\vb{v}^T\vb{A})$。不可以当成一般矩阵相乘，两者计算量完全不同！本质上是利用了Householder矩阵是向量外积的特性简化了计算。除此之外，在计算$\vb{Q}=\vb{H}_1\cdots\vb{H}_n$时按从后到前的顺序相乘，这使$\vb{A}(k:m)$的计算区域从右下往左上逐渐扩大，从而减小了计算量。反之从$\vb{H}_1$开始就要完整计算$\vb{A}(1:m)$了！
