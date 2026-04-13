@@ -1,1 +1,141 @@
 \section{基于Givens旋转变换的QR分解}
+
+Givens QR分解的原理是：在每次迭代中，逐次从下至上使用Givens变换（Givens变换每次操作两个元素而不是一列元素），通过旋转使下方的元素被消元，直至主对角线以下被清零。
+
+第一次迭代
+\begin{Equation}[Givens迭代1]\forcezero[0.7]{
+    \mqty[
+        \times & \times & \times \\
+        \times & \times & \times \\
+        \times & \times & \times \\
+        \times & \times & \times \\
+    ]
+    \xlongrightarrow{\vb{G}_1^{(3,4)T}}
+    \mqty[
+        \times & \times & \times \\
+        \times & \times & \times \\
+        \times & \times & \times \\
+        0      & \times & \times \\
+    ]
+    \xlongrightarrow{\vb{G}_1^{(2,3)T}}
+    \mqty[
+        \times & \times & \times \\
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & \times & \times \\
+    ]
+    \xlongrightarrow{\vb{G}_1^{(1,2)T}}
+    \mqty[
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & \times & \times \\
+        0      & \times & \times \\
+    ]
+}
+\end{Equation}
+
+第二次迭代
+\begin{Equation}[Givens迭代2]
+    \mqty[
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & \times & \times \\
+        0      & \times & \times \\
+    ]
+    \xlongrightarrow{\vb{G}_2^{(3,4)T}}
+    \mqty[
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & \times & \times \\
+        0      & 0      & \times \\
+    ]
+    \xlongrightarrow{\vb{G}_2^{(2,3)T}}
+    \mqty[
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & 0      & \times \\
+        0      & 0      & \times \\
+    ]
+\end{Equation}
+
+第三次迭代
+\begin{Equation}[Givens迭代3]
+    \mqty[
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & 0      & \times \\
+        0      & 0      & \times \\
+    ]
+    \xlongrightarrow{\vb{G}_3^{(3,4)T}}
+    \mqty[
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & 0      & \times \\
+        0      & 0      & 0      \\
+    ]
+\end{Equation}
+
+\begin{Figure}[Givens QR分解算法的空间复用]
+    \includegraphics[scale=0.8]{QRGivensResult.fig.pdf}
+\end{Figure}
+
+需要注意的是，当Givens矩阵作用时，它总是以$\vb{G}^T$而不是$\vb{G}$的形式左乘的。
+
+现在，我们可以将Givens消元的过程表示为
+\begin{Equation}[Givens迭代4]!
+    \vb{R}=(\vb{G}_{n}^{(n-1,n)T})\cdots(\vb{G}_2^{(n-1,n)T}\cdots\vb{G}_2^{(2,3)T})(\vb{G}_1^{(n-1,n)T}\cdots\vb{G}_1^{(2,3)T}\vb{G}_1^{(1,2)T})\vb{A}
+\end{Equation}
+
+将$\vb{G}$移动到另一侧
+\begin{Equation}[Givens迭代5]
+    \vb{A}=(\vb{G}_1^{(1,2)}\vb{G}_1^{(2,3)}\cdots\vb{G}_1^{(n-1,n)})(\vb{G}_2^{(2,3)}\cdots\vb{G}_2^{(n-1,n)})\cdots(\vb{G}_{n}^{(n-1,n)})\vb{R}
+\end{Equation}
+
+现在引入$\vb{Q}$
+\begin{Equation}[Givens迭代6]
+    \vb{Q}=(\vb{G}_1^{(1,2)}\vb{G}_1^{(2,3)}\cdots\vb{G}_1^{(n-1,n)})(\vb{G}_2^{(2,3)}\cdots\vb{G}_2^{(n-1,n)})\cdots(\vb{G}_{n}^{(n-1,n)})
+\end{Equation}
+
+这就得到了$\vb{A}=\vb{Q}\vb{R}$，我们将结论整理如下。
+\begin{BoxFormula}[Givens QR分解]
+    Givens QR分解是指，对于$m\geq n$的$\vb{A}\in\R^{m\times n}$
+    \begin{Equation}[Givens QR分解]
+        \vb{A}=\vb{Q}\vb{R}
+    \end{Equation}
+    $\vb{Q}\in\R^{m\times m}$是正交矩阵，$\vb{R}\in\R^{m\times n}$是上三角矩阵
+    \begin{Gather}[Givens QR分解的]
+        \vb{Q}=(\vb{G}_1^{(1,2)}\vb{G}_1^{(2,3)}\cdots\vb{G}_1^{(n-1,n)})(\vb{G}_2^{(2,3)}\cdots\vb{G}_2^{(n-1,n)})\cdots(\vb{G}_{n}^{(n-1,n)})\id{Q}\\
+        \forcezero{\vb{R}=(\vb{G}_{n}^{(n-1,n)T})\cdots(\vb{G}_2^{(n-1,n)T}\cdots\vb{G}_2^{(2,3)T})(\vb{G}_1^{(n-1,n)T}\cdots\vb{G}_1^{(2,3)T}\vb{G}_1^{(1,2)T})\vb{A}}\id{R}
+    \end{Gather}
+    $\vb{G}_{k}^{(i-1,i)}\in\R^{m\times m}$是适用于$k$列$i,i-1$行元素的Givens变换矩阵。
+\end{BoxFormula}
+
+\begin{Figure}[Givens QR分解算法的更新过程]
+    \figuresub[第一步]{\includegraphics[scale=0.8]{QRGivensStep1.fig.pdf}}
+    \figuresub[第二步]{\includegraphics[scale=0.8]{QRGivensStep2.fig.pdf}}
+
+    \figuresub[最后一步]{\includegraphics[scale=0.8]{QRGivensStep3.fig.pdf}}
+\end{Figure}
+
+在算法层面，通常Givens QR不会保留用于重建$\vb{Q}$的参数，只用于求解$\vb{R}$，因此下半部分在消元后就被废弃了。除此之外，还需要注意的是$\vb{G}_k^{(i-1,i)}$或者用以前的写法$\vb{G}(i-1,i,\theta)$是会对$\vb{A}(i-1:i,k:n)$内的每一个列向量进行旋转变换的，而不止旋转$\vb{A}(i-1:i,k)$这一个。
+
+\begin{BoxAlgorithm}[Givens QR分解]
+    设$\vb{A}\in\R^{m\times n}$，满足$m\geq n$。
+
+    该算法实现$\vb{A}=\vb{Q}\vb{R}$的分解，$\vb{Q}\in\R^{m\times m}$是正交矩阵，$\vb{R}\in\R^{m\times n}$是上三角矩阵。
+
+    $\vb{A}(1:k,k)$被$\vb{R}(1:k,k)$覆盖，对于$k=1:n$。
+    
+    \begin{Algoplain}
+        \For{$k=1:n$}{
+            \For{$i=m:-1:k+1$}{
+                $[c,s]=\mathrm{givens}(\vb{A}(i-1,k),\vb{A}(i,k))$\;
+                \tcp{Apply $\vb{G}_k^{(i,i-1)}$ to $\vb{A}(i-1:i,k:n)$.}
+                $\vb{A}(i-1:i,k:n)=\mqty[
+                    c & s \\
+                    -s & c \\
+                ]^T\vb{A}(i-1:i,k:n)$\;
+            }
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
