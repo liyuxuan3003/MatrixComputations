@@ -1,1 +1,136 @@
 \section{基于Householder反射变换的QR分解}
+
+Householder QR分解的原理是：在每次迭代中，用Householder变换对一列进行消元。
+
+第一次迭代
+\begin{Equation}[Householder迭代1]
+    \mqty[
+        \times & \times & \times \\
+        \times & \times & \times \\
+        \times & \times & \times \\
+        \times & \times & \times \\
+    ]
+    \xlongrightarrow{\vb{H}_1}
+    \mqty[
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & \times & \times \\
+        0      & \times & \times \\
+    ]
+\end{Equation}
+
+第二次迭代
+\begin{Equation}[Householder迭代2]
+    \mqty[
+        \times & \times & \times \\
+        \times & \times & \times \\
+        \times & \times & \times \\
+        \times & \times & \times \\
+    ]
+    \xlongrightarrow{\vb{H}_2}
+    \mqty[
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & 0      & \times \\
+        0      & 0      & \times \\
+    ]
+\end{Equation}
+
+第三次迭代
+\begin{Equation}[Householder迭代3]
+    \mqty[
+        \times & \times & \times \\
+        \times & \times & \times \\
+        \times & \times & \times \\
+        \times & \times & \times \\
+    ]
+    \xlongrightarrow{\vb{H}_3}
+    \mqty[
+        \times & \times & \times \\
+        0      & \times & \times \\
+        0      & 0      & \times \\
+        0      & 0      & 0      \\
+    ]
+\end{Equation}
+
+\begin{Figure}[Householder QR分解算法的空间复用]
+    \includegraphics[scale=0.8]{QRHouseholderResult.fig.pdf}
+\end{Figure}
+
+这里要补充一点，Householder矩阵有一个很好的性质，即其转置等于自身！
+\begin{BoxProperty}[Householder矩阵的性质]
+    Householder反射变换矩阵$\vb{H}\in\R^{n\times m}$的转置仍是自身
+    \begin{Equation}[Householder矩阵的性质]
+        \vb{H}=\vb{H}^T
+    \end{Equation}
+\end{BoxProperty}
+
+现在，我们可以将Householder消元的过程写为
+\begin{Equation}[Householder迭代4]
+    \vb{R}=\vb{H}_n\cdots\vb{H}_1\vb{A}
+\end{Equation}
+
+将$\vb{H}$移动到右边，并利用\cref{ppt:Householder矩阵的性质}的$\vb{H}^{T}=\vb{H}$
+\begin{Equation}[Householder迭代5]
+    \vb{A}=\vb{H}_1\cdots\vb{H}_n\vb{R}
+\end{Equation}
+
+现在引入$\vb{Q}$
+\begin{Equation}[Householder迭代6]
+    \vb{Q}=\vb{H}_1\cdots\vb{H}_n
+\end{Equation}
+
+这就得到了$\vb{A}=\vb{Q}\vb{R}$，我们将结论整理如下。
+
+\begin{BoxFormula}[Householder QR分解]
+    Householder QR分解是指，对于$m\geq n$的$\vb{A}\in\R^{m\times n}$
+    \begin{Equation}[Householder QR分解]
+        \vb{A}=\vb{Q}\vb{R}
+    \end{Equation}
+    $\vb{Q}\in\R^{m\times m}$是正交矩阵，$\vb{R}\in\R^{m\times n}$是上三角矩阵
+    \begin{Equation}[Householder QR分解的Q和R]
+        \vb{Q}=\vb{H}_1\cdots\vb{H}_n\qquad
+        \vb{R}=\vb{H}_n\cdots\vb{H}_1\vb{A}
+    \end{Equation}
+    $\vb{H}_1,\cdots,\vb{H}_n\in\R^{m\times m}$是Householder变换矩阵。
+\end{BoxFormula}
+
+\begin{Figure}[Householder QR分解算法的更新过程]
+    \figuresub[第一步]{\includegraphics[scale=0.8]{QRHouseholderStep1.fig.pdf}}
+    \figuresub[第二步]{\includegraphics[scale=0.8]{QRHouseholderStep2.fig.pdf}}
+\end{Figure}
+
+在算法层面，关于空间复用，我们可以将第$k$步的Householder向量$\vb{v}$的$\vb{v}(2:m-k+1)$存储在被其消元为$0$的$\vb{A}(k+1:m,k)$中。但QR分解和LU分解不同的是，这些$\vb{v}$存储起来后并不会天然的就是$\vb{Q}$。故在QR分解中得到$\vb{R}$后，若还要求$\vb{Q}$，是需要额外计算来恢复的！
+
+\begin{BoxAlgorithm}[Householder QR分解]
+    设$\vb{A}\in\R^{m\times n}$，满足$m\geq n$。
+
+    该算法实现$\vb{A}=\vb{Q}\vb{R}$的分解，$\vb{Q}\in\R^{m\times m}$是正交矩阵，$\vb{R}\in\R^{m\times n}$是上三角矩阵。
+
+    $\vb{A}(1:k,k)$被$\vb{R}(1:k,k)$覆盖，对于$k=1:n$。
+    
+    $\vb{A}(k+1:m,k)$被$\vb{v}(2:m-k+1)$覆盖，对于$k=1:n$。
+    
+    \begin{Algoplain}
+        \For{$k=1:n$}{
+            $[\vb{v},\beta]=\mathrm{house}(\vb{A}(k:m,k))$\qquad \tcp{$\vb{v}=\vb{v}(1:m-k+1)$}
+            \tcp{Apply $\vb{H}_k=\vb{I}-2\beta\vb{v}\vb{v}^T$ to $\vb{A}(k:m,k:n).$}
+            $\vb{A}(k:m,k:n)=\vb{A}(k:m,k:n)-(\beta\vb{v})(\vb{v}^T\vb{A}(k:m,k:n))$\;
+            $\vb{A}(k+1:m,k)=\vb{v}(2:m-k+1)$\;
+        }
+    \end{Algoplain}
+
+    若还需求出$\vb{Q}$，需要继续执行以下算法
+    
+    \begin{Algoplain}
+        $\vb{Q}=\vb{I}$\;
+        \For{$k=n-1:-1:1$}{
+            $\vb{v}=\mqty[1 & \vb{A}(k+1:m,k)]^T,\ \beta=2/\qty(1+\norm{\vb{A}(k+1:m,k,k)}_2^2)$\;
+            \tcp{Apply $\vb{H}_k=\vb{I}-2\beta\vb{v}\vb{v}^T$ to $\vb{Q}(k:m,k:m)$.}
+            \tcp{Multiply from $\vb{H}_n$ to $\vb{H}_1$ to reduce computations.}
+            $\vb{Q}(k:m,k:m)=\vb{Q}(k:m,k:m)-(\beta\vb{v})(\vb{v}^T\vb{Q}(k:m,k:m))$
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+算法中特别要注意的是，必须将$\vb{H}\vb{A}=(\vb{I}-\beta\vb{v}\vb{v}^T)\vb{A}$转换为$\vb{A}-\beta\vb{v}(\vb{v}^T\vb{A})$。不可以当成一般矩阵相乘，两者计算量完全不同！本质上是利用了Householder矩阵是向量外积的特性简化了计算。除此之外，在计算$\vb{Q}=\vb{H}_1\cdots\vb{H}_n$时按从后到前的顺序相乘，这使$\vb{A}(k:m)$的计算区域从右下往左上逐渐扩大，从而减小了计算量。反之从$\vb{H}_1$开始就要完整计算$\vb{A}(1:m)$了！

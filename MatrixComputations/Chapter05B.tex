@@ -1,6 +1,6 @@
 \section{QR分解}
 
-QR分解是适用于$m>n$的高矩阵$\vb{A}\in\R^{m\times n}$的分解$\vb{A}=\vb{Q}\vb{R}$，其中，$\vb{Q}\in\R^{m\times m}$是正交矩阵，$\vb{R}\in\R^{m\times n}$是高的上三角矩阵。本质上来说，QR分解其实也是一个将$\vb{A}$通过消元上三角化为$\vb{R}$的过程。消元依赖的就是\cref{sec:两种正交变换}介绍的Householder反射和Givens旋转，它们可以分别将一列或一个元素消为$0$，相乘就构成了$\vb{Q}$。本节先讨论QR分解的存在性和唯一性。
+QR分解是适用于$m\geq n$的高矩阵$\vb{A}\in\R^{m\times n}$的分解$\vb{A}=\vb{Q}\vb{R}$，其中，$\vb{Q}\in\R^{m\times m}$是正交矩阵，$\vb{R}\in\R^{m\times n}$是高的上三角矩阵。本质上来说，QR分解其实也是一个将$\vb{A}$通过消元上三角化为$\vb{R}$的过程。消元依赖的就是\cref{sec:两种正交变换}介绍的Householder反射和Givens旋转，它们可以分别将一列或一个元素消为$0$，相乘就构成了$\vb{Q}$。本节先讨论QR分解的存在性和唯一性。
 
 \subsection{QR分解的存在性}
 
@@ -160,6 +160,8 @@ QR分解是适用于$m>n$的高矩阵$\vb{A}\in\R^{m\times n}$的分解$\vb{A}=\
 \begin{Proof}[\cref{ppt:QR分解的性质2}]
     根据\cref{ppt:QR分解的性质1}，有$\vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}=\vspan\qty{\vb{q}_1,\cdots,\vb{q}_n}$，因此$\rank(\vb{A})=\rank(\vb{Q}_1)$。而$\vb{A}$的正交补空间，则是由$\R^{m}$中剩下的$m-n$个正交向量$\vb{Q}_2$表征，因此$\rank(\vb{A})^{\perp}=\rank(\vb{Q}_2)$。
 \end{Proof}
+
+\subsection{QR分解的唯一性}
 
 \cref{ppt:QR分解的性质2}也给了我们了一个启示，尽管$\vb{A}=\vb{Q}\vb{R}$中$\vb{Q}\in\R^{m\times m}$，但其实表达$\vb{A}$只需要$\vb{Q}$的前$n$列的$\vb{Q}\in\R^{m\times n}$就够了！而QR分解本身也可以仅由$\vb{Q}_1$来表示，这就是Thin QR！
 
