@@ -82,6 +82,8 @@ Gram-Schmidt正交化和QR分解的关系是，我们可以将$\vb{a}_1,\cdots,\
     \figuresub[第三步]{\includegraphics[scale=0.8]{QRMGSStep3.fig.pdf}}
 \end{Figure}
 
+Gram-Schmidt QR分解的时间复杂度是$\Obig(2mn^2)$。
+
 MGS和CGS最大的不同在于，MGS中每算出一个新的单位正交基$\vb{q}_k$后，就会立即在后续的$\vb{a}_{k+1},\cdots,\vb{a}_n$中减去其分量并求出对应的系数，避免了CGS一次性相减带来的精度问题。
 
 MGS得益于其数值优势，是实践中广泛采用的基于Gram-Schmidt的Thin QR分解算法。
