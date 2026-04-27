@@ -1,0 +1,82 @@
+\makeatletter\def\input@path{{minimus}{standalone-silicon}}\makeatother
+
+\documentclass{standalone-silicon}
+
+\usepackage{minimus-text}
+\usepackage{minimus-math}
+\usepackage{minimus-tikz}
+
+\begin{document}
+\begin{tikzpicture}
+
+\path (0,0) coordinate (O) ;
+
+\def\xu{1}
+\def\yu{-1}
+
+\foreach \i in {0,1,2}
+{
+    \draw[fill=blue!15!white] ($(O)+(\i*\xu,0*\yu)$) rectangle ($(O)+(\i*\xu+\xu,5*\yu+\yu)$) ;
+}
+
+\foreach \i in {0,1}
+{
+    \draw[fill=red!15!white] ($(O)+(\i*\xu+6*\xu,\i*\yu)$) rectangle ($(O)+(4*\xu+6*\xu+\xu,\i*\yu+\yu)$) ;
+}
+
+\draw[fill=red!15!white] ($(O)+(8*\xu,2*\yu)$) rectangle ($(O)+(8*\xu+\xu,2*\yu+\yu)$) ;
+\fill[red!7!white] ($(O)+(9*\xu,2*\yu)$) rectangle ($(O)+(9*\xu+\xu,2*\yu+\yu)$) ;
+
+\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(5*\xu,6*\yu)$) coordinate (P) ; 
+\draw[very thick] (O) rectangle (P) ; 
+
+\path (O-|P) ++ (1*\xu,0) coordinate (Q) ;
+\draw[very thin,dotted] (Q) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(Q)+(5*\xu,5*\yu)$) coordinate (R) ; 
+\draw[very thick] (Q) rectangle (R) ; 
+
+\foreach \i/\t in {0/1,1/\cdots,2/k,4/n}
+{
+    \path ($(O)+(\i*\xu+0.5*\xu,6*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t\vphantom{k}$}} ;
+    \path ($(O)+(\i*\xu+6.5*\xu,5*\yu)$) node[below] (R\i) {\scalebox{0.7}{$\t\vphantom{k}$}} ;
+}
+
+\foreach \i/\t in {3/k}
+{
+    \path ($(O)+(\i*\xu+0.5*\xu,0*\yu)$) node[above] (X\i) {\scalebox{0.7}{$\t\vphantom{k}$}} ;
+    \path ($(O)+(\i*\xu+6.5*\xu,0*\yu)$) node[above] (R\i) {\scalebox{0.7}{$\t\vphantom{k}$}} ;
+}
+
+\foreach \i/\t in {0/1,1/\vdots,2/k,5/m}
+{
+    \path ($(O)+(5*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {0/1,1/\vdots,2/k,4/n}
+{
+    \path ($(O)+(11*\xu,\i*\yu+0.5*\yu)$) node[right] (Q\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\draw[ultra thick,white] ($(O)+(2*\xu,0*\yu)$) rectangle ($(O)+(2*\xu+\xu,5*\yu+\yu)$) ;
+\draw[ultra thick,gray,dashed] ($(O)+(2*\xu,0*\yu)$) rectangle ($(O)+(2*\xu+\xu,5*\yu+\yu)$) ;
+
+\draw[ultra thick,white] ($(O)+(3*\xu,0*\yu)$) rectangle ($(O)+(3*\xu+\xu,5*\yu+\yu)$) ;
+\draw[ultra thick,blue,dashed] ($(O)+(3*\xu,0*\yu)$) rectangle ($(O)+(3*\xu+\xu,5*\yu+\yu)$) ;
+
+\draw[ultra thick,white] ($(O)+(9*\xu,2*\yu)$) rectangle ($(O)+(9*\xu+\xu,2*\yu+\yu)$) ;
+\draw[ultra thick,red,dashed] ($(O)+(9*\xu,2*\yu)$) rectangle ($(O)+(9*\xu+\xu,2*\yu+\yu)$) ;
+
+\path ($(O)+(3.0*\xu+0.5\xu,2.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90,fill=blue!7!white] (A1) {\scalebox{0.8}{$\vb{A}(:,j)$}} ;  
+\path ($(O)+(2.0*\xu+0.5\xu,2.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90,fill=blue!15!white] (A2) {\scalebox{0.8}{$\vb{Q}(:,k)$}} ;  
+\path ($(O)+(9.0*\xu+0.5\xu,2*\yu+0.5*\yu)$) node[inner sep=0.06cm] (A3) {\scalebox{0.8}{$\vb{R}(j,k)$}} ;  
+
+\draw[thick,-latex] (A2.west) to[out=45,in=135] (A3.north) ; 
+\draw[thick,-latex] (A2.east) to[out=280,in=220] (A1.south east) ; 
+\draw[thick,-latex] (A1.north) to[out=-15,in=180] node[draw,fill=white,fill opacity=0.9,pos=0.5,align=center,yshift=-0.2cm] (TXT1) {$\vb{R}(k,j)=\vb{Q}(:,k)^T\vb{A}(:,j)$} (A3.west) ; 
+\draw[thick,-latex] (A3.south) to[out=240,in=270] node[draw,fill=white,fill opacity=0.9,pos=0.5,align=center,yshift=0.4cm] (TXT2) {$\vb{A}(:,j)=\vb{A}(:,j)-\vb{Q}(:,k)\vb{R}(k,j)$} (A1.east) ; 
+
+% \draw[thick,latex-] (A2.north) to[out=330,in=270] node[draw,fill=white,fill opacity=0.9,pos=0.5,align=center] (TXT) {$\vb{Q}(:,k)=\vb{A}(:,k)/\vb{R}(k,k)$} (A3.east) ;
+
+\draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|R)+(0.5,0.5)$) ;
+
+\end{tikzpicture}
+\end{document}
