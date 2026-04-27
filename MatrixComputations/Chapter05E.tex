@@ -1,0 +1,89 @@
+\section{基于Gram-Schmidt正交化的QR分解}
+
+Gram-Schmidt正交化解决这样一个问题：对于$n$个线性无关的向量$\vb{a}_1,\cdots,\vb{a}_n\in\R^{m}$，如何找到一组单位正交基$\vb{q}_1,\cdots,\vb{q}_n\in\R^{m}$，使其生成空间$\vspan\qty{\vb{q}_1,\cdots,\vb{q}_n}=\vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}$。
+
+Gram-Schmidt正交化的思路很朴素。第一个基$\vb{q}_1$直接选择归一化的$\vb{a}_1$，第二个基$\vb{q}_2$则来自在$\vb{a}_2$上减去其与$\vb{q}_1$有关分量（即$\vb{a}_2$在$\vb{q}_1$上的投影向量）的归一化。更一般的说，每个新的单位正交基$\vb{q}_k$都是在$\vb{a}_k$的基础上移除$\vb{a}_k$在$\vb{q}_1,\cdots,\vb{q}_{k-1}$上的投影向量后归一化得到的。
+
+\begin{BoxAlgorithm}[Gram-Schmidt正交化]
+    设$\vb{a}_1,\cdots,\vb{a}_n\in\R^{m}$是$n$个线性无关的向量。
+
+    该算法将找到一组单位正交基$\vb{q}_1,\cdots,\vb{q}_n\in\R^{m}$，使$\vspan\qty{\vb{q}_1,\cdots,\vb{q}_n}=\vspan\qty{\vb{a}_1,\cdots,\vb{a}_n}$
+
+    \begin{Algoplain}
+        $\xwav{\vb{q}}_1=\vb{a}_1$\;
+        $\vb{q}_1=\xwav{\vb{q}}_1/\norm{\xwav{\vb{q}}_1}_2$\;
+        \For{$k=2:n$}{
+            $\xwav{\vb{q}}_k=\vb{a}_k-\Sum[i=1][k-1](\vb{q}_i^T\vb{a}_k)\vb{q}_i$\;
+            $\vb{q}_k=\xwav{\vb{q}}_k/\norm{\xwav{\vb{q}}_k}_2$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+其中$(\vb{q}_i^T\vb{a}_k)$就是$\vb{a}_k$在$\vb{q}_i$上的投影长度，而$(\vb{q}_i^T\vb{a}_k)\vb{q}_i$就是$\vb{a}_k$在$\vb{q}_i$上的投影向量了。
+
+\begin{Figure}[经典Gram-Schmidt QR的迭代过程]
+    \figuresub[第一步]{\includegraphics[scale=0.8]{QRCGSStep1.fig.pdf}}
+
+    \figuresub[第二步]{\includegraphics[scale=0.8]{QRCGSStep2.fig.pdf}}
+
+    \figuresub[第三步]{\includegraphics[scale=0.8]{QRCGSStep3.fig.pdf}}
+\end{Figure}
+
+Gram-Schmidt正交化和QR分解的关系是，我们可以将$\vb{a}_1,\cdots,\vb{a}_n\in\R^m$视为$\vb{A}\in\R^{m\times n}$的矩阵，而正交化的过程本质就是找到了$\vb{A}=\vb{Q}\vb{R}$中$\vb{Q}$的前$n$个分量，即Thin QR的$\vb{Q}_1$。很明显，Gram-Schmidt正交化对于$n$个向量只能找到$n$个单位正交基，它不能无中生有的找到剩下的$m-n$个基凑出完整的$\vb{Q}$，因此，Gram-Schmidt只适用于Thin QR问题！而上三角矩阵$\vb{R}_1$其实就来自每个$\vb{a}_k$表示为$\vb{q}_1,\cdots,\vb{q}_{k-1},\vb{q}_k$的线性组合的系数（$\vb{q}_i^T\vb{a}_k$和$\norm{\xwav{\vb{q}}_k}_2$）。
+
+\subsection{经典Gram-Schmidt QR}
+
+经典Gram-Schmidt（Classic Gram-Schmidt, CGS）算法和先前介绍的Gram-Schmidt正交化没有什么本质区别。\cref{alg:经典Gram-Schmidt QR分解}为了清晰没有进行空间复用，但实际上，这里$\vb{Q}_1\in\R^{m\times n}$可以随着迭代$k=1:n$逐列复用$\vb{A}\in\R^{m\times n}$的空间，而$\vb{R}_1\in\R^{n\times n}$则需要另外开辟一块空间。
+
+\begin{BoxAlgorithm}[经典Gram-Schmidt QR分解]
+    设$\vb{A}\in\R^{m\times n}$是列满秩矩阵，满足$m\geq n$。
+
+    该算法实现$\vb{A}=\vb{Q}_1\vb{R}_1$的分解，$\vb{Q}_1\in\R^{m\times n}$是正交矩阵，$\vb{R}_1\in\R^{n\times n}$是上三角矩阵。
+    
+    \begin{Algoplain}
+        $\vb{R}(1,1)=\norm{\vb{A}(:,1)}_2$\;
+        $\vb{Q}(:,1)=\vb{A}(:,1)/\vb{R}(1,1)$\;
+        \For{$k=1:n$}{
+            $\vb{R}(1:k-1,k)=\vb{Q}(:,1:k-1)^T\vb{A}(:,k)$\;
+            $\vb{z}=\vb{A}(:,k)-\vb{Q}(:,1:k-1)\vb{R}(1:k-1,k)$\qquad\tcp{$(\vb{z} \to \xwav{\vb{q}}_k)$}
+            $\vb{R}(k,k)=\norm{\vb{z}}_2$\;
+            $\vb{Q}(:,k)=\vb{z}/\vb{R}(k,k)$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+
+\subsection{修改Gram-Schmidt QR}
+
+修改Gram-Schmidt（Modified Gram-Schmidt, MGS）是对于CGS的一个数值上的优化。
+
+\begin{BoxAlgorithm}[修改Gram-Schmidt QR分解]
+    设$\vb{A}\in\R^{m\times n}$是列满秩矩阵，满足$m\geq n$。
+
+    该算法实现$\vb{A}=\vb{Q}_1\vb{R}_1$的分解，$\vb{Q}_1\in\R^{m\times n}$是正交矩阵，$\vb{R}\in\R^{n\times n}$是上三角矩阵。
+    
+    \begin{Algoplain}
+        \For{$k=1:n$}{
+            $\vb{R}(k,k)=\norm{\vb{A}(:,k)}_2$\;
+            $\vb{Q}(:,k)=\vb{A}(:,k)/\vb{R}(k,k)$\;
+            \For{$j=k+1:n$}{
+                $\vb{R}(k,j)=\vb{Q}(:,k)^T\vb{A}(:,j)$\;
+                $\vb{A}(:,j)=\vb{A}(:,j)-\vb{Q}(:,k)\vb{R}(k,j)$
+            }
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+\begin{Figure}[修改Gram-Schmidt QR的迭代过程]
+    \figuresub[第一步]{\includegraphics[scale=0.8]{QRMGSStep1.fig.pdf}}
+
+    \figuresub[第二步]{\includegraphics[scale=0.8]{QRMGSStep2.fig.pdf}}
+
+    \figuresub[第三步]{\includegraphics[scale=0.8]{QRMGSStep3.fig.pdf}}
+\end{Figure}
+
+Gram-Schmidt QR分解的时间复杂度是$\Obig(2mn^2)$。
+
+MGS和CGS最大的不同在于，MGS中每算出一个新的单位正交基$\vb{q}_k$后，就会立即在后续的$\vb{a}_{k+1},\cdots,\vb{a}_n$中减去其分量并求出对应的系数，避免了CGS一次性相减带来的精度问题。
+
+MGS得益于其数值优势，是实践中广泛采用的基于Gram-Schmidt的Thin QR分解算法。

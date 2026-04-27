@@ -1,0 +1,58 @@
+\makeatletter\def\input@path{{minimus}{standalone-silicon}}\makeatother
+
+\documentclass{standalone-silicon}
+
+\usepackage{minimus-text}
+\usepackage{minimus-math}
+\usepackage{minimus-tikz}
+
+\begin{document}
+\begin{tikzpicture}
+
+\path (0,0) coordinate (O) ;
+
+\def\xu{1}
+\def\yu{-1}
+
+\foreach \i in {0,1,2}
+{
+    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle ($(O)+(\i*\xu+\xu,8*\yu+\yu)$) ;
+}
+
+\foreach \i in {0,1,2}
+{
+    \draw[fill=red!15!white] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(7*\xu+\xu,\i*\yu+\yu)$) ;
+}
+
+\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,9*\yu)$) coordinate (P) ; 
+\draw[very thick] (O) rectangle (P) ; 
+
+\foreach \i/\t in {0/1,1/\cdots,2/\cdots,3/k,7/n}
+{
+    \path ($(O)+(\i*\xu+0.5*\xu,9*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\foreach \i/\t in {0/1,1/\vdots,2/\vdots,3/k,8/m}
+{
+    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
+}
+
+\fill[red!7!white] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(7*\xu+\xu,3*\yu+\yu)$) ;
+
+\draw[ultra thick,white] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,8*\yu+\yu)$) ;
+\draw[ultra thick,gray,dashed] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,8*\yu+\yu)$) ;
+
+\draw[ultra thick,white] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(7*\xu+\xu,8*\yu+\yu)$) ;
+\draw[ultra thick,red,dashed] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(7*\xu+\xu,8*\yu+\yu)$) ;
+
+\path ($(O)+(3*\xu+0.5\xu,5.5*\yu+0.5*\yu)$) node[fill=white,inner sep=0.06cm,rotate=-90] (A1) {\scalebox{0.8}{$\vb{A}(k:m,k)$}} ;  
+\path ($(O)+(5*\xu+0.5\xu,5.5*\yu+0.5*\yu)$) node[fill=white,inner sep=0.06cm] (A2) {\scalebox{0.8}{$\vb{A}(k:m,k:n)$}} ;  
+\path ($(O)+(4*\xu+0.5\xu,1.5*\yu+0.5*\yu)$) node[fill=red!15!white,inner sep=0.04cm] (A3) {\scalebox{0.8}{$[\vb{v},\beta]=\mathrm{house}(\vb{\vb{A}}(k:m,k))$}} ;  
+
+\draw[thick,-latex] (A1) to[out=100,in=225] node[draw,fill=white,fill opacity=0.9,pos=0.4,align=center] (TXT) {$\vb{A}(k:m,k:n)=\vb{A}(k:m,k:n)$\\$-(\beta\vb{v})(\vb{v}^T\vb{A}(k:m,k:n))$} (A3) ;
+\draw[thick,-latex] (A3.east) to[out=0,in=60] (A2) ;
+
+\draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
+
+\end{tikzpicture}
+\end{document}

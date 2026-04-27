@@ -16,15 +16,15 @@
 
 \subsection{Cholesky分解的存在性}
 
-\begin{BoxTheorem}[Cholesky分解的存在性]
+\begin{BoxTheorem}[Cholesky分解]
     若$\vb{A}\in\R^{n\times n}$是正定矩阵，则存在唯一的对角元素均为正的下三角矩阵$\vb{G}\in\R^{n\times n}$，使得
     \begin{Equation}[Cholesky分解的存在性]
         \vb{A}=\vb{G}\vb{G}^T
     \end{Equation}
 \end{BoxTheorem}
 
-\begin{Proof}[\cref{thm:Cholesky分解的存在性}]
-    根据\cref{thm:LDL分解的存在性}和\cref{ppt:正定矩阵的主子矩阵}，我们知道$\vb{A}$存在LDL分解$\vb{A}=\vb{L}\vb{D}\vb{L}^T$，由此可得
+\begin{Proof}[\cref{thm:Cholesky分解}]
+    根据\cref{thm:LDL分解}和\cref{ppt:正定矩阵的主子矩阵}，我们知道$\vb{A}$存在LDL分解$\vb{A}=\vb{L}\vb{D}\vb{L}^T$，由此可得
     \begin{Equation}[Cholesky分解的存在性1]
         \vb{L}^{-1}\vb{A}\vb{L}^{-T}=\vb{D}
     \end{Equation}
@@ -166,5 +166,5 @@
     \end{Algoplain}
 \end{BoxAlgorithm}
 
-Cholesky分解的复杂度是$\Obig(n^2/3)$，计算量和LDL分解其实是一致的！
+Cholesky分解的复杂度是$\Obig(n^3/3)$，计算量和LDL分解其实是一致的！
 

@@ -1,0 +1,28 @@
+\makeatletter\def\input@path{{minimus}{standalone-silicon}}\makeatother
+
+\documentclass{standalone-silicon}
+
+\usepackage{minimus-text}
+\usepackage{minimus-math}
+\usepackage{minimus-tikz}
+
+\begin{document}
+\begin{tikzpicture}
+
+\draw[-latex,very thin,gray] (-5,0) coordinate (X1) -- (5,0) coordinate (X2) node[above] (E1) {$\vb{e}_1$} ;
+\draw[-latex,very thin,gray] (0,-3) coordinate (Y1) -- (0,3) coordinate (Y2) node[right] (E2) {$\vb{e}_2$} ; 
+
+\path (0,0) coordinate (O) ;  
+
+\draw[very thick,-latex] (O) -- (60:2) node[above right] (VX) {$\vb{x}$} ;  
+
+\draw[dashed,red] (120:-2) -- node[above,pos=1.0] (VV1) {$\vb{v}=\vb{x}-\norm{x}_2\vb{e}_1$} (120:4) ;  
+\draw[very thick,-latex,red] (O) -- (0:2) node[below] (VE1) {$+\norm{\vb{x}}_2\vb{e}_1$} ;  
+
+\draw[dashed,blue] (30:-2) -- node[above,pos=1.0] (VV2) {$\vb{v}=\vb{x}+\norm{x}_2\vb{e}_1$} (30:4) ;  
+\draw[very thick,-latex,blue] (O) -- (180:2) node[below] (VE2) {$-\norm{\vb{x}}_2\vb{e}_1$} ;  
+
+\draw[ultra thin] ($(X1|-Y1)+(-0.3,-0.3)$) rectangle ($(X2|-VV1.north)+(0.3,0.3)$) ;  
+
+\end{tikzpicture}
+\end{document}

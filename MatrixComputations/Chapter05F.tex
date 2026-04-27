@@ -1,0 +1,159 @@
+\section{最小二乘问题}
+
+\subsection{最小二乘问题}
+
+不妨考虑这样的一个场景
+\begin{Equation}[最小二乘1]
+    \vb{y}=\vb{A}\vb{x}+\vb{v}
+\end{Equation}
+
+设$\vb{A}\in\R^{m\times n}$，当$m>n$即方程数多于未知数时，系统是被过约束的。由于这类情况往往出现在观测数据中，常会伴有噪声$\vb{v}$，作为线性方程组通常是无解的。此时，问题就从精确求解出$\vb{x}$演变了成找到这样一个$\vb{x}$使得$\vb{y}-\vb{A}\vb{x}$最小，这就是最小二乘（Least Square）问题。
+\begin{Equation}[最小二乘2]
+    \min_{\vb{x}\in\R^n}\norm{\vb{y}-\vb{A}\vb{x}}_2^2
+\end{Equation}
+
+\subsection{最小二乘定理}
+
+最小二乘问题虽然表面上是一个优化问题，但可以将其求解转化为精确的线性方程组！
+
+\begin{BoxTheorem}[最小二乘定理]
+    若$\vb{x}_{LS}$是最小二乘问题的解
+    \begin{Equation}[最小二乘定理A]
+        \min_{\vb{x}\in\R^n}\norm{\vb{y}-\vb{A}\vb{x}}_2^2
+    \end{Equation}
+    当且仅当
+    \begin{Equation}[最小二乘定理B]
+        \vb{A}^T\vb{A}\vb{x}_{LS}=\vb{A}^T\vb{y}
+    \end{Equation}
+    特别的，若$\vb{A}$是列满秩的
+    \begin{Equation}[最小二乘定理C]
+        \vb{x}_{LS}=(\vb{A}^T\vb{A})^{-1}\vb{A}^T\vb{y}
+    \end{Equation}
+\end{BoxTheorem}
+
+\begin{Proof}[\cref{thm:最小二乘定理}]
+    最小二乘问题是指，我们要找这样一个$\vb{x}_{LS}$使$\vb{A}\vb{x}_{LS}$尽可能接近$\vb{y}$。这相当于令$\vb{z}=\vb{A}\vb{x}$，即使$\vb{z}\in\rangespace(\vb{A})$，随后最小化$\vb{z}-\vb{y}$，而这其实就是在寻找$\vb{y}$在$\rangespace(\vb{A})$上的投影！因此有以下关系
+    \begin{Equation}[最小二乘定理1]
+        \Pi_{\rangespace(\vb{A})}(\vb{y})=\arg\min_{\vb{z}\in\rangespace(\vb{A})}\norm{\vb{z}-\vb{y}}_2^2=\vb{A}\vb{x}_{LS}
+    \end{Equation}
+    根据\cref{thm:投影定理}的投影定理，对于任意的$\vb{z}\in\rangespace(\vb{A})$
+    \begin{Equation}[最小二乘定理2]
+        \vb{z}^T(\vb{A}\vb{x}_{LS}-\vb{y})=0
+    \end{Equation}
+    由于$\vb{z}=\vb{A}\vb{x}$，这等价于对于任意的$\vb{x}\in\R^n$
+    \begin{Equation}[最小二乘定理3]
+        \vb{x}^T\vb{A}^T(\vb{A}\vb{x}_{LS}-\vb{y})=0
+    \end{Equation}
+    既然$\vb{x}\in\R^n$，这就说明剩下的部分恒等于$\vb{0}$
+    \begin{Equation}[最小二乘定理4]
+        \vb{A}^T(\vb{A}\vb{x}_{LS}-\vb{y})=\vb{0}
+    \end{Equation}
+    移项即得$\vb{A}^T\vb{A}\vb{x}_{LS}=\vb{A}^T\vb{y}$，这就证明了其是$\vb{x}_{LS}$为最小二乘的解的充要条件。
+\end{Proof}
+
+\subsection{正交投影算子}
+
+现在回看证明\cref{thm:最小二乘定理}中的过程，注意到$\vb{y}$在$\rangespace(\vb{A})$和$\rangespace(\vb{A})^{\perp}$上的投影可以表示为
+\begin{Gather}[正交投影算子的引入]
+    \Pi_{\rangespace(\vb{A})}(\vb{y})=\vb{A}\vb{x}_{LS}=(\vb{A}(\vb{A}^T\vb{A})^{-1}\vb{A}^T)\vb{y}\id{1}\\
+    \Pi_{\rangespace(\vb{A})^{\perp}}=\vb{y}-\vb{A}\vb{x}_{LS}=(\vb{I}-\vb{A}(\vb{A}^T\vb{A})^{-1}\vb{A}^T)\vb{y}\id{2}
+\end{Gather}
+
+换言之，我们找到了将任何向量投影到$\rangespace(\vb{A})$和$\rangespace(\vb{A})^{\perp}$的矩阵！
+\begin{BoxDefinition}[正交投影算子]
+    矩阵$\vb{A}$的正交投影算子（Orthogonal Projector）定义为
+    \begin{Equation}[正交投影算子]
+        \vb{P}_{\vb{A}}=\vb{A}(\vb{A}^T\vb{A})^{-1}\vb{A}^{T}\\
+    \end{Equation}
+    矩阵$\vb{A}$的正交补投影算子（Orthogonal Complement Projector）定义为
+    \begin{Equation}[正交补投影算子]
+        \vb{P}_{\vb{A}}^{\perp}=\vb{I}-\vb{A}(\vb{A}^T\vb{A})^{-1}\vb{A}^T
+    \end{Equation}
+\end{BoxDefinition}
+
+投影算子具有幂等性！因为一个向量投影显然等于向量投影的投影。
+
+\begin{BoxProperty}[正交投影算子的幂等性]
+    若$\vb{P}_{\vb{A}}$是一个正交投影算子，则其具有幂等性
+    \begin{Equation}[正交投影算子的幂等性]
+        \vb{P}_{\vb{A}}\vb{P}_{\vb{A}}=\vb{P}_{\vb{A}}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[正交投影算子的对称性]
+    若$\vb{P}_{\vb{A}}$是一个正交投影算子，则其具有对称性
+    \begin{Equation}[正交投影算子的对称性]
+        \vb{P}_{\vb{A}}^T=\vb{P}_{\vb{A}}
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{伪逆}
+
+通常来说，逆矩阵是对于方阵定义的，而对于非方阵，可以引入伪逆的概念。
+
+\begin{BoxDefinition}[伪逆]
+    若矩阵$\vb{A}\in\R^{m\times n}$是列满秩的，定义其伪逆（Pseudo Inverse）
+    \begin{Equation}[伪逆]
+        \vb{A}^{\dagger}=(\vb{A}^T\vb{A})^{-1}\vb{A}^T
+    \end{Equation}
+\end{BoxDefinition}
+
+伪逆满足部分的逆性，有$\vb{A}^{\dagger}\vb{A}=\vb{I}$但未必有$\vb{A}\vb{A}^{\dagger}=\vb{I}$成立。
+
+\begin{BoxProperty}[伪逆的逆性]
+    伪逆满足部分的逆性
+    \begin{Equation}[伪逆的逆性]
+        \vb{A}^{\dagger}\vb{A}=\vb{I}
+    \end{Equation}
+\end{BoxProperty}
+
+伪逆可以简化许多结论的表达：最小二乘的解$\vb{x}_{LS}=\vb{A}^{\dagger}\vb{y}$，正交投影算子$\vb{P}_{\vb{A}}=\vb{A}\vb{A}^{\dagger}$。
+
+\subsection{应用LU分解计算最小二乘法}
+
+关于最小二乘法的求解，最直接的方式是对\cref{thm:最小二乘定理}用Cholesky分解
+\begin{Equation}[应用LU分解计算最小二乘法]
+    \vb{A}^T\vb{A}\vb{x}_{LS}=\vb{A}^T\vb{y}
+\end{Equation}
+
+该方法的时间复杂度是$\Obig(mn^2+n^3/3)$，其中，$\mathcal{O}(mn^2)$消耗在计算$\vb{C}=\vb{A}^T\vb{A}$，$\mathcal{O}(n^3/3)$消耗在计算$\vb{C}=\vb{G}\vb{G}^T$的Cholesky分解。没错！计算$\vb{A}^T\vb{A}$和完成Cholesky分解同样耗时！
+
+\subsection{应用QR分解计算最小二乘法}
+
+使用QR分解，从最小二乘法的定义出发，可以更快的计算出结果
+\begin{Equation}[应用QR分解计算最小二乘法1]
+    \min_{\vb{x}\in\R^n}\norm{\vb{y}-\vb{A}\vb{x}}_2^2
+\end{Equation}
+
+若已知$\vb{A}=\vb{Q}\vb{R}$，由于$\vb{Q}$是正交矩阵，不改变范数
+\begin{Equation}[应用QR分解计算最小二乘法2]
+    \norm{\vb{y}-\vb{A}\vb{x}}_2^2=\norm{\vb{Q}^T\vb{y}-\vb{Q}^T\vb{A}\vb{x}}_2^2
+\end{Equation}
+
+现在代入$\vb{A}=\vb{Q}\vb{R}$
+\begin{Equation}[应用QR分解计算最小二乘法3]
+    \norm{\vb{y}-\vb{A}\vb{x}}_2^2=\norm{\vb{Q}^T\vb{y}-\vb{R}\vb{x}}_2^2
+\end{Equation}
+
+根据QR分解和Thin QR分解的关系
+\begin{Equation}[应用QR分解计算最小二乘法4]
+    \norm{\vb{y}-\vb{A}\vb{x}}_2^2=\norm{
+        \mqty[
+            \vb{Q}_1^T\vb{y}\\
+            \vb{Q}_2^T\vb{y}\\
+        ]-
+        \mqty[
+            \vb{R}_1\vb{x}\\
+            \vb{0}
+        ]
+    }
+\end{Equation}
+
+即
+\begin{Equation}[应用QR分解计算最小二乘法5]
+    \norm{\vb{y}-\vb{A}\vb{x}}_2^2=\norm{\vb{Q}_1^T\vb{y}-\vb{R}_1\vb{x}}+\norm{\vb{Q}_2^T\vb{y}}_2^2
+\end{Equation}
+
+因此，最小化$\vb{y}-\vb{A}\vb{x}$的任务就变成了求解$\vb{R}_1\vb{x}=\vb{Q}_1^T\vb{y}$！
+
+该方法的时间复杂度是$\mathcal{O}(2mn^2-2n^2/3)$，这完全来自仅计算$\vb{R}$的Householder QR的复杂度。请注意，计算$\vb{Q}_1^T\vb{y}$不需要显式构造$\vb{Q}$，因为Householder向量已经被存储，利用这些向量计算$\vb{Q}_1^T\vb{y}$的复杂度远低于构造出$\vb{Q}$的复杂度。需要指出的是，QR分解比Cholesky分解在求解最小二乘问题上更慢！对于$m\gg n$的情况，QR分解需要$\mathcal{O}(2mn^2)$，Cholesky分解只需要$\mathcal{O}(mn^2)$。不过，QR分解的优势在于不需要计算$\vb{A}^T\vb{A}$，在数值稳定性上更有优势。
