@@ -1,0 +1,290 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{matrix-fig}[2026/01/28 Matrix computation figure macros]
+
+% =============================================================================
+% Internal state
+% =============================================================================
+\def\MF@XU{1}
+\def\MF@YU{-1}
+
+% =============================================================================
+% Coordinate System
+% =============================================================================
+
+% Set the origin at absolute coordinates, storing it as (O).
+% #1: x coordinate (default 0)
+% #2: y coordinate (default 0)
+\NewDocumentCommand{\SetOrigin}{O{0} O{0}}{
+  \path (#1,#2) coordinate (O) ;
+}
+
+% Define unit vectors and optionally set the origin.
+% #1: x unit (default 1)
+% #2: y unit (default -1)
+\NewDocumentCommand{\SetupMatrix}{O{1} O{-1}}{
+  \SetOrigin
+  \edef\MF@XU{#1}
+  \edef\MF@YU{#2}
+}
+
+% Shift the origin to the right of the last grid, creating a new panel.
+% Stores new origin in (Q) for single shift, or numbered Q#1 for named.
+% #1 (optional): panel name suffix, e.g. "R" stores (QR)
+\NewDocumentCommand{\ShiftOriginRight}{O{Q}}{
+  \path (O-|P) ++ (\MF@XU,0) coordinate (#1) ;
+  \path (#1) coordinate (O) ;
+}
+
+% =============================================================================
+% Grid
+% =============================================================================
+
+% Draw the dotted grid and thick frame from (O), storing the far corner as (P).
+% #1: number of columns
+% #2: number of rows (non-negative; use \fpeval if negative yu)
+\NewDocumentCommand{\DrawGrid}{m m}{
+  \draw[very thin,dotted]
+    (O)
+    grid[xstep=\fpeval{abs(\MF@XU)} cm, ystep=\fpeval{abs(\MF@YU)} cm]
+    ($(O)+(#1*\MF@XU,#2*\MF@YU)$)
+    coordinate (P) ;
+  \draw[very thick] (O) rectangle (P) ;
+}
+
+% Draw the ultra-thin outer bounding box around the grid.
+\NewDocumentCommand{\DrawBounds}{}{
+  \draw[ultra thin]
+    ($(O|-P)+(-0.5,-0.5)$)
+    rectangle
+    ($(O-|P)+(0.5,0.5)$) ;
+}
+
+% =============================================================================
+% Fills (single cell / column / row / block)
+% =============================================================================
+
+% Fill a single cell: (col, row)
+% #1: column index (0-based)
+% #2: row index (0-based)
+% #3: tint name (e.g. red, blue, green)
+% #4: tint percent (0..100)
+\NewDocumentCommand{\FillCell}{m m m m}{
+  \draw[fill=#3!#4!white]
+    ($(O)+(#1*\MF@XU,#2*\MF@YU)$)
+    rectangle
+    ($(O)+(#1*\MF@XU+\MF@XU,#2*\MF@YU+\MF@YU)$) ;
+}
+
+% Fill a column from rowFrom to rowEnd (exclusive top).
+% #1: column index (0-based)
+% #2: start row index (0-based)
+% #3: end row index (exclusive, meaning the last filled row is #3-1)
+% #4: tint name
+% #5: tint percent
+\NewDocumentCommand{\FillColumn}{m m m m m}{
+  \draw[fill=#4!#5!white]
+    ($(O)+(#1*\MF@XU,#2*\MF@YU)$)
+    rectangle
+    ($(O)+(#1*\MF@XU+\MF@XU,#3*\MF@YU)$) ;
+}
+
+% Fill a row from colFrom to colEnd (exclusive right).
+% #1: row index (0-based)
+% #2: start column index (0-based)
+% #3: end column index (exclusive)
+% #4: tint name
+% #5: tint percent
+\NewDocumentCommand{\FillRow}{m m m m m}{
+  \draw[fill=#4!#5!white]
+    ($(O)+(#2*\MF@XU,#1*\MF@YU)$)
+    rectangle
+    ($(O)+(#3*\MF@XU,#1*\MF@YU+\MF@YU)$) ;
+}
+
+% Fill a rectangular block.
+% #1: left column index (0-based)
+% #2: top row index (0-based)
+% #3: right column index (exclusive)
+% #4: bottom row index (exclusive)
+% #5: tint name
+% #6: tint percent
+\NewDocumentCommand{\FillBlock}{m m m m m m}{
+  \draw[fill=#5!#6!white]
+    ($(O)+(#1*\MF@XU,#2*\MF@YU)$)
+    rectangle
+    ($(O)+(#3*\MF@XU,#4*\MF@YU)$) ;
+}
+
+% Fill a column strip from col=row (diagonal entry) down to rowEnd.
+% #1: diagonal index
+% #2: tint name
+% #3: tint percent
+\NewDocumentCommand{\FillLowerColumn}{m m m}{
+  \draw[fill=#2!#3!white]
+    ($(O)+(#1*\MF@XU,#1*\MF@YU)$)
+    rectangle
+    ($(O)+(#1*\MF@XU+\MF@XU,0*\MF@YU)$) ;
+}
+
+% Fill the lower-triangular portion of a column (from diag+1 down).
+% #1: diagonal index
+% #2: tint name
+% #3: tint percent
+\NewDocumentCommand{\FillSubDiagColumn}{m m m}{
+  \draw[fill=#2!#3!white]
+    ($(O)+(#1*\MF@XU,#1*\MF@YU+\MF@YU)$)
+    rectangle
+    ($(O)+(#1*\MF@XU+\MF@XU,0*\MF@YU)$) ;
+}
+
+% =============================================================================
+% Highlight regions (dashed border with optional white erase)
+% =============================================================================
+
+% Highlight a rectangular region with a dashed border.
+% Draws white over the region first to erase grid lines, then a dashed border.
+% #1: left column
+% #2: top row
+% #3: right column (exclusive)
+% #4: bottom row (exclusive)
+% #5: tint name for border
+\NewDocumentCommand{\HighlightRegion}{m m m m m}{
+  \draw[ultra thick,white]
+    ($(O)+(#1*\MF@XU,#2*\MF@YU)$)
+    rectangle
+    ($(O)+(#3*\MF@XU,#4*\MF@YU)$) ;
+  \draw[ultra thick,#5,dashed]
+    ($(O)+(#1*\MF@XU,#2*\MF@YU)$)
+    rectangle
+    ($(O)+(#3*\MF@XU,#4*\MF@YU)$) ;
+}
+
+% Same as HighlightRegion but also fills the background.
+% #1-#5: same as HighlightRegion
+% #6: fill tint percent (0..100)
+\NewDocumentCommand{\HighlightRegionFill}{m m m m m m}{
+  \draw[ultra thick,white]
+    ($(O)+(#1*\MF@XU,#2*\MF@YU)$)
+    rectangle
+    ($(O)+(#3*\MF@XU,#4*\MF@YU)$) ;
+  \draw[ultra thick,#5,dashed,fill=#5!#6!white]
+    ($(O)+(#1*\MF@XU,#2*\MF@YU)$)
+    rectangle
+    ($(O)+(#3*\MF@XU,#4*\MF@YU)$) ;
+}
+
+% =============================================================================
+% Axis Labels
+% =============================================================================
+
+% Place a label below the grid at column center.
+% #1: column index (0-based)
+% #2: number of rows (used as y-base)
+% #3: label text
+\NewDocumentCommand{\PutXLabel}{m m m}{
+  \path ($(O)+(#1*\MF@XU+0.5*\MF@XU,#2*\MF@YU)$)
+    node[below] {\scalebox{0.7}{$#3$}} ;
+}
+
+% Place a label to the right of the grid at row center.
+% #1: row index (0-based)
+% #2: number of columns (used as x-base)
+% #3: label text
+\NewDocumentCommand{\PutYLabel}{m m m}{
+  \path ($(O)+(#2*\MF@XU,#1*\MF@YU+0.5*\MF@YU)$)
+    node[right] {\scalebox{0.7}{$#3$}} ;
+}
+
+% Place a label above the grid at column center.
+% #1: column index (0-based)
+% #2: label text
+\NewDocumentCommand{\PutXLabelAbove}{m m}{
+  \path ($(O)+(#1*\MF@XU+0.5*\MF@XU,0*\MF@YU)$)
+    node[above=0.05cm] {\scalebox{0.7}{$#2$}} ;
+}
+
+% Place a label to the left of the grid at row center.
+% #1: row index (0-based)
+% #2: label text
+\NewDocumentCommand{\PutYLabelLeft}{m m}{
+  \path ($(O)+(0*\MF@XU,#1*\MF@YU+0.5*\MF@YU)$)
+    node[left=0.05cm] {\scalebox{0.7}{$#2$}} ;
+}
+
+% =============================================================================
+% Cell Labels (text inside cells)
+% =============================================================================
+
+% Place rotated text inside a cell (for column-oriented labels).
+% #1: column index
+% #2: top row (the text spans from here down, centered)
+% #3: bottom row (exclusive)
+% #4: label text
+% #5: tint name for background
+% #6: tint percent for background
+\NewDocumentCommand{\PutRotatedCellLabel}{m m m m m m}{
+  \path ($(O)+(#1*\MF@XU+0.5*\MF@XU,(#2+#3)/2*\MF@YU)$)
+    node[rotate=-90,fill=#5!#6!white] {\scalebox{0.8}{$#4$}} ;
+}
+
+% Place text centered in a cell.
+% #1: column index
+% #2: row index
+% #3: label text
+% #4: tint name for background
+% #5: tint percent
+\NewDocumentCommand{\PutCellLabel}{m m m}{O{} O{0}}{
+  \path ($(O)+(#1*\MF@XU+0.5*\MF@XU,#2*\MF@YU+0.5*\MF@YU)$)
+    node[#4] {\scalebox{0.8}{$#3$}} ;
+}
+
+% =============================================================================
+% Range Brackets (horizontal and vertical braces)
+% =============================================================================
+
+% Draw horizontal range bracket above the grid.
+% #1: start column index
+% #2: end column index (exclusive)
+\NewDocumentCommand{\DrawBracketX}{m m}{
+  \draw[very thin]
+    ($(O)+(#1*\MF@XU,0*\MF@YU)$) -- ++ (0,0.3) ;
+  \draw[very thin]
+    ($(O)+(#2*\MF@XU+\MF@XU,0*\MF@YU)$) -- ++ (0,0.3) ;
+  \draw[very thin,latex-latex]
+    ($(O)+(#1*\MF@XU,0*\MF@YU+0.12)$) --
+    ($(O)+(#2*\MF@XU+\MF@XU,0*\MF@YU+0.12)$) ;
+}
+
+% Draw vertical range bracket to the left of the grid.
+% #1: start row index
+% #2: end row index (exclusive)
+\NewDocumentCommand{\DrawBracketY}{m m}{
+  \draw[very thin]
+    ($(O)+(0*\MF@XU,#1*\MF@YU)$) -- ++ (-0.3,0) ;
+  \draw[very thin]
+    ($(O)+(0*\MF@XU,#2*\MF@YU+\MF@YU)$) -- ++ (-0.3,0) ;
+  \draw[very thin,latex-latex]
+    ($(O)+(0*\MF@XU-0.12,#1*\MF@YU)$) --
+    ($(O)+(0*\MF@XU-0.12,#2*\MF@YU+\MF@YU)$) ;
+}
+
+% =============================================================================
+% Annotation Objects
+% =============================================================================
+
+% Place an annotation box (draw, thick, filled white, with text)
+% at a cell-relative position.
+% #1: column index
+% #2: row index
+% #3: anchor (e.g. "above right", "right")
+% #4: shift (e.g. "0.1cm")
+% #5: border tint name
+% #6: annotation text (LaTeX, NOT wrapped in $...$)
+% #7 (optional): extra node options
+\NewDocumentCommand{\PutAnnotation}{m m m m m m O{}}{
+  \path ($(O)+(#1*\MF@XU+0.5*\MF@XU,#2*\MF@YU+0.5*\MF@YU)$)
+    node[#3=#4,draw,thick,#5!80!white,fill=white,fill opacity=0.9,mh=0.7cm,#7]
+    {\textcolor{black}{#6}} ;
+}
+
+\endinput
