@@ -46,9 +46,9 @@
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
 \draw[mborder] (O1-1.north west) rectangle (O8-8.south east) ;
 
-\path (O1-8.south west) node[above right=0.1cm,draw,thick,blue!80!white,fill=white,fill opacity=0.9,mh=0.7cm] () {\textcolor{black}{$\vb{A}(k+1:n,k)\leftarrow\vb{L}(k+1:n,k)$}} ;
+\path (O1-8.south west) node[above right=0.1cm,btxt] () {\textcolor{black}{$\vb{A}(k+1:n,k)\leftarrow\vb{L}(k+1:n,k)$}} ;
 
-\path ($(O4-3.north)!0.5!(O5-3.north)$) node[right=0.1cm,yshift=-0.1cm,draw,thick,red!80!white,fill=white,fill opacity=0.9,mh=0.7cm] () {\textcolor{black}{$\vb{A}(k,k)\leftarrow\vb{d}(k)$}} ;
+\path ($(O4-3.north)!0.5!(O5-3.north)$) node[right=0.1cm,yshift=-0.1cm,rtxt] () {\textcolor{black}{$\vb{A}(k,k)\leftarrow\vb{d}(k)$}} ;
 
 \draw[ultra thin] ($(O1-8.south west)+(-0.5,-0.5)$) rectangle ($(O8-1.north east)+(0.5,0.5)$) ;
 
