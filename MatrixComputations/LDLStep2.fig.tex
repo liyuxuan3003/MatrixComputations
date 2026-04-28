@@ -6,6 +6,8 @@
 \usepackage{minimus-math}
 \usepackage{minimus-tikz}
 
+\usepackage{matrix-fig}
+
 \begin{document}
 \begin{tikzpicture}
 
@@ -16,42 +18,42 @@
 
 \foreach \i in {0,1,2}
 {
-    \draw[fill=red!15!white] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ;
+    \draw[rfill] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ;
 }
 
 \foreach \i in {0,1,2}
 {
-    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle ($(O)+(\i*\xu+\xu,8*\yu)$) ;
+    \draw[bfill] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle ($(O)+(\i*\xu+\xu,8*\yu)$) ;
 }
 
-\draw[fill=green!15!white] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ; 
-\path[fill=red!7!white] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
+\draw[gfill] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
+\path[rhalf] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
 
-\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ; 
-\draw[very thick] (O) rectangle (P) ; 
+\draw[mgrid] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ;
+\draw[very thick] (O) rectangle (P) ;
 
-\path (O|-P) ++ (0,-1.0) coordinate (A) ; 
-\draw[very thin,dotted] (A) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(A)+(8*\xu,1*\yu)$) coordinate (B) ; 
-\draw[very thick] (A) rectangle (B) ; 
+\path (O|-P) ++ (0,-1.0) coordinate (A) ;
+\draw[mgrid] (A) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(A)+(8*\xu,1*\yu)$) coordinate (B) ;
+\draw[very thick] (A) rectangle (B) ;
 
 \foreach \i/\t in {0/1,1/\cdots,2/\cdots,3/k,7/n}
 {
-    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t$}} ;
+    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\regiontxt{$\t$}} ;
 }
 
 \foreach \i/\t in {0/1,1/\vdots,2/\vdots,3/k,7/n}
 {
-    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
+    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\regiontxt{$\t$}} ;
 }
 
 \foreach \i/\t in {1/\sigma,5.5/\rho}
 {
-    \path ($(O)+(\i*\xu+0.5*\xu,0*\yu)$) node[above=0.05cm] (Xr\i) {\scalebox{0.7}{$\t$}} ;
+    \path ($(O)+(\i*\xu+0.5*\xu,0*\yu)$) node[above=0.05cm] (Xr\i) {\regiontxt{$\t$}} ;
 }
 
 \foreach \i/\t in {1/\sigma,5.5/\rho}
 {
-    \path ($(O)+(0*\xu,\i*\yu+0.5*\yu)$) node[left=0.05cm] (Yr\i) {\scalebox{0.7}{$\t$}} ;
+    \path ($(O)+(0*\xu,\i*\yu+0.5*\yu)$) node[left=0.05cm] (Yr\i) {\regiontxt{$\t$}} ;
 }
 
 \foreach \ia/\ib in{0/2,4/7}
@@ -71,15 +73,15 @@
 \draw[ultra thick,white] ($(O)+(0*\xu,3*\yu)$) rectangle ($(O)+(2*\xu+\xu,3*\yu+\yu)$) ;
 \draw[ultra thick,gray,dashed] ($(O)+(0*\xu,3*\yu)$) rectangle ($(O)+(2*\xu+\xu,3*\yu+\yu)$) ;
 
-\draw[ultra thick,white] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ; 
-\draw[ultra thick,gray,dashed] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ; 
+\draw[ultra thick,white] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
+\draw[ultra thick,gray,dashed] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
 
 \draw[ultra thick,white] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
 \draw[ultra thick,red,dashed] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
 
-\path ($(O)+(3*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[] (A1) {\scalebox{0.8}{$\vb{A}(k,k)$}} ;  
-\path ($(O)+(1*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[fill=blue!15!white] (A2) {\scalebox{0.8}{$\vb{A}(k,\sigma)$}} ;  
-\path ($(O)+(1*\xu+0.5\xu,9*\yu+0.5*\yu)$) node[fill=green!15!white] (V) {\scalebox{0.8}{$\vb{v}(\sigma)$}} ;  
+\path ($(O)+(3*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[] (A1) {\scalebox{0.8}{$\vb{A}(k,k)$}} ;
+\path ($(O)+(1*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[bfill] (A2) {\scalebox{0.8}{$\vb{A}(k,\sigma)$}} ;
+\path ($(O)+(1*\xu+0.5\xu,9*\yu+0.5*\yu)$) node[gfill] (V) {\scalebox{0.8}{$\vb{v}(\sigma)$}} ;
 
 \draw[thick,-latex] (A2) -- (A1) ;
 \draw[thick,-latex] (V) to[out=3 0,in=270] node[draw,fill=white,fill opacity=0.9,pos=0.7] (TXT) {$\vb{A}(k,k)=\vb{A}(k,k)-\vb{A}(k,\sigma)\vb{v}(\sigma)$} (A1) ;
