@@ -111,9 +111,9 @@
 擦除+虚线边框的高亮模式，用一次 `save path` 保存路径，多次 `use path` 引用：
 
 ```latex
-\path[save path=\rectA] (O1-4.north west) rectangle (O3-4.south east) ;
-\draw[wclean,use path=\rectA] ;
-\draw[karea,use path=\rectA] ;
+\path[save path=\tmppath] (O1-4.north west) rectangle (O3-4.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[karea,use path=\tmppath] ;
 ```
 
 ### 8. 字段命名语义化

@@ -84,17 +84,17 @@
     \draw[tkarr] ([xshift=-0.12cm]O1-\ia.north west) -- ([xshift=-0.12cm]O1-\ib.south west) ;
 }
 
-\path[save path=\rectA] (O1-4.north west) rectangle (O3-4.south east) ;
-\draw[wclean,use path=\rectA] ;
-\draw[karea,use path=\rectA] ;
+\path[save path=\tmppath] (O1-4.north west) rectangle (O3-4.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[karea,use path=\tmppath] ;
 
-\path[save path=\rectB] (T1-1.north west) rectangle (T3-1.south east) ;
-\draw[wclean,use path=\rectB] ;
-\draw[karea,use path=\rectB] ;
+\path[save path=\tmppath] (T1-1.north west) rectangle (T3-1.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[karea,use path=\tmppath] ;
 
-\path[save path=\rectC] (O4-4.north west) rectangle (O4-4.south east) ;
-\draw[wclean,use path=\rectC] ;
-\draw[rarea,use path=\rectC] ;
+\path[save path=\tmppath] (O4-4.north west) rectangle (O4-4.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[rarea,use path=\tmppath] ;
 
 \path (O4-4.center) node[] (A1) {\regiontxt{$\vb{A}(k,k)$}} ;
 \path (O2-4.center) node[bfill] (A2) {\regiontxt{$\vb{A}(k,\sigma)$}} ;

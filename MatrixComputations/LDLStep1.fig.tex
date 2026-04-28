@@ -85,18 +85,18 @@
 
 \foreach \i in {1,2,3}
 {
-    \path[save path=\rectD\i] (O\i-\i.north west) rectangle (O\i-\i.south east) ;
-    \draw[wclean,use path=\rectD\i] ;
-    \draw[karea,use path=\rectD\i] ;
+    \path[save path=\tmppath] (O\i-\i.north west) rectangle (O\i-\i.south east) ;
+    \draw[wclean,use path=\tmppath] ;
+    \draw[karea,use path=\tmppath] ;
 }
 
-\path[save path=\rectA] (O1-4.north west) rectangle (O3-4.south east) ;
-\draw[wclean,use path=\rectA] ;
-\draw[karea,use path=\rectA] ;
+\path[save path=\tmppath] (O1-4.north west) rectangle (O3-4.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[karea,use path=\tmppath] ;
 
-\path[save path=\rectB] (T1-1.north west) rectangle (T3-1.south east) ;
-\draw[wclean,use path=\rectB] ;
-\draw[garea,use path=\rectB] ;
+\path[save path=\tmppath] (T1-1.north west) rectangle (T3-1.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[garea,use path=\tmppath] ;
 
 \path (O2-2.center) node[] (A1) {\regiontxt{$\vb{A}(i,i)$}} ;
 \path (O2-4.center) node[bfill] (A2) {\regiontxt{$\vb{A}(k,i)$}} ;
