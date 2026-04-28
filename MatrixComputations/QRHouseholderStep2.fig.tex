@@ -36,6 +36,8 @@
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-9.south east) ;
 \draw[mborder] (O1-1.north west) rectangle (O8-9.south east) ;
 
+\path[bhalf] (O4-5.north west) rectangle (O4-9.south east) ;;
+
 \foreach \i/\t in {1/1,2/\cdots,3/\cdots,4/k,8/n}
 {
     \path (O\i-9.south) node[below] (X\i) {\tickertxt{$\t$}} ;
@@ -48,7 +50,7 @@
 
 \path[save path=\tmppath] (O4-5.north west) rectangle (O4-9.south east) ;
 \draw[wclean,use path=\tmppath] ;
-\draw[bhalf,barea,use path=\tmppath] ;
+\draw[barea,use path=\tmppath] ;
 
 \path (O4-7.south) node[bhalf,inner sep=0.06cm,rotate=-90] (A1) {\regiontxt{$\vb{A}(k+1:m,k)$}} ;
 \path (O5-2.south) node[rfill,inner sep=0.04cm] (A3) {\regiontxt{$[\vb{v},\beta]=\mathrm{house}(\vb{\vb{A}}(k:m,k))$}} ;
