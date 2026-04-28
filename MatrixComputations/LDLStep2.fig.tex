@@ -53,11 +53,11 @@
     \path (O8-\i.east) node[right] (Y\i) {\tickertxt{$\t$}} ;
 }
 
-\path (O2-1.north) node[above=0.05cm] (Xr1) {\tickertxt{$\sigma$}} ;
-\path (O7-1.north west) node[above=0.05cm] (Xr5.5) {\tickertxt{$\rho$}} ;
+\path ($(O1-1.north)!0.5!(O3-1.north)$) node[above=0.05cm] (Xr13) {\tickertxt{$\sigma$}} ;
+\path ($(O5-1.north)!0.5!(O8-1.north)$) node[above=0.05cm] (Xr58) {\tickertxt{$\rho$}} ;
 
-\path (O1-2.west) node[left=0.05cm] (Yr1) {\tickertxt{$\sigma$}} ;
-\path (O1-7.north west) node[left=0.05cm] (Yr5.5) {\tickertxt{$\rho$}} ;
+\path ($(O1-1.west)!0.5!(O1-3.west)$) node[left=0.05cm] (Yr13) {\tickertxt{$\sigma$}} ;
+\path ($(O1-5.west)!0.5!(O1-8.west)$) node[left=0.05cm] (Yr58) {\tickertxt{$\rho$}} ;
 
 \foreach \ia/\ib in{1/3,5/8}
 {
