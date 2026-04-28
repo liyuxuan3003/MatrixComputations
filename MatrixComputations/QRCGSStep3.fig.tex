@@ -5,74 +5,75 @@
 \usepackage{minimus-text}
 \usepackage{minimus-math}
 \usepackage{minimus-tikz}
+\usepackage{matrix-fig}
 
 \begin{document}
 \begin{tikzpicture}
 
 \path (0,0) coordinate (O) ;
 
-\def\xu{1}
-\def\yu{-1}
-
 \foreach \i in {0,1}
 {
-    \draw[fill=blue!15!white] ($(O)+(\i*\xu,0*\yu)$) rectangle ($(O)+(\i*\xu+\xu,5*\yu+\yu)$) ;
+    \draw[bfill] ($(O)+(\i*\xu,0*\yu)$) rectangle ($(O)+(\i*\xu+\xu,5*\yu+\yu)$) ;
 }
 
 \foreach \i in {0,1}
 {
-    \draw[fill=red!15!white] ($(O)+(\i*\xu+6*\xu,0*\yu)$) rectangle ($(O)+(\i*\xu+6*\xu+\xu,\i*\yu+\yu)$) ;
+    \draw[rfill] ($(O)+(\i*\xu+6*\xu,0*\yu)$) rectangle ($(O)+(\i*\xu+6*\xu+\xu,\i*\yu+\yu)$) ;
 }
 
-\draw[fill=red!15!white] ($(O)+(8*\xu,0*\yu)$) rectangle ($(O)+(8*\xu+\xu,1*\yu+\yu)$) ;
-\fill[blue!7!white] ($(O)+(2*\xu,0*\yu)$) rectangle ($(O)+(2*\xu+\xu,5*\yu+\yu)$) ;
+\draw[rfill] ($(O)+(8*\xu,0*\yu)$) rectangle ($(O)+(8*\xu+\xu,1*\yu+\yu)$) ;
+\fill[bhalf] ($(O)+(2*\xu,0*\yu)$) rectangle ($(O)+(2*\xu+\xu,5*\yu+\yu)$) ;
 \fill[red!7!white] ($(O)+(8*\xu,2*\yu)$) rectangle ($(O)+(8*\xu+\xu,2*\yu+\yu)$) ;
-\fill[green!15!white] ($(O)+(12*\xu,0*\yu)$) rectangle ($(O)+(12*\xu+\xu,5*\yu+\yu)$) ;
+\fill[gfill] ($(O)+(12*\xu,0*\yu)$) rectangle ($(O)+(12*\xu+\xu,5*\yu+\yu)$) ;
 
-\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(5*\xu,6*\yu)$) coordinate (P) ; 
-\draw[very thick] (O) rectangle (P) ; 
+\draw[mgrid] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(5*\xu,6*\yu)$) coordinate (P) ; 
+\draw[mborder] (O) rectangle (P) ; 
 
 \path (O-|P) ++ (1*\xu,0) coordinate (Q) ;
-\draw[very thin,dotted] (Q) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(Q)+(5*\xu,5*\yu)$) coordinate (R) ; 
-\draw[very thick] (Q) rectangle (R) ; 
+\draw[mgrid] (Q) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(Q)+(5*\xu,5*\yu)$) coordinate (R) ; 
+\draw[mborder] (Q) rectangle (R) ; 
 
 \path (Q-|R) ++ (1*\xu,0) coordinate (Z1) ;
-\draw[very thin,dotted] (Z1) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(Z1)+(1*\xu,6*\yu)$) coordinate (Z2) ; 
-\draw[very thick] (Z1) rectangle (Z2) ; 
+\draw[mgrid] (Z1) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(Z1)+(1*\xu,6*\yu)$) coordinate (Z2) ; 
+\draw[mborder] (Z1) rectangle (Z2) ; 
 
 \foreach \i/\t in {0/1,1/\cdots,2/k,4/n}
 {
-    \path ($(O)+(\i*\xu+0.5*\xu,6*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t\vphantom{k}$}} ;
-    \path ($(O)+(\i*\xu+6.5*\xu,5*\yu)$) node[below] (R\i) {\scalebox{0.7}{$\t\vphantom{k}$}} ;
+    \path ($(O)+(\i*\xu+0.5*\xu,6*\yu)$) node[below] (X\i) {\tickertxt{$\t\vphantom{k}$}} ;
+    \path ($(O)+(\i*\xu+6.5*\xu,5*\yu)$) node[below] (R\i) {\tickertxt{$\t\vphantom{k}$}} ;
 }
 
 \foreach \i/\t in {0/1,1/\vdots,2/k,5/m}
 {
-    \path ($(O)+(5*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
-    \path ($(O)+(13*\xu,\i*\yu+0.5*\yu)$) node[right] (Z\i) {\scalebox{0.7}{$\t$}} ;
+    \path ($(O)+(5*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\tickertxt{$\t$}} ;
+    \path ($(O)+(13*\xu,\i*\yu+0.5*\yu)$) node[right] (Z\i) {\tickertxt{$\t$}} ;
 }
 
 \foreach \i/\t in {0/1,1/\vdots,2/k,4/n}
 {
-    \path ($(O)+(11*\xu,\i*\yu+0.5*\yu)$) node[right] (Q\i) {\scalebox{0.7}{$\t$}} ;
+    \path ($(O)+(11*\xu,\i*\yu+0.5*\yu)$) node[right] (Q\i) {\tickertxt{$\t$}} ;
 }
 
 
-\draw[ultra thick,white] ($(O)+(2*\xu,0*\yu)$) rectangle ($(O)+(2*\xu+\xu,5*\yu+\yu)$) ;
-\draw[ultra thick,blue,dashed] ($(O)+(2*\xu,0*\yu)$) rectangle ($(O)+(2*\xu+\xu,5*\yu+\yu)$) ;
+\path[save path=\tmppath] ($(O)+(2*\xu,0*\yu)$) rectangle ($(O)+(2*\xu+\xu,5*\yu+\yu)$) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[barea,use path=\tmppath] ;
 
-\draw[ultra thick,white] ($(O)+(8*\xu,2*\yu)$) rectangle ($(O)+(8*\xu+\xu,2*\yu+\yu)$) ;
-\draw[ultra thick,red,dashed] ($(O)+(8*\xu,2*\yu)$) rectangle ($(O)+(8*\xu+\xu,2*\yu+\yu)$) ;
+\path[save path=\tmppath] ($(O)+(8*\xu,2*\yu)$) rectangle ($(O)+(8*\xu+\xu,2*\yu+\yu)$) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[rarea,use path=\tmppath] ;
 
-\draw[ultra thick,white] ($(O)+(12*\xu,0*\yu)$) rectangle ($(O)+(12*\xu+\xu,5*\yu+\yu)$) ;
-\draw[ultra thick,gray,dashed] ($(O)+(12*\xu,0*\yu)$) rectangle ($(O)+(12*\xu+\xu,5*\yu+\yu)$) ;
+\path[save path=\tmppath] ($(O)+(12*\xu,0*\yu)$) rectangle ($(O)+(12*\xu+\xu,5*\yu+\yu)$) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[karea,use path=\tmppath] ;
 
-\path ($(O)+(2.0*\xu+0.5\xu,2.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90,fill=blue!7!white] (A2) {\scalebox{0.8}{$\vb{A}(:,k)\to\vb{Q}(:,k)$}} ;  
-\path ($(O)+(8.0*\xu+0.5\xu,2.0*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90] (A3) {\scalebox{0.8}{$\vb{R}(k,k)$}} ;  
-\path ($(O)+(12.0*\xu+0.5\xu,2.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,fill=green!7!white] (A4) {\scalebox{0.8}{$\vb{z}$}} ;  
+\path ($(O)+(2.0*\xu+0.5\xu,2.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90,bhalf] (A2) {\regiontxt{$\vb{A}(:,k)\to\vb{Q}(:,k)$}} ;  
+\path ($(O)+(8.0*\xu+0.5\xu,2.0*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90] (A3) {\regiontxt{$\vb{R}(k,k)$}} ;  
+\path ($(O)+(12.0*\xu+0.5\xu,2.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,fill=green!7!white] (A4) {\regiontxt{$\vb{z}$}} ;  
 
-\draw[thick,-latex] (A4.west) to[out=180,in=0] node[draw,fill=white,fill opacity=0.9,pos=0.5,align=center,yshift=-0.3cm] (TXT) {$\vb{R}(k,k)=\norm{\vb{z}}_2$} (A3.north) ;
-\draw[thick,-latex] (A4.south) to[out=230,in=0] node[draw,fill=white,fill opacity=0.9,pos=0.5,align=center] (TXT) {$\vb{Q}(:,k)=\vb{z}_2/\vb{R}(k,k)$} (A2.north) ;
+\draw[oparr] (A4.west) to[out=180,in=0] node[infotxt,pos=0.5,yshift=-0.3cm] (TXT) {$\vb{R}(k,k)=\norm{\vb{z}}_2$} (A3.north) ;
+\draw[oparr] (A4.south) to[out=230,in=0] node[infotxt,pos=0.5] (TXT) {$\vb{Q}(:,k)=\vb{z}_2/\vb{R}(k,k)$} (A2.north) ;
 
 \draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|Z2)+(0.5,0.5)$) ;
 
