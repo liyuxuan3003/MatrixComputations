@@ -38,22 +38,22 @@
 
 \foreach \i/\t in {0/1,1/\cdots,2/\cdots,3/k,7/n}
 {
-    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\regiontxt{$\t$}} ;
+    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\tickertxt{$\t$}} ;
 }
 
 \foreach \i/\t in {0/1,1/\vdots,2/\vdots,3/k,7/n}
 {
-    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\regiontxt{$\t$}} ;
+    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\tickertxt{$\t$}} ;
 }
 
 \foreach \i/\t in {1/\sigma,5.5/\rho}
 {
-    \path ($(O)+(\i*\xu+0.5*\xu,0*\yu)$) node[above=0.05cm] (Xr\i) {\regiontxt{$\t$}} ;
+    \path ($(O)+(\i*\xu+0.5*\xu,0*\yu)$) node[above=0.05cm] (Xr\i) {\tickertxt{$\t$}} ;
 }
 
 \foreach \i/\t in {1/\sigma,5.5/\rho}
 {
-    \path ($(O)+(0*\xu,\i*\yu+0.5*\yu)$) node[left=0.05cm] (Yr\i) {\regiontxt{$\t$}} ;
+    \path ($(O)+(0*\xu,\i*\yu+0.5*\yu)$) node[left=0.05cm] (Yr\i) {\tickertxt{$\t$}} ;
 }
 
 \foreach \ia/\ib in{0/2,4/7}
