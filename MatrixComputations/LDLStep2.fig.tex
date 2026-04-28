@@ -30,11 +30,11 @@
 \path[rhalf] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
 
 \draw[mgrid] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ;
-\draw[very thick] (O) rectangle (P) ;
+\draw[mborder] (O) rectangle (P) ;
 
 \path (O|-P) ++ (0,-1.0) coordinate (A) ;
 \draw[mgrid] (A) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(A)+(8*\xu,1*\yu)$) coordinate (B) ;
-\draw[very thick] (A) rectangle (B) ;
+\draw[mborder] (A) rectangle (B) ;
 
 \foreach \i/\t in {0/1,1/\cdots,2/\cdots,3/k,7/n}
 {
@@ -58,33 +58,33 @@
 
 \foreach \ia/\ib in{0/2,4/7}
 {
-    \draw[very thin] ($(O)+(\ia*\xu,0*\yu)$) -- ++ (0,0.3) ;
-    \draw[very thin] ($(O)+(\ib*\xu+\xu,0*\yu)$) -- ++ (0,0.3) ;
-    \draw[very thin,latex-latex] ($(O)+(\ia*\xu,0*\yu+0.12)$) -- ($(O)+(\ib*\xu+\xu,0*\yu+0.12)$) ;
+    \draw[tkaux] ($(O)+(\ia*\xu,0*\yu)$) -- ++ (0,0.3) ;
+    \draw[tkaux] ($(O)+(\ib*\xu+\xu,0*\yu)$) -- ++ (0,0.3) ;
+    \draw[tkarr] ($(O)+(\ia*\xu,0*\yu+0.12)$) -- ($(O)+(\ib*\xu+\xu,0*\yu+0.12)$) ;
 }
 
 \foreach \ia/\ib in{0/2,4/7}
 {
-    \draw[very thin] ($(O)+(0*\xu,\ia*\yu)$) -- ++ (-0.3,0) ;
-    \draw[very thin] ($(O)+(0*\xu,\ib*\yu+\yu)$) -- ++ (-0.3,0) ;
-    \draw[very thin,latex-latex] ($(O)+(0*\xu-0.12,\ia*\yu)$) -- ($(O)+(0*\xu-0.12,\ib*\yu+\yu)$) ;
+    \draw[tkaux] ($(O)+(0*\xu,\ia*\yu)$) -- ++ (-0.3,0) ;
+    \draw[tkaux] ($(O)+(0*\xu,\ib*\yu+\yu)$) -- ++ (-0.3,0) ;
+    \draw[tkarr] ($(O)+(0*\xu-0.12,\ia*\yu)$) -- ($(O)+(0*\xu-0.12,\ib*\yu+\yu)$) ;
 }
 
-\draw[ultra thick,white] ($(O)+(0*\xu,3*\yu)$) rectangle ($(O)+(2*\xu+\xu,3*\yu+\yu)$) ;
-\draw[ultra thick,gray,dashed] ($(O)+(0*\xu,3*\yu)$) rectangle ($(O)+(2*\xu+\xu,3*\yu+\yu)$) ;
+\draw[wclean] ($(O)+(0*\xu,3*\yu)$) rectangle ($(O)+(2*\xu+\xu,3*\yu+\yu)$) ;
+\draw[karea] ($(O)+(0*\xu,3*\yu)$) rectangle ($(O)+(2*\xu+\xu,3*\yu+\yu)$) ;
 
-\draw[ultra thick,white] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
-\draw[ultra thick,gray,dashed] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
+\draw[wclean] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
+\draw[karea] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
 
-\draw[ultra thick,white] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
-\draw[ultra thick,red,dashed] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
+\draw[wclean] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
+\draw[rarea] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
 
 \path ($(O)+(3*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[] (A1) {\regiontxt{$\vb{A}(k,k)$}} ;
 \path ($(O)+(1*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[bfill] (A2) {\regiontxt{$\vb{A}(k,\sigma)$}} ;
 \path ($(O)+(1*\xu+0.5\xu,9*\yu+0.5*\yu)$) node[gfill] (V) {\regiontxt{$\vb{v}(\sigma)$}} ;
 
-\draw[thick,-latex] (A2) -- (A1) ;
-\draw[thick,-latex] (V) to[out=3 0,in=270] node[draw,fill=white,fill opacity=0.9,pos=0.7] (TXT) {$\vb{A}(k,k)=\vb{A}(k,k)-\vb{A}(k,\sigma)\vb{v}(\sigma)$} (A1) ;
+\draw[oparr] (A2) -- (A1) ;
+\draw[oparr] (V) to[out=3 0,in=270] node[infotxt] (TXT) {$\vb{A}(k,k)=\vb{A}(k,k)-\vb{A}(k,\sigma)\vb{v}(\sigma)$} (A1) ;
 
 \draw[ultra thin] ($(A|-B)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
 
