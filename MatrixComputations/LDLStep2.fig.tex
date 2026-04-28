@@ -23,6 +23,18 @@
     }
 }
 
+\path ($(O1-8.south west)+(0,\yu)$) coordinate (T) ; 
+
+\foreach \i in {1,2,...,8}
+{
+    \foreach \j in {1}
+    {
+        \path ($(T)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(T)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;  
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm] (T\i-\j) {} ;
+    }
+}
+
 \foreach \i in {1,2,3}
 {
     \draw[rfill] (O\i-\i.north west) rectangle (O\i-\i.south east) ;
@@ -36,12 +48,11 @@
 \draw[gfill] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
 \path[rhalf] (O4-4.north west) rectangle (O4-4.south east) ;
 
-\draw[mgrid] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ;
-\draw[mborder] (O) rectangle (P) ;
+\draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
+\draw[mborder] (O1-1.north west) rectangle (O8-8.south east) ;
 
-\path (O|-P) ++ (0,-1.0) coordinate (A) ;
-\draw[mgrid] (A) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(A)+(8*\xu,1*\yu)$) coordinate (B) ;
-\draw[mborder] (A) rectangle (B) ;
+\draw[mgrid] (T1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (T8-1.south east) ;
+\draw[mborder] (T1-1.north west) rectangle (T8-1.south east) ;
 
 \foreach \i/\t in {1/1,2/\cdots,3/\cdots,4/k,8/n}
 {
@@ -92,7 +103,7 @@
 \draw[oparr] (A2) -- (A1) ;
 \draw[oparr] (V) to[out=30,in=270] node[infotxt] (TXT) {$\vb{A}(k,k)=\vb{A}(k,k)-\vb{A}(k,\sigma)\vb{v}(\sigma)$} (A1) ;
 
-\draw[ultra thin] ($(A|-B)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
+\draw[ultra thin] ($(T1-1.south west)+(-0.5,-0.5)$) rectangle ($(O8-1.north east)+(0.5,0.5)$) ;
 
 \end{tikzpicture}
 \end{document}
