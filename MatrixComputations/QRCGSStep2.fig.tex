@@ -11,7 +11,7 @@
 \begin{document}
 \begin{tikzpicture}
 
-% ---- O Panel (5×6) ----
+
 \path (0,0) coordinate (O) ;
 \foreach \i in {1,2,...,5}
 {
@@ -25,7 +25,7 @@
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O5-6.south east) coordinate (P) ;
 \draw[mborder] (O1-1.north west) rectangle (O5-6.south east) ;
 
-% ---- R Panel (5×5), origin at top-right of O panel ----
+
 \path (O5-1.north east) ++ (\xu,0) coordinate (R) ;
 \foreach \i in {1,2,...,5}
 {
@@ -39,7 +39,7 @@
 \draw[mgrid] (R1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (R5-5.south east) ;
 \draw[mborder] (R1-1.north west) rectangle (R5-5.south east) ;
 
-% ---- Z Panel (1×6), origin at top-right of R panel ----
+
 \path (R5-1.north east) ++ (\xu,0) coordinate (Z) ;
 \foreach \i in {1}
 {
@@ -53,48 +53,48 @@
 \draw[mgrid] (Z1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (Z1-6.south east) coordinate (Z2) ;
 \draw[mborder] (Z1-1.north west) rectangle (Z1-6.south east) ;
 
-% ---- Blue fills at O cols 1,2 rows 1..6 ----
+
 \draw[bfill] (O1-1.north west) rectangle (O2-6.south east) ;
 
-% ---- Red fills at R diagonal area ----
+
 \draw[rfill] (R1-1.north west) rectangle (R1-1.south east) ;
 \draw[rfill] (R2-1.north west) rectangle (R2-2.south east) ;
 \fill[rfill] (R3-1.north west) rectangle (R3-2.south east) ;
 
-% ---- Green fill at Z panel ----
+
 \fill[ghalf] (Z1-1.north west) rectangle (Z1-6.south east) ;
 
-% ---- Top labels below O panel ----
+
 \path ($(O1-6.south west)!0.5!(O1-6.south east)$) node[below] {\tickertxt{$1\vphantom{k}$}} ;
 \path ($(O2-6.south west)!0.5!(O2-6.south east)$) node[below] {\tickertxt{$\cdots\vphantom{k}$}} ;
 \path ($(O3-6.south west)!0.5!(O3-6.south east)$) node[below] {\tickertxt{$k\vphantom{k}$}} ;
 \path ($(O5-6.south west)!0.5!(O5-6.south east)$) node[below] {\tickertxt{$n\vphantom{k}$}} ;
 
-% ---- Top labels below R panel ----
+
 \path ($(R1-5.south west)!0.5!(R1-5.south east)$) node[below] {\tickertxt{$1\vphantom{k}$}} ;
 \path ($(R2-5.south west)!0.5!(R2-5.south east)$) node[below] {\tickertxt{$\cdots\vphantom{k}$}} ;
 \path ($(R3-5.south west)!0.5!(R3-5.south east)$) node[below] {\tickertxt{$k\vphantom{k}$}} ;
 \path ($(R5-5.south west)!0.5!(R5-5.south east)$) node[below] {\tickertxt{$n\vphantom{k}$}} ;
 
-% ---- Side labels right of O panel ----
+
 \path ($(O5-1.north east)!0.5!(O5-1.south east)$) node[right] {\tickertxt{$1$}} ;
 \path ($(O5-2.north east)!0.5!(O5-2.south east)$) node[right] {\tickertxt{$\vdots$}} ;
 \path ($(O5-3.north east)!0.5!(O5-3.south east)$) node[right] {\tickertxt{$k$}} ;
 \path ($(O5-6.north east)!0.5!(O5-6.south east)$) node[right] {\tickertxt{$m$}} ;
 
-% ---- Side labels right of Z panel ----
+
 \path ($(Z1-1.north east)!0.5!(Z1-1.south east)$) node[right] {\tickertxt{$1$}} ;
 \path ($(Z1-2.north east)!0.5!(Z1-2.south east)$) node[right] {\tickertxt{$\vdots$}} ;
 \path ($(Z1-3.north east)!0.5!(Z1-3.south east)$) node[right] {\tickertxt{$k$}} ;
 \path ($(Z1-6.north east)!0.5!(Z1-6.south east)$) node[right] {\tickertxt{$m$}} ;
 
-% ---- Labels between R and Z panels ----
+
 \path ($(R5-1.north east)!0.5!(R5-1.south east)$) node[right] {\tickertxt{$1$}} ;
 \path ($(R5-2.north east)!0.5!(R5-2.south east)$) node[right] {\tickertxt{$\vdots$}} ;
 \path ($(R5-3.north east)!0.5!(R5-3.south east)$) node[right] {\tickertxt{$k$}} ;
 \path ($(R5-5.north east)!0.5!(R5-5.south east)$) node[right] {\tickertxt{$n$}} ;
 
-% ---- Highlight regions (save path / use path) ----
+
 \path[save path=\tmppath] (O1-1.north west) rectangle (O2-6.south east) ;
 \draw[wclean,use path=\tmppath] ;
 \draw[karea,use path=\tmppath] ;
@@ -111,18 +111,18 @@
 \draw[wclean,use path=\tmppath] ;
 \draw[garea,use path=\tmppath] ;
 
-% ---- Region labels ----
+
 \path ($(O1-1.north west)!0.5!(O2-6.south east)$) node[inner sep=0.06cm,rotate=-90,bfill] (A1) {\regiontxt{$\vb{Q}(:,1:k-1)$}} ;
 \path ($(O3-1.north west)!0.5!(O3-6.south east)$) node[inner sep=0.06cm,rotate=-90,fill=white] (A2) {\regiontxt{$\vb{A}(:,k)$}} ;
 \path ($(R3-1.north west)!0.5!(R3-2.south east)$) node[inner sep=0.06cm,rotate=-90,rfill] (A3) {\regiontxt{$\vb{R}(1:k-1,k)$}} ;
 \path ($(Z1-1.north west)!0.5!(Z1-6.south east)$) node[inner sep=0.06cm,ghalf] (A4) {\regiontxt{$\vb{z}$}} ;
 
-% ---- Arrows ----
+
 \draw[oparr] (A1.north east) to[out=350,in=190] (A4.south) ;
 \draw[oparr] (A2.north) to[out=0,in=180] node[infotxt,pos=0.5] (TXT) {$\vb{z}=\vb{A}(:,k)-\vb{Q}(:,1:k-1)\vb{R}(1:k-1,k)$} (A4.west) ;
 \draw[oparr] (A3.north) to[out=10,in=90] (A4.north) ;
 
-% ---- Bounding box ----
+
 \draw[ultra thin] ($(O1-1.north west)+(-0.5,0.5)$) rectangle ($(Z1-6.south east)+(0.5,-0.5)$) ;
 
 \end{tikzpicture}

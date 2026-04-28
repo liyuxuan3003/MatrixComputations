@@ -12,7 +12,7 @@
 
 \path (0,0) coordinate (O) ;
 
-% ---- O Panel (5x6) ----
+
 \foreach \i in {1,2,...,5}
 {
     \foreach \j in {1,2,...,6}
@@ -25,7 +25,7 @@
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O5-6.south east) coordinate (P) ;
 \draw[mborder] (O1-1.north west) rectangle (O5-6.south east) ;
 
-% ---- R Panel (5x5), origin at top-right of O panel ----
+
 \path (O5-1.north east) ++ (\xu,0) coordinate (R) ;
 \foreach \i in {1,2,...,5}
 {
@@ -39,7 +39,7 @@
 \draw[mgrid] (R1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (R5-5.south east) ;
 \draw[mborder] (R1-1.north west) rectangle (R5-5.south east) ;
 
-% ---- Z Panel (1x6), origin at top-right of R panel ----
+
 \path (R5-1.north east) ++ (\xu,0) coordinate (Z) ;
 \foreach \i in {1}
 {
