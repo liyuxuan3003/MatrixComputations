@@ -71,16 +71,16 @@
 }
 
 \path[save path=\rectA] ($(O)+(0*\xu,3*\yu)$) rectangle ($(O)+(2*\xu+\xu,3*\yu+\yu)$) ;
-\draw[wclean, use path=\rectA] ;
-\draw[karea, use path=\rectA] ;
+\draw[wclean,use path=\rectA] ;
+\draw[karea,use path=\rectA] ;
 
 \path[save path=\rectB] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
-\draw[wclean, use path=\rectB] ;
-\draw[karea, use path=\rectB] ;
+\draw[wclean,use path=\rectB] ;
+\draw[karea,use path=\rectB] ;
 
 \path[save path=\rectC] ($(O)+(3*\xu,3*\yu)$) rectangle ($(O)+(3*\xu+\xu,3*\yu+\yu)$) ;
-\draw[wclean, use path=\rectC] ;
-\draw[rarea, use path=\rectC] ;
+\draw[wclean,use path=\rectC] ;
+\draw[rarea,use path=\rectC] ;
 
 \path ($(O)+(3*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[] (A1) {\regiontxt{$\vb{A}(k,k)$}} ;
 \path ($(O)+(1*\xu+0.5\xu,3*\yu+0.5*\yu)$) node[bfill] (A2) {\regiontxt{$\vb{A}(k,\sigma)$}} ;
