@@ -6,59 +6,67 @@
 \usepackage{minimus-math}
 \usepackage{minimus-tikz}
 
+\usepackage{matrix-fig}
+
 \begin{document}
 \begin{tikzpicture}
 
 \path (0,0) coordinate (O) ;
 
-\def\xu{1}
-\def\yu{-1}
-
-\foreach \i in {0,1,2}
+\foreach \i in {1,2,...,8}
 {
-    \draw[fill=black!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle ($(O)+(\i*\xu+\xu,8*\yu+\yu)$) ;
+    \foreach \j in {1,2,...,9}
+    {
+        \path ($(O)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(O)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (O\i-\j) {} ;
+    }
 }
 
-\foreach \i in {0,1,2}
+\foreach \i in {1,2,3}
 {
-    \draw[fill=red!15!white] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(7*\xu+\xu,\i*\yu+\yu)$) ;
+    \draw[fill=black!15!white] (O\i-\fpeval{\i+1}.north west) rectangle (O\i-9.south east) ;
 }
 
-\fill[black!15!white] ($(O)+(3*\xu,8*\yu)$) rectangle ($(O)+(3*\xu+\xu,8*\yu+\yu)$) ;
-\fill[black!7!white] ($(O)+(3*\xu,7*\yu)$) rectangle ($(O)+(3*\xu+\xu,7*\yu+\yu)$) ;
-
-\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,9*\yu)$) coordinate (P) ; 
-\draw[very thick] (O) rectangle (P) ; 
-
-\foreach \i/\t in {0/1,1/\cdots,2/\cdots,3/k,7/n}
+\foreach \i in {1,2,3}
 {
-    \path ($(O)+(\i*\xu+0.5*\xu,9*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t$}} ;
+    \draw[rfill] (O\i-\i.north west) rectangle (O8-\i.south east) ;
 }
 
-\foreach \i/\t in {0/1,1/\vdots,2/\vdots,3/k,8/m}
+\fill[black!15!white] (O4-9.north west) rectangle (O4-9.south east) ;
+\fill[black!7!white] (O4-8.north west) rectangle (O4-8.south east) ;
+
+\draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-9.south east) ;
+\draw[mborder] (O1-1.north west) rectangle (O8-9.south east) ;
+
+\foreach \i/\t in {1/1,2/\cdots,3/\cdots,4/k,8/n}
 {
-    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
+    \path (O\i-9.south) node[below] (X\i) {\tickertxt{$\t$}} ;
 }
 
-\foreach \i/\t in {7/i}
+\foreach \i/\t in {1/1,2/\vdots,3/\vdots,4/k,9/m}
 {
-    \path ($(O)+(0*\xu,\i*\yu+0.5*\yu)$) node[left] (Yl\i) {\scalebox{0.7}{$\t$}} ;
+    \path (O8-\i.east) node[right] (Y\i) {\tickertxt{$\t$}} ;
 }
 
-\draw[ultra thick,white] ($(O)+(3*\xu,6*\yu)$) rectangle ($(O)+(3*\xu+\xu,7*\yu+\yu)$) ;
-\draw[ultra thick,gray,dashed] ($(O)+(3*\xu,6*\yu)$) rectangle ($(O)+(3*\xu+\xu,7*\yu+\yu)$) ;
+\path (O1-8.west) node[left] (Yl8) {\tickertxt{$i$}} ;
 
-\draw[ultra thick,white] ($(O)+(3*\xu,6*\yu)$) rectangle ($(O)+(7*\xu+\xu,7*\yu+\yu)$) ;
-\draw[ultra thick,red,dashed] ($(O)+(3*\xu,6*\yu)$) rectangle ($(O)+(7*\xu+\xu,7*\yu+\yu)$) ;
+\path[save path=\tmppath] (O4-7.north west) rectangle (O4-8.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[karea,use path=\tmppath] ;
 
-\path ($(O)+(3*\xu+0.5\xu,6.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90] (A1) {\scalebox{0.8}{$\vb{A}(i-1:i,k)$}} ;  
-\path ($(O)+(5*\xu+0.5\xu,6.5*\yu+0.5*\yu)$) node[fill=white,inner sep=0.06cm] (A2) {\scalebox{0.8}{$\vb{A}(i-1:i,k:n)$}} ;  
-\path ($(O)+(4*\xu+0.5\xu,1.5*\yu+0.5*\yu)$) node[fill=red!15!white,inner sep=0.04cm] (A3) {\scalebox{0.8}{$[c,s]=\mathrm{givens}(\vb{A}(i-1,k),\vb{A}(i,k))$}} ;  
+\path[save path=\tmppath] (O4-7.north west) rectangle (O8-8.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[rarea,use path=\tmppath] ;
 
-\draw[thick,-latex] (A1) to[out=100,in=225] node[draw,fill=white,fill opacity=0.9,pos=0.4,align=center] (TXT) {$\vb{A}(i-1:i,k:n)$\\ $=\mqty[ c & s \\ -s & c \\ ]^T\vb{A}(i-1:i,k:n)$} (A3) ;
-\draw[thick,-latex] (A3.east) to[out=300,in=60] (A2) ;
+\path (O4-7.south) node[inner sep=0.06cm,rotate=-90] (A1) {\regiontxt{$\vb{A}(i-1:i,k)$}} ;
+\path (O6-7.south) node[fill=white,inner sep=0.06cm] (A2) {\regiontxt{$\vb{A}(i-1:i,k:n)$}} ;
+\path (O5-2.south) node[rfill,inner sep=0.04cm] (A3) {\regiontxt{$[c,s]=\mathrm{givens}(\vb{A}(i-1,k),\vb{A}(i,k))$}} ;
 
-\draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
+\draw[oparr] (A1) to[out=100,in=225] node[infotxt,pos=0.4] (TXT) {$\vb{A}(i-1:i,k:n)$\\ $=\mqty[ c & s \\ -s & c \\ ]^T\vb{A}(i-1:i,k:n)$} (A3) ;
+\draw[oparr] (A3.east) to[out=300,in=60] (A2) ;
+
+\draw[ultra thin] ($(O1-9.south west)+(-0.5,-0.5)$) rectangle ($(O8-1.north east)+(0.5,0.5)$) ;
 
 \end{tikzpicture}
 \end{document}
