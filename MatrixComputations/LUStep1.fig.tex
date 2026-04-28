@@ -33,10 +33,7 @@
     \draw[bfill] (O\i-\fpeval{\i+1}.north west) rectangle (O\i-8.south east) ;
 }
 
-\path[fill=black!5!white] (O4-4.north west) rectangle (O8-8.south east) ;
-
-\draw[ultra thick,blue,fill=blue!10!white] (O3-4.north west) rectangle (O3-8.south east) ;
-\draw[ultra thick,white,dashed] (O3-4.north west) rectangle (O3-8.south east) ;
+\draw[bhalf] (O3-4.north west) rectangle (O3-8.south east) ;
 
 \draw[thick,dashed] (O3-3.north east) -- (O3-3.south east) ;
 \path (O3-3.north west) rectangle node[black,yshift=0.3cm,rotate=-90,rfill] (C3) {\regiontxt{$\vb{A}(k,k)$}} (O3-3.south east) ;
@@ -49,6 +46,10 @@
 
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
 \draw[mborder] (O1-1.north west) rectangle (O8-8.south east) ;
+
+\path[save path=\tmppath] (O3-4.north west) rectangle (O3-8.south east) ;
+\draw[wclean,use path=\tmppath] ; 
+\draw[barea,use path=\tmppath] ; 
 
 \draw[oparr] (C3) -- node[right=0.15cm,infotxt,pos=0.52] (TXT) {Generate Multipliers\\[-0.1cm] $\vb{A}(\rho,k)=\vb{A}(\rho,k)/\vb{A}(k,k)$\\[-0.1cm] $\vb{A}(\rho,k)\leftarrow\vb{L}(\rho,k)$} (L3) ;
 

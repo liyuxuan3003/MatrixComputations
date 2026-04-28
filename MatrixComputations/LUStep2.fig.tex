@@ -42,15 +42,17 @@
 
 \path (O3-4.center) node[rotate=-90,black] (L3) {\regiontxt{$\vb{A}(\rho,k)$}} ;
 
-\path[fill=black!5!white] (O4-4.north west) rectangle (O8-8.south east) ;
-\path[fill=red!10!white] (O4-4.north west) rectangle (O8-4.south east) ;
-\draw[ultra thick,red,dashed] (O4-4.north west) rectangle (O8-8.south east) ;
+\path[rhalf] (O4-4.north west) rectangle (O8-4.south east) ;
 
 \path (O4-4.north west) rectangle node[black] (B3) {\regiontxt{$\vb{A}(\rho,\rho)$}} (O8-8.south east) ;
 \path (O4-4.north west) rectangle node[black] (U4) {\regiontxt{$\vb{A}(k+1,\rho)$}} (O8-4.south east) ;
 
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
 \draw[mborder] (O1-1.north west) rectangle (O8-8.south east) ;
+
+\path[save path=\tmppath] (O4-4.north west) rectangle (O8-8.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[rarea,use path=\tmppath] ;
 
 \draw[oparr] (L3) -- (B3) ;
 \draw[oparr] (U3) to[out=340,in=20] (B3) ;
