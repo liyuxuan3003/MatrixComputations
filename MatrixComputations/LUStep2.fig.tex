@@ -6,67 +6,70 @@
 \usepackage{minimus-math}
 \usepackage{minimus-tikz}
 
+\usepackage{matrix-fig}
+
 \begin{document}
 \begin{tikzpicture}
 
 \path (0,0) coordinate (O) ;
 
-\def\xu{1}
-\def\yu{-1}
-
-\foreach \i in {0,1,2}
+\foreach \i in {1,2,...,8}
 {
-    \draw[fill=red!15!white] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(8*\xu,\i*\yu+\yu)$) ;
+    \foreach \j in {1,2,...,8}
+    {
+        \path ($(O)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(O)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (O\i-\j) {} ;
+    }
 }
 
-\foreach \i in {0,1}
+\foreach \i in {1,2,3}
 {
-    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle (\i*\xu+\xu,8*\yu) ;
+    \draw[rfill] (O\i-\i.north west) rectangle (O8-\i.south east) ;
 }
 
-\foreach \i in {2}
+\foreach \i in {1,2}
 {
-    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle node[rotate=-90,black] (L\i) {\scalebox{0.8}{$\vb{A}(\rho,k)$}} (\i*\xu+\xu,8*\yu) ;
+    \draw[bfill] (O\i-\fpeval{\i+1}.north west) rectangle (O\i-8.south east) ;
 }
 
-\foreach \i in {2}
+\draw[bfill] (O3-4.north west) rectangle (O3-8.south east) ;
+
+\draw[thick,dashed] (O3-3.north east) -- (O3-3.south east) ;
+\path (O3-3.north west) rectangle node[black,yshift=0.3cm,rotate=-90,rfill] (C3) {\regiontxt{$\vb{A}(k,k)$}} (O3-3.south east) ;
+
+\path (O4-3.north west) rectangle node[black] (U3) {\regiontxt{$\vb{A}(k,\rho)$}} (O8-3.south east) ;
+
+\path (O3-4.center) node[rotate=-90,black] (L3) {\regiontxt{$\vb{A}(\rho,k)$}} ;
+
+\path[rhalf] (O4-4.north west) rectangle (O8-4.south east) ;
+
+\path (O4-4.north west) rectangle node[black] (B3) {\regiontxt{$\vb{A}(\rho,\rho)$}} (O8-8.south east) ;
+\path (O4-4.north west) rectangle node[black] (U4) {\regiontxt{$\vb{A}(k+1,\rho)$}} (O8-4.south east) ;
+
+\draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
+\draw[mborder] (O1-1.north west) rectangle (O8-8.south east) ;
+
+\path[save path=\tmppath] (O4-4.north west) rectangle (O8-8.south east) ;
+\draw[wclean,use path=\tmppath] ;
+\draw[rarea,use path=\tmppath] ;
+
+\draw[oparr] (L3) -- (B3) ;
+\draw[oparr] (U3) to[out=340,in=20] (B3) ;
+
+\path (O8-8.south east) node[above left=0.15cm,infotxt] (TXT) {Outer Product\\[-0.1cm] $\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$\\[-0.1cm] $\vb{A}(k+1,\rho)\leftarrow\vb{U}(k+1,\rho)$} ;
+
+\foreach \i/\t in {1/1,2/\cdots,3/k,8/n}
 {
-    \draw[thick,dashed] ($(O)+(\i*\xu+\xu,\i*\yu)$) -- ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ; 
-    \path ($(O)+(\i*\xu,\i*\yu)$) rectangle node[black,yshift=0.3cm,rotate=-90,fill=red!15!white] (C\i) {\scalebox{0.8}{$\vb{A}(k,k)$}} ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ; 
+    \path (O\i-8.south) node[below] (X\i) {\tickertxt{$\t$}} ;
 }
 
-\foreach \i in {2}
+\foreach \i/\t in {1/1,2/\vdots,3/k,8/n}
 {
-    \path ($(O)+(\i*\xu+\xu,\i*\yu)$) rectangle node[black] (U\i) {\scalebox{0.8}{$\vb{A}(k,\rho)$}}  ($(O)+(8*\xu,\i*\yu+\yu)$) ;
+    \path (O8-\i.east) node[right] (Y\i) {\tickertxt{$\t$}} ;
 }
 
-\foreach \i in {2}
-{
-    \path[fill=black!5!white] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle node[black] (B\i) {\scalebox{0.8}{$\vb{A}(\rho,\rho)$}} ($(O)+(8*\xu,8*\yu)$) ;
-    \path[fill=red!10!white] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle node[black] (U\fpeval{\i+1}) {\scalebox{0.8}{$\vb{A}(k+1,\rho)$}} ($(O)+(8*\xu,\i*\yu+2*\yu)$) ;
-    \draw[ultra thick,red,dashed] ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) rectangle  ($(O)+(8*\xu,8*\yu)$) ;
-}
-
-\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ; 
-
-\draw[-latex,thick] (L2) -- (B2) ;
-\draw[-latex,thick] (U2) to[out=340,in=20] (B2) ;
-
-\path (P) node[above left=0.15cm,draw,thick,fill=white,fill opacity=0.9,align=center] (TXT) {Outer Product\\[-0.1cm] $\vb{A}(\rho,\rho)=\vb{A}(\rho,\rho)-\vb{A}(\rho,k)\cdot\vb{A}(k,\rho)$\\[-0.1cm] $\vb{A}(k+1,\rho)\leftarrow\vb{U}(k+1,\rho)$} ;
-
-\foreach \i/\t in {0/1,1/\cdots,2/k,7/n}
-{
-    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\t$}} ;
-}
-
-\foreach \i/\t in {0/1,1/\vdots,2/k,7/n}
-{
-    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\t$}} ;
-}
-
-\draw[very thick] (O) rectangle (P) ; 
-
-\draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
+\draw[ultra thin] ($(O1-8.south west)+(-0.5,-0.5)$) rectangle ($(O8-1.north east)+(0.5,0.5)$) ;
 
 \end{tikzpicture}
 \end{document}
