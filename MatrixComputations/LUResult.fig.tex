@@ -6,43 +6,51 @@
 \usepackage{minimus-math}
 \usepackage{minimus-tikz}
 
+\usepackage{matrix-fig}
+
 \begin{document}
 \begin{tikzpicture}
 
 \path (0,0) coordinate (O) ;
 
-\def\xu{1}
-\def\yu{-1}
-
-\foreach \i in {0,1,...,7}
+\foreach \i in {1,2,...,8}
 {
-    \draw[fill=red!15!white] ($(O)+(\i*\xu,\i*\yu)$) rectangle node[] (U\i) {\ifthenelse{\i<5}{$\vb{U}(\fpeval{\i+1},\fpeval{\i+1}:8)$}{$\cdots$}} ($(O)+(8*\xu,\i*\yu+\yu)$) ;
+    \foreach \j in {1,2,...,8}
+    {
+        \path ($(O)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(O)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (O\i-\j) {} ;
+    }
 }
 
-\foreach \i in {0,1,...,6}
+\foreach \i in {1,2,...,8}
 {
-    \draw[fill=blue!15!white] ($(O)+(\i*\xu,\i*\yu+\yu)$) rectangle node[rotate=-90] (L\i) {\ifthenelse{\i<4}{$\vb{L}(\fpeval{\i+2}:8,\fpeval{\i+1})$}{$\cdots$}} (\i*\xu+\xu,8*\yu) ;
+    \draw[rfill] (O\i-\i.north west) rectangle node[] (U\i) {\ifthenelse{\i<6}{$\vb{U}(\fpeval{\i},\fpeval{\i}:8)$}{$\cdots$}} (O8-\i.south east) ;
 }
 
-\foreach \i in {0,1,...,7}
+\foreach \i in {1,2,...,7}
 {
-    \path ($(O)+(\i*\xu+0.5*\xu,8*\yu)$) node[below] (X\i) {\scalebox{0.7}{$\fpeval{\i+1}$}} ;
+    \draw[bfill] (O\i-\fpeval{\i+1}.north west) rectangle node[rotate=-90] (L\i) {\ifthenelse{\i<5}{$\vb{L}(\fpeval{\i+1}:8,\fpeval{\i})$}{$\cdots$}} (O\i-8.south east) ;
 }
 
-\foreach \i in {0,1,...,7}
+\foreach \i in {1,2,...,8}
 {
-    \path ($(O)+(8*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\scalebox{0.7}{$\fpeval{\i+1}$}} ;
+    \path (O\i-8.south) node[below] (X\i) {\tickertxt{$\fpeval{\i}$}} ;
 }
 
-\draw[very thin,dotted] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(8*\xu,8*\yu)$) coordinate (P) ; 
+\foreach \i in {1,2,...,8}
+{
+    \path (O8-\i.east) node[right] (Y\i) {\tickertxt{$\fpeval{\i}$}} ;
+}
 
-\draw[very thick] (O) rectangle  (P) ; 
+\draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
+\draw[mborder] (O1-1.north west) rectangle (O8-8.south east) ;
 
-\path ($(O)+(0*\xu,8*\yu)$) node[above right=0.1cm,draw,thick,blue!80!white,fill=white,fill opacity=0.9,mh=0.7cm] () {\textcolor{black}{$\vb{A}(k+1:n,k)\leftarrow\vb{L}(k+1:n,k)$}} ; 
+\path (O1-8.south west) node[above right=0.1cm,draw,thick,blue!80!white,fill=white,fill opacity=0.9,mh=0.7cm] () {\textcolor{black}{$\vb{A}(k+1:n,k)\leftarrow\vb{L}(k+1:n,k)$}} ;
 
-\path ($(O)+(0*\xu,3*\yu)$) node[right=0.1cm,yshift=-0.1cm,draw,thick,red!80!white,fill=white,fill opacity=0.9,mh=0.7cm] () {\textcolor{black}{$\vb{A}(k,k:n)\leftarrow\vb{U}(k,k:n)$}} ; 
+\path (O1-4.north west) node[right=0.1cm,yshift=-0.1cm,draw,thick,red!80!white,fill=white,fill opacity=0.9,mh=0.7cm] () {\textcolor{black}{$\vb{A}(k,k:n)\leftarrow\vb{U}(k,k:n)$}} ;
 
-\draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
+\draw[ultra thin] ($(O1-8.south west)+(-0.5,-0.5)$) rectangle ($(O8-1.north east)+(0.5,0.5)$) ;
 
 \end{tikzpicture}
 \end{document}
