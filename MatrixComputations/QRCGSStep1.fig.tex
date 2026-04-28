@@ -26,14 +26,14 @@
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O5-6.south east) coordinate (P) ;
 \draw[mborder] (O1-1.north west) rectangle (O5-6.south east) ;
 
-\path (O5-6.south east) ++ (\xu,0) coordinate (Q) ;
+\path (O5-1.north east) ++ (\xu,0) coordinate (R) ;
 
 \foreach \i in {1,2,...,5}
 {
     \foreach \j in {1,2,...,5}
     {
-        \path ($(Q)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
-        \path ($(Q)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
+        \path ($(R)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(R)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
         \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (R\i-\j) {} ;
     }
 }
@@ -41,14 +41,14 @@
 \draw[mgrid] (R1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (R5-5.south east) ;
 \draw[mborder] (R1-1.north west) rectangle (R5-5.south east) ;
 
-\path (R5-5.south east) ++ (\xu,0) coordinate (Z1) ;
+\path (R5-1.north east) ++ (\xu,0) coordinate (Z) ;
 
 \foreach \i in {1}
 {
     \foreach \j in {1,2,...,6}
     {
-        \path ($(Z1)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
-        \path ($(Z1)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
+        \path ($(Z)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(Z)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
         \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (Z\i-\j) {} ;
     }
 }
@@ -58,7 +58,7 @@
 
 \foreach \i in {1,2}
 {
-    \draw[bfill] (O\i-\i.north west) rectangle (O\i-6.south east) ;
+    \draw[bfill] (O\i-1.north west) rectangle (O\i-6.south east) ;
 }
 
 \foreach \i in {1,2}
@@ -66,7 +66,7 @@
     \draw[rfill] (R\i-1.north west) rectangle (R\i-\i.south east) ;
 }
 
-\path[rhalf] (R3-1.north west) rectangle (R3-1.south east) ;
+\path[rhalf] (R3-1.north west) rectangle (R3-2.south east) ;
 
 \path[save path=\tmppath] (O1-1.north west) rectangle (O2-6.south east) ;
 \draw[wclean,use path=\tmppath] ;
@@ -76,7 +76,7 @@
 \draw[wclean,use path=\tmppath] ;
 \draw[karea,use path=\tmppath] ;
 
-\path[save path=\tmppath] (R3-1.north west) rectangle (R3-1.south east) ;
+\path[save path=\tmppath] (R3-1.north west) rectangle (R3-2.south east) ;
 \draw[wclean,use path=\tmppath] ;
 \draw[rarea,use path=\tmppath] ;
 
