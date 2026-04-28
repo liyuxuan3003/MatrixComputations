@@ -13,12 +13,19 @@
 
 \path (0,0) coordinate (O) ;
 
-\def\xu{1}
-\def\yu{-1}
-
-\foreach \i in {0,1,2}
+\foreach \i in {1,2,...,8}
 {
-    \draw[rfill] ($(O)+(\i*\xu,\i*\yu)$) rectangle ($(O)+(\i*\xu+\xu,\i*\yu+\yu)$) ;
+    \foreach \j in {1,2,...,8}
+    {
+        \path ($(O)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(O)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;  
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm] (O\i-\j) {} ;
+    }
+}
+
+\foreach \i in {1,2,3}
+{
+    \draw[rfill] (O\i-\i.north west) rectangle (O\i-\i.south east) ;
 }
 
 \foreach \i in {0,1,2}
