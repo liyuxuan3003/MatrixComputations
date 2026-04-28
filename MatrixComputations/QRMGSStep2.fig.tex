@@ -12,7 +12,6 @@
 
 \path (0,0) coordinate (O) ;
 
-
 \foreach \i in {1,2,...,5}
 {
     \foreach \j in {1,2,...,6}
@@ -24,7 +23,6 @@
 }
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O5-6.south east) coordinate (P) ;
 \draw[mborder] (O1-1.north west) rectangle (O5-6.south east) ;
-
 
 \path (O5-1.north east) ++ (\xu,0) coordinate (R) ;
 \foreach \i in {1,2,...,5}

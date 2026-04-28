@@ -11,8 +11,8 @@
 \begin{document}
 \begin{tikzpicture}
 
-
 \path (0,0) coordinate (O) ;
+
 \foreach \i in {1,2,...,5}
 {
     \foreach \j in {1,2,...,6}
@@ -22,11 +22,15 @@
         \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (O\i-\j) {} ;
     }
 }
+
+\draw[bfill] (O1-1.north west) rectangle (O1-6.south east) ;
+\draw[bfill] (O2-1.north west) rectangle (O2-6.south east) ;
+
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O5-6.south east) coordinate (P) ;
 \draw[mborder] (O1-1.north west) rectangle (O5-6.south east) ;
 
-
 \path (O5-1.north east) ++ (\xu,0) coordinate (R) ;
+
 \foreach \i in {1,2,...,5}
 {
     \foreach \j in {1,2,...,5}
@@ -36,11 +40,16 @@
         \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (R\i-\j) {} ;
     }
 }
+
+\draw[rfill] (R1-1.north west) rectangle (R1-1.south east) ;
+\draw[rfill] (R2-1.north west) rectangle (R2-2.south east) ;
+\fill[rfill] (R3-1.north west) rectangle (R3-2.south east) ;
+
 \draw[mgrid] (R1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (R5-5.south east) ;
 \draw[mborder] (R1-1.north west) rectangle (R5-5.south east) ;
 
-
 \path (R5-1.north east) ++ (\xu,0) coordinate (Z) ;
+
 \foreach \i in {1}
 {
     \foreach \j in {1,2,...,6}
@@ -50,50 +59,36 @@
         \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (Z\i-\j) {} ;
     }
 }
-\draw[mgrid] (Z1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (Z1-6.south east) coordinate (Z2) ;
-\draw[mborder] (Z1-1.north west) rectangle (Z1-6.south east) ;
-
-
-\draw[bfill] (O1-1.north west) rectangle (O2-6.south east) ;
-
-
-\draw[rfill] (R1-1.north west) rectangle (R1-1.south east) ;
-\draw[rfill] (R2-1.north west) rectangle (R2-2.south east) ;
-\fill[rfill] (R3-1.north west) rectangle (R3-2.south east) ;
-
 
 \fill[ghalf] (Z1-1.north west) rectangle (Z1-6.south east) ;
 
+\draw[mgrid] (Z1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (Z1-6.south east) coordinate (Z2) ;
+\draw[mborder] (Z1-1.north west) rectangle (Z1-6.south east) ;
 
 \path ($(O1-6.south west)!0.5!(O1-6.south east)$) node[below] {\tickertxt{$1\vphantom{k}$}} ;
 \path ($(O2-6.south west)!0.5!(O2-6.south east)$) node[below] {\tickertxt{$\cdots\vphantom{k}$}} ;
 \path ($(O3-6.south west)!0.5!(O3-6.south east)$) node[below] {\tickertxt{$k\vphantom{k}$}} ;
 \path ($(O5-6.south west)!0.5!(O5-6.south east)$) node[below] {\tickertxt{$n\vphantom{k}$}} ;
 
-
 \path ($(R1-5.south west)!0.5!(R1-5.south east)$) node[below] {\tickertxt{$1\vphantom{k}$}} ;
 \path ($(R2-5.south west)!0.5!(R2-5.south east)$) node[below] {\tickertxt{$\cdots\vphantom{k}$}} ;
 \path ($(R3-5.south west)!0.5!(R3-5.south east)$) node[below] {\tickertxt{$k\vphantom{k}$}} ;
 \path ($(R5-5.south west)!0.5!(R5-5.south east)$) node[below] {\tickertxt{$n\vphantom{k}$}} ;
-
 
 \path ($(O5-1.north east)!0.5!(O5-1.south east)$) node[right] {\tickertxt{$1$}} ;
 \path ($(O5-2.north east)!0.5!(O5-2.south east)$) node[right] {\tickertxt{$\vdots$}} ;
 \path ($(O5-3.north east)!0.5!(O5-3.south east)$) node[right] {\tickertxt{$k$}} ;
 \path ($(O5-6.north east)!0.5!(O5-6.south east)$) node[right] {\tickertxt{$m$}} ;
 
-
 \path ($(Z1-1.north east)!0.5!(Z1-1.south east)$) node[right] {\tickertxt{$1$}} ;
 \path ($(Z1-2.north east)!0.5!(Z1-2.south east)$) node[right] {\tickertxt{$\vdots$}} ;
 \path ($(Z1-3.north east)!0.5!(Z1-3.south east)$) node[right] {\tickertxt{$k$}} ;
 \path ($(Z1-6.north east)!0.5!(Z1-6.south east)$) node[right] {\tickertxt{$m$}} ;
 
-
 \path ($(R5-1.north east)!0.5!(R5-1.south east)$) node[right] {\tickertxt{$1$}} ;
 \path ($(R5-2.north east)!0.5!(R5-2.south east)$) node[right] {\tickertxt{$\vdots$}} ;
 \path ($(R5-3.north east)!0.5!(R5-3.south east)$) node[right] {\tickertxt{$k$}} ;
 \path ($(R5-5.north east)!0.5!(R5-5.south east)$) node[right] {\tickertxt{$n$}} ;
-
 
 \path[save path=\tmppath] (O1-1.north west) rectangle (O2-6.south east) ;
 \draw[wclean,use path=\tmppath] ;
@@ -111,17 +106,14 @@
 \draw[wclean,use path=\tmppath] ;
 \draw[garea,use path=\tmppath] ;
 
-
 \path ($(O1-1.north west)!0.5!(O2-6.south east)$) node[inner sep=0.06cm,rotate=-90,bfill] (A1) {\regiontxt{$\vb{Q}(:,1:k-1)$}} ;
 \path ($(O3-1.north west)!0.5!(O3-6.south east)$) node[inner sep=0.06cm,rotate=-90,fill=white] (A2) {\regiontxt{$\vb{A}(:,k)$}} ;
 \path ($(R3-1.north west)!0.5!(R3-2.south east)$) node[inner sep=0.06cm,rotate=-90,rfill] (A3) {\regiontxt{$\vb{R}(1:k-1,k)$}} ;
 \path ($(Z1-1.north west)!0.5!(Z1-6.south east)$) node[inner sep=0.06cm,ghalf] (A4) {\regiontxt{$\vb{z}$}} ;
 
-
 \draw[oparr] (A1.north east) to[out=350,in=190] (A4.south) ;
 \draw[oparr] (A2.north) to[out=0,in=180] node[infotxt,pos=0.5] (TXT) {$\vb{z}=\vb{A}(:,k)-\vb{Q}(:,1:k-1)\vb{R}(1:k-1,k)$} (A4.west) ;
 \draw[oparr] (A3.north) to[out=10,in=90] (A4.north) ;
-
 
 \draw[ultra thin] ($(O1-1.north west)+(-0.5,0.5)$) rectangle ($(Z1-6.south east)+(0.5,-0.5)$) ;
 

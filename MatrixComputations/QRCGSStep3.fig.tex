@@ -12,7 +12,6 @@
 
 \path (0,0) coordinate (O) ;
 
-
 \foreach \i in {1,2,...,5}
 {
     \foreach \j in {1,2,...,6}
@@ -24,7 +23,6 @@
 }
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O5-6.south east) coordinate (P) ;
 \draw[mborder] (O1-1.north west) rectangle (O5-6.south east) ;
-
 
 \path (O5-1.north east) ++ (\xu,0) coordinate (R) ;
 \foreach \i in {1,2,...,5}
@@ -38,7 +36,6 @@
 }
 \draw[mgrid] (R1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (R5-5.south east) ;
 \draw[mborder] (R1-1.north west) rectangle (R5-5.south east) ;
-
 
 \path (R5-1.north east) ++ (\xu,0) coordinate (Z) ;
 \foreach \i in {1}
@@ -96,7 +93,6 @@
 {
     \path (R5-\i.east) node[right] (Q\i) {\tickertxt{$\t$}} ;
 }
-
 
 \path (O3-3.south) node[inner sep=0.06cm,rotate=-90,bhalf] (A2) {\regiontxt{$\vb{A}(:,k)\to\vb{Q}(:,k)$}} ;
 \path (R3-3.center) node[inner sep=0.06cm,rotate=-90] (A3) {\regiontxt{$\vb{R}(k,k)$}} ;
