@@ -43,14 +43,14 @@
 \draw[mgrid] (A) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(A)+(8*\xu,1*\yu)$) coordinate (B) ;
 \draw[mborder] (A) rectangle (B) ;
 
-\foreach \i/\t in {0/1,1/\cdots,2/\cdots,3/k,7/n}
+\foreach \i/\t in {1/1,2/\cdots,3/\cdots,4/k,8/n}
 {
-    \path (O\fpeval{\i+1}-8.south) node[below] (X\i) {\tickertxt{$\t$}} ;
+    \path (O\i-8.south) node[below] (X\i) {\tickertxt{$\t$}} ;
 }
 
-\foreach \i/\t in {0/1,1/\vdots,2/\vdots,3/k,7/n}
+\foreach \i/\t in {1/1,2/\vdots,3/\vdots,4/k,8/n}
 {
-    \path (O8-\fpeval{\i+1}.east) node[right] (Y\i) {\tickertxt{$\t$}} ;
+    \path (O8-\i.east) node[right] (Y\i) {\tickertxt{$\t$}} ;
 }
 
 \path (O2-1.north) node[above=0.05cm] (Xr1) {\tickertxt{$\sigma$}} ;
@@ -59,18 +59,18 @@
 \path (O1-2.west) node[left=0.05cm] (Yr1) {\tickertxt{$\sigma$}} ;
 \path ($(O)+(0*\xu,5.5*\yu+0.5*\yu)$) node[left=0.05cm] (Yr5.5) {\tickertxt{$\rho$}} ;
 
-\foreach \ia/\ib in{0/2,4/7}
+\foreach \ia/\ib in{1/3,5/8}
 {
-    \draw[tkaux] (O\fpeval{\ia+1}-1.north west) -- ++ (0,0.3) ;
-    \draw[tkaux] (O\fpeval{\ib+1}-1.north east) -- ++ (0,0.3) ;
-    \draw[tkarr] ([yshift=0.12cm]O\fpeval{\ia+1}-1.north west) -- ([yshift=0.12cm]O\fpeval{\ib+1}-1.north east) ;
+    \draw[tkaux] (O\ia-1.north west) -- ++ (0,0.3) ;
+    \draw[tkaux] (O\ib-1.north east) -- ++ (0,0.3) ;
+    \draw[tkarr] ([yshift=0.12cm]O\ia-1.north west) -- ([yshift=0.12cm]O\ib-1.north east) ;
 }
 
-\foreach \ia/\ib in{0/2,4/7}
+\foreach \ia/\ib in{1/3,5/8}
 {
-    \draw[tkaux] (O1-\fpeval{\ia+1}.north west) -- ++ (-0.3,0) ;
-    \draw[tkaux] (O1-\fpeval{\ib+1}.south west) -- ++ (-0.3,0) ;
-    \draw[tkarr] ([xshift=-0.12cm]O1-\fpeval{\ia+1}.north west) -- ([xshift=-0.12cm]O1-\fpeval{\ib+1}.south west) ;
+    \draw[tkaux] (O1-\ia.north west) -- ++ (-0.3,0) ;
+    \draw[tkaux] (O1-\ib.south west) -- ++ (-0.3,0) ;
+    \draw[tkarr] ([xshift=-0.12cm]O1-\ia.north west) -- ([xshift=-0.12cm]O1-\ib.south west) ;
 }
 
 \path[save path=\rectA] (O1-4.north west) rectangle (O3-4.south east) ;
@@ -90,7 +90,7 @@
 \path ($(O)+(1*\xu+0.5\xu,9*\yu+0.5*\yu)$) node[gfill] (V) {\regiontxt{$\vb{v}(\sigma)$}} ;
 
 \draw[oparr] (A2) -- (A1) ;
-\draw[oparr] (V) to[out=3 0,in=270] node[infotxt] (TXT) {$\vb{A}(k,k)=\vb{A}(k,k)-\vb{A}(k,\sigma)\vb{v}(\sigma)$} (A1) ;
+\draw[oparr] (V) to[out=30,in=270] node[infotxt] (TXT) {$\vb{A}(k,k)=\vb{A}(k,k)-\vb{A}(k,\sigma)\vb{v}(\sigma)$} (A1) ;
 
 \draw[ultra thin] ($(A|-B)+(-0.5,-0.5)$) rectangle ($(O-|P)+(0.5,0.5)$) ;
 
