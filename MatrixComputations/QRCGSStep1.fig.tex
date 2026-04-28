@@ -13,69 +13,98 @@
 
 \path (0,0) coordinate (O) ;
 
-\def\xu{1}
-\def\yu{-1}
-
-\foreach \i in {0,1}
+\foreach \i in {1,2,...,5}
 {
-    \draw[bfill] ($(O)+(\i*\xu,0*\yu)$) rectangle ($(O)+(\i*\xu+\xu,5*\yu+\yu)$) ;
+    \foreach \j in {1,2,...,6}
+    {
+        \path ($(O)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(O)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (O\i-\j) {} ;
+    }
 }
 
-\foreach \i in {0,1}
+\draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O5-6.south east) coordinate (P) ;
+\draw[mborder] (O1-1.north west) rectangle (O5-6.south east) ;
+
+\path (O5-6.south east) ++ (\xu,0) coordinate (Q) ;
+
+\foreach \i in {1,2,...,5}
 {
-    \draw[rfill] ($(O)+(\i*\xu+6*\xu,0*\yu)$) rectangle ($(O)+(\i*\xu+6*\xu+\xu,\i*\yu+\yu)$) ;
+    \foreach \j in {1,2,...,5}
+    {
+        \path ($(Q)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(Q)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (R\i-\j) {} ;
+    }
 }
 
-\fill[red!7!white] ($(O)+(8*\xu,0*\yu)$) rectangle ($(O)+(8*\xu+\xu,1*\yu+\yu)$) ;
+\draw[mgrid] (R1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (R5-5.south east) ;
+\draw[mborder] (R1-1.north west) rectangle (R5-5.south east) ;
 
-\draw[mgrid] (O) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(O)+(5*\xu,6*\yu)$) coordinate (P) ;
-\draw[mborder] (O) rectangle (P) ;
+\path (R5-5.south east) ++ (\xu,0) coordinate (Z1) ;
 
-\path (O-|P) ++ (1*\xu,0) coordinate (Q) ;
-\draw[mgrid] (Q) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(Q)+(5*\xu,5*\yu)$) coordinate (R) ;
-\draw[mborder] (Q) rectangle (R) ;
-
-\path (Q-|R) ++ (1*\xu,0) coordinate (Z1) ;
-\draw[mgrid] (Z1) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] ($(Z1)+(1*\xu,6*\yu)$) coordinate (Z2) ;
-\draw[mborder] (Z1) rectangle (Z2) ;
-
-\foreach \i/\t in {0/1,1/\cdots,2/k,4/n}
+\foreach \i in {1}
 {
-    \path ($(O)+(\i*\xu+0.5*\xu,6*\yu)$) node[below] (X\i) {\tickertxt{$\t\vphantom{k}$}} ;
-    \path ($(O)+(\i*\xu+6.5*\xu,5*\yu)$) node[below] (R\i) {\tickertxt{$\t\vphantom{k}$}} ;
+    \foreach \j in {1,2,...,6}
+    {
+        \path ($(Z1)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
+        \path ($(Z1)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (Z\i-\j) {} ;
+    }
 }
 
-\foreach \i/\t in {0/1,1/\vdots,2/k,5/m}
+\draw[mgrid] (Z1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (Z1-6.south east) coordinate (Z2) ;
+\draw[mborder] (Z1-1.north west) rectangle (Z1-6.south east) ;
+
+\foreach \i in {1,2}
 {
-    \path ($(O)+(5*\xu,\i*\yu+0.5*\yu)$) node[right] (Y\i) {\tickertxt{$\t$}} ;
-    \path ($(O)+(13*\xu,\i*\yu+0.5*\yu)$) node[right] (Z\i) {\tickertxt{$\t$}} ;
+    \draw[bfill] (O\i-\i.north west) rectangle (O\i-6.south east) ;
 }
 
-\foreach \i/\t in {0/1,1/\vdots,2/k,4/n}
+\foreach \i in {1,2}
 {
-    \path ($(O)+(11*\xu,\i*\yu+0.5*\yu)$) node[right] (Q\i) {\tickertxt{$\t$}} ;
+    \draw[rfill] (R\i-1.north west) rectangle (R\i-\i.south east) ;
 }
 
-\path[save path=\tmppath] ($(O)+(0*\xu,0*\yu)$) rectangle ($(O)+(1*\xu+\xu,5*\yu+\yu)$) ;
+\path[rhalf] (R3-1.north west) rectangle (R3-1.south east) ;
+
+\path[save path=\tmppath] (O1-1.north west) rectangle (O2-6.south east) ;
 \draw[wclean,use path=\tmppath] ;
 \draw[karea,use path=\tmppath] ;
 
-\path[save path=\tmppath] ($(O)+(2*\xu,0*\yu)$) rectangle ($(O)+(2*\xu+\xu,5*\yu+\yu)$) ;
+\path[save path=\tmppath] (O3-1.north west) rectangle (O3-6.south east) ;
 \draw[wclean,use path=\tmppath] ;
 \draw[karea,use path=\tmppath] ;
 
-\path[save path=\tmppath] ($(O)+(8*\xu,0*\yu)$) rectangle ($(O)+(8*\xu+\xu,1*\yu+\yu)$) ;
+\path[save path=\tmppath] (R3-1.north west) rectangle (R3-1.south east) ;
 \draw[wclean,use path=\tmppath] ;
 \draw[rarea,use path=\tmppath] ;
 
-\path ($(O)+(0.5*\xu+0.5\xu,2.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90,bfill] (A1) {\regiontxt{$\vb{Q}(:,1:k-1)$}} ;
-\path ($(O)+(2.0*\xu+0.5\xu,2.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90,fill=white] (A2) {\regiontxt{$\vb{A}(:,k)$}} ;
-\path ($(O)+(8.0*\xu+0.5\xu,0.5*\yu+0.5*\yu)$) node[inner sep=0.06cm,rotate=-90,fill=red!7!white] (A3) {\regiontxt{$\vb{R}(1:k-1,k)$}} ;
+\foreach \i/\t in {1/1,2/\cdots,3/k,5/n}
+{
+    \path (O\i-6.south) node[below] (X\i) {\tickertxt{$\t\vphantom{k}$}} ;
+    \path (R\i-5.south) node[below] (R\i) {\tickertxt{$\t\vphantom{k}$}} ;
+}
+
+\foreach \i/\t in {1/1,2/\vdots,3/k,6/m}
+{
+    \path (O5-\i.east) node[right] (Y\i) {\tickertxt{$\t$}} ;
+    \path (Z1-\i.east) node[right] (Z\i) {\tickertxt{$\t$}} ;
+}
+
+\foreach \i/\t in {1/1,2/\vdots,3/k,5/n}
+{
+    \path (R5-\i.east) node[right] (Q\i) {\tickertxt{$\t$}} ;
+}
+
+\path (O1-3.south east) node[inner sep=0.06cm,rotate=-90,bfill] (A1) {\regiontxt{$\vb{Q}(:,1:k-1)$}} ;
+\path (O3-3.south) node[inner sep=0.06cm,rotate=-90,fill=white] (A2) {\regiontxt{$\vb{A}(:,k)$}} ;
+\path (R3-1.south) node[inner sep=0.06cm,rotate=-90,rhalf] (A3) {\regiontxt{$\vb{R}(1:k-1,k)$}} ;
 
 \draw[oparr] (A1.west) to[out=45,in=180] (A3.south) ;
 \draw[oparr] (A2.east) to[out=315,in=270] node[infotxt,pos=0.55] (TXT) {$\vb{R}(1:k-1,k)=\vb{Q}(:,1:k-1)^T\vb{A}(:,k)$} (A3.east) ;
 
-\draw[ultra thin] ($(O|-P)+(-0.5,-0.5)$) rectangle ($(O-|Z2)+(0.5,0.5)$) ;
+\draw[ultra thin] ($(O1-6.south west)+(-0.5,-0.5)$) rectangle ($(Z1-1.north east)+(0.5,0.5)$) ;
 
 \end{tikzpicture}
 \end{document}
