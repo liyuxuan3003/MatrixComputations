@@ -59,10 +59,10 @@
 % ---- Red fills at R diagonal area ----
 \draw[rfill] (R1-1.north west) rectangle (R1-1.south east) ;
 \draw[rfill] (R2-1.north west) rectangle (R2-2.south east) ;
-\fill[rfill] (R3-1.north west) rectangle (R3-1.south east) ;
+\fill[rfill] (R3-1.north west) rectangle (R3-2.south east) ;
 
 % ---- Green fill at Z panel ----
-\fill[green!7!white] (Z1-1.north west) rectangle (Z1-6.south east) ;
+\fill[ghalf] (Z1-1.north west) rectangle (Z1-6.south east) ;
 
 % ---- Top labels below O panel ----
 \path ($(O1-6.south west)!0.5!(O1-6.south east)$) node[below] {\tickertxt{$1\vphantom{k}$}} ;
@@ -103,7 +103,7 @@
 \draw[wclean,use path=\tmppath] ;
 \draw[karea,use path=\tmppath] ;
 
-\path[save path=\tmppath] (R3-1.north west) rectangle (R3-1.south east) ;
+\path[save path=\tmppath] (R3-1.north west) rectangle (R3-2.south east) ;
 \draw[wclean,use path=\tmppath] ;
 \draw[karea,use path=\tmppath] ;
 
@@ -114,7 +114,7 @@
 % ---- Region labels ----
 \path ($(O1-1.north west)!0.5!(O2-6.south east)$) node[inner sep=0.06cm,rotate=-90,bfill] (A1) {\regiontxt{$\vb{Q}(:,1:k-1)$}} ;
 \path ($(O3-1.north west)!0.5!(O3-6.south east)$) node[inner sep=0.06cm,rotate=-90,fill=white] (A2) {\regiontxt{$\vb{A}(:,k)$}} ;
-\path ($(R3-1.north west)!0.5!(R3-1.south east)$) node[inner sep=0.06cm,rotate=-90,rfill] (A3) {\regiontxt{$\vb{R}(1:k-1,k)$}} ;
+\path ($(R3-1.north west)!0.5!(R3-2.south east)$) node[inner sep=0.06cm,rotate=-90,rfill] (A3) {\regiontxt{$\vb{R}(1:k-1,k)$}} ;
 \path ($(Z1-1.north west)!0.5!(Z1-6.south east)$) node[inner sep=0.06cm,fill=green!7!white] (A4) {\regiontxt{$\vb{z}$}} ;
 
 % ---- Arrows ----

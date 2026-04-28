@@ -50,7 +50,7 @@
 }
 
 \draw[rfill] (R3-3.north west) rectangle (R3-3.south east) ;
-\fill[red!7!white] (R4-3.north west) rectangle (R4-3.south east) ;
+\fill[rhalf] (R4-3.north west) rectangle (R4-3.south east) ;
 
 \foreach \c/\t in {1/1,2/\cdots,3/k,5/n}
 {
@@ -83,8 +83,8 @@
 \draw[wclean,use path=\tmppath] ;
 \draw[rarea,use path=\tmppath] ;
 
-\path (O4-4.south) node[inner sep=0.06cm,rotate=-90] (A1) {\regiontxt{$\vb{A}(:,j)$}} ;
-\path (O3-4.south) node[inner sep=0.06cm,rotate=-90,bfill] (A2) {\regiontxt{$\vb{Q}(:,k)$}} ;
+\path (O4-3.south) node[inner sep=0.06cm,rotate=-90] (A1) {\regiontxt{$\vb{A}(:,j)$}} ;
+\path (O3-3.south) node[inner sep=0.06cm,rotate=-90,bfill] (A2) {\regiontxt{$\vb{Q}(:,k)$}} ;
 \path (R4-3.center) node[inner sep=0.06cm] (A3) {\regiontxt{$\vb{R}(j,k)$}} ;
 
 \draw[oparr] (A2.west) to[out=45,in=135] (A3.north) ;
@@ -92,7 +92,7 @@
 \draw[oparr] (A1.north) to[out=-15,in=180] node[infotxt,pos=0.5,yshift=-0.2cm] (TXT1) {$\vb{R}(k,j)=\vb{Q}(:,k)^T\vb{A}(:,j)$} (A3.west) ;
 \draw[oparr] (A3.south) to[out=240,in=270] node[infotxt,pos=0.5,yshift=0.4cm] (TXT2) {$\vb{A}(:,j)=\vb{A}(:,j)-\vb{Q}(:,k)\vb{R}(k,j)$} (A1.east) ;
 
-\draw[ultra thin] ($(O1-1.north west |- O5-6.south east)+(-0.5,-0.5)$) rectangle ($(R5-5.south east |- O1-1.north west)+(0.5,0.5)$) ;
+\draw[ultra thin] ($(O1-6.south west)+(-0.5,-0.5)$) rectangle ($(R5-1.north east)+(0.5,0.5)$) ;
 
 \end{tikzpicture}
 \end{document}

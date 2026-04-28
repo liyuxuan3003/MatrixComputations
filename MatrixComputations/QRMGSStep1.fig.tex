@@ -44,12 +44,12 @@
     \draw[bfill] (O1-1.north west) rectangle (O\i-6.south east) ;
 }
 
-\foreach \i in {1}
+\foreach \i in {1,2}
 {
     \draw[rfill] (R\i-\i.north west) rectangle (R5-\i.south east) ;
 }
 
-\fill[red!7!white] (R3-3.north west) rectangle (R3-3.south east) ;
+\fill[rhalf] (R3-3.north west) rectangle (R3-3.south east) ;
 
 \foreach \c/\t in {1/1,2/\cdots,3/k,5/n}
 {
@@ -80,7 +80,7 @@
 
 \draw[oparr] (A2.north) to[out=330,in=270] node[infotxt,pos=0.5] (TXT) {$\vb{R}(k,k)=\norm{\vb{A}(:,k)}_2$} (A3.south) ;
 
-\draw[ultra thin] ($(O1-1.north west |- O5-6.south east)+(-0.5,-0.5)$) rectangle ($(R5-5.south east |- O1-1.north west)+(0.5,0.5)$) ;
+\draw[ultra thin] ($(O1-6.south west)+(-0.5,-0.5)$) rectangle ($(R5-1.north east)+(0.5,0.5)$) ;
 
 \end{tikzpicture}
 \end{document}

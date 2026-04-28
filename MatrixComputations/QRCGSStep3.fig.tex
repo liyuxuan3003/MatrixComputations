@@ -10,9 +10,6 @@
 \begin{document}
 \begin{tikzpicture}
 
-\def\xu{1}
-\def\yu{-1}
-
 \path (0,0) coordinate (O) ;
 
 % ---- O Panel (5x6) ----
@@ -66,7 +63,7 @@
     \draw[rfill] (R\i-1.north west) rectangle (R\i-\i.south east) ;
 }
 
-\draw[rfill] (R3-1.north west) rectangle (R3-1.south east) ;
+\draw[rfill] (R3-1.north west) rectangle (R3-2.south east) ;
 \path[bhalf] (O3-1.north west) rectangle (O3-6.south east) ;
 \path[rhalf] (R3-3.north west) rectangle (R3-3.south east) ;
 \path[gfill] (Z1-1.north west) rectangle (Z1-6.south east) ;

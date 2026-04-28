@@ -76,12 +76,12 @@
 \draw[wclean,use path=\tmppath] ;
 \draw[karea,use path=\tmppath] ;
 
-\path (O3-4.south) node[inner sep=0.06cm,rotate=-90,fill=white] (A2) {\regiontxt{$\vb{A}(:,k)\to\vb{Q}(:,k)$}} ;
+\path (O3-3.south) node[inner sep=0.06cm,rotate=-90] (A2) {\regiontxt{$\vb{A}(:,k)\to\vb{Q}(:,k)$}} ;
 \path (R3-3.center) node[inner sep=0.06cm] (A3) {\regiontxt{$\vb{R}(k,k)$}} ;
 
 \draw[oparr,latex-] (A2.north) to[out=330,in=270] node[infotxt,pos=0.5] (TXT) {$\vb{Q}(:,k)=\vb{A}(:,k)/\vb{R}(k,k)$} (A3.south) ;
 
-\draw[ultra thin] ($(O1-1.north west |- O5-6.south east)+(-0.5,-0.5)$) rectangle ($(R5-5.south east |- O1-1.north west)+(0.5,0.5)$) ;
+\draw[ultra thin] ($(O1-6.south west)+(-0.5,-0.5)$) rectangle ($(R5-1.north east)+(0.5,0.5)$) ;
 
 \end{tikzpicture}
 \end{document}
