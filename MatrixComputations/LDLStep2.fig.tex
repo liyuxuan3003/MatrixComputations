@@ -45,7 +45,7 @@
     \draw[bfill] (O\i-\fpeval{\i+1}.north west) rectangle (O\i-8.south east) ;
 }
 
-\draw[gfill] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
+\draw[gfill] (T1-1.north west) rectangle (T3-1.south east) ;
 \path[rhalf] (O4-4.north west) rectangle (O4-4.south east) ;
 
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
@@ -88,7 +88,7 @@
 \draw[wclean,use path=\rectA] ;
 \draw[karea,use path=\rectA] ;
 
-\path[save path=\rectB] ($(O)+(0*\xu,9*\yu)$) rectangle ($(O)+(2*\xu+\xu,9*\yu+\yu)$) ;
+\path[save path=\rectB] (T1-1.north west) rectangle (T3-1.south east) ;
 \draw[wclean,use path=\rectB] ;
 \draw[karea,use path=\rectB] ;
 
@@ -98,7 +98,7 @@
 
 \path (O4-4.center) node[] (A1) {\regiontxt{$\vb{A}(k,k)$}} ;
 \path (O2-4.center) node[bfill] (A2) {\regiontxt{$\vb{A}(k,\sigma)$}} ;
-\path ($(O)+(1*\xu+0.5\xu,9*\yu+0.5*\yu)$) node[gfill] (V) {\regiontxt{$\vb{v}(\sigma)$}} ;
+\path (T2-1.center) node[gfill] (V) {\regiontxt{$\vb{v}(\sigma)$}} ;
 
 \draw[oparr] (A2) -- (A1) ;
 \draw[oparr] (V) to[out=30,in=270] node[infotxt] (TXT) {$\vb{A}(k,k)=\vb{A}(k,k)-\vb{A}(k,\sigma)\vb{v}(\sigma)$} (A1) ;
