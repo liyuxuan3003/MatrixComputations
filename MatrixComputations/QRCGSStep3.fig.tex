@@ -100,7 +100,7 @@
 
 \path (O3-3.south) node[inner sep=0.06cm,rotate=-90,bhalf] (A2) {\regiontxt{$\vb{A}(:,k)\to\vb{Q}(:,k)$}} ;
 \path (R3-3.center) node[inner sep=0.06cm,rotate=-90] (A3) {\regiontxt{$\vb{R}(k,k)$}} ;
-\path (Z1-3.south) node[inner sep=0.06cm,fill=green!7!white] (A4) {\regiontxt{$\vb{z}$}} ;
+\path (Z1-3.south) node[inner sep=0.06cm,ghalf] (A4) {\regiontxt{$\vb{z}$}} ;
 
 \draw[oparr] (A4.west) to[out=180,in=0] node[infotxt,pos=0.5,yshift=-0.3cm] (TXT) {$\vb{R}(k,k)=\norm{\vb{z}}_2$} (A3.north) ;
 \draw[oparr] (A4.south) to[out=230,in=0] node[infotxt,pos=0.5] (TXT) {$\vb{Q}(:,k)=\vb{z}_2/\vb{R}(k,k)$} (A2.north) ;
