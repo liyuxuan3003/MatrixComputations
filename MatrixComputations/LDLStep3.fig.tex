@@ -46,7 +46,7 @@
 }
 
 \draw[gfill] (T1-1.north west) rectangle (T3-1.south east) ;
-\path[rfill] (O4-4.north west) rectangle (O4-4.south east) ;
+\draw[rfill] (O4-4.north west) rectangle (O4-4.south east) ;
 \path[bhalf] (O4-5.north west) rectangle (O4-8.south east) ;
 
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
@@ -106,7 +106,7 @@
 \path (O2-6.south) node[bfill] (A3) {\regiontxt{$\vb{A}(\rho,\sigma)$}} ;
 \path (T2-1.center) node[gfill] (V) {\regiontxt{$\vb{v}(\sigma)$}} ;
 
-\draw[oparr] (A2) -- (A1) ;
+\draw[oparr] (A1) -- (A2) ;
 \draw[oparr] (A3) -- (A2) ;
 \draw[oparr] (V) to[out=30,in=270] node[infotxt,pos=0.8,xshift=0.5cm] (TXT) {$\vb{A}(\rho,k)=(\vb{A}(\rho,k)-\vb{A}(\rho,\sigma)\vb{v}(\sigma))/\vb{A}(k,k)$} (A2) ;
 

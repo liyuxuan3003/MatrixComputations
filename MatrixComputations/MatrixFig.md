@@ -47,6 +47,8 @@
 | 信息标签 | `infotxt` | `draw,fill=white,fill opacity=0.9` |
 | 缩放文本 | `\tickertxt` (0.7) / `\regiontxt` (0.8) | |
 
+`xfill` 样式用 `\draw`（产生边框），表示算法中**已固定**的区域；`xhalf` 样式用 `\path`（无边框），表示**正被变换**的区域。
+
 ### 4. 单元格节点系统 (O 节点)
 
 在每个 `.fig.tex` 开头创建单元格命名节点网格：
