@@ -45,7 +45,7 @@
     \draw[bfill] (O\i-\fpeval{\i+1}.north west) rectangle (O\i-8.south east) ;
 }
 
-\draw[fill=green!5!white] (T1-1.north west) rectangle (T3-1.south east) ;
+\draw[ghalf] (T1-1.north west) rectangle (T3-1.south east) ;
 
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
 \draw[mborder] (O1-1.north west) rectangle (O8-8.south east) ;
@@ -100,7 +100,7 @@
 
 \path (O2-2.center) node[] (A1) {\regiontxt{$\vb{A}(i,i)$}} ;
 \path (O2-4.center) node[bfill] (A2) {\regiontxt{$\vb{A}(k,i)$}} ;
-\path (T2-1.center) node[fill=green!5!white] (V) {\regiontxt{$\vb{v}(i)$}} ;
+\path (T2-1.center) node[ghalf] (V) {\regiontxt{$\vb{v}(i)$}} ;
 
 \draw[thick] (A1) -- (A2) ;
 \draw[oparr] (A2) -- node[right=0.1cm,draw,fill=white,fill opacity=0.9,pos=0.92] (TXT) {$\vb{v}(i)=\vb{A}(k,i)\vb{A}(i,i),\ i=\sigma$} (V) ;
