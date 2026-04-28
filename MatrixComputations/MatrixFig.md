@@ -58,10 +58,12 @@
     {
         \path ($(O)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
         \path ($(O)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
-        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm] (O\i-\j) {} ;
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (O\i-\j) {} ;
     }
 }
 ```
+
+`inner sep=0cm` 和 `line width=0.0cm` 确保 `fit` 节点的边界与单元格坐标精确对齐，避免线宽带来的微小偏移。
 
 此后所有单元格引用使用 `(O\i-\j.anchor)` 而非 `($(O)+(i*xu,j*yu)$)`：
 
@@ -97,7 +99,7 @@
     {
         \path ($(T)+(\i*\xu-\xu,\j*\yu-\yu)$) coordinate (tmp1) ;
         \path ($(T)+(\i*\xu,\j*\yu)$) coordinate (tmp2) ;
-        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm] (T\i-\j) {} ;
+        \path (0,0) node[fit=(tmp1)(tmp2),inner sep=0cm,line width=0.0cm] (T\i-\j) {} ;
     }
 }
 ```
