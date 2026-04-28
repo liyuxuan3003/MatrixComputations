@@ -25,22 +25,22 @@
 
 \foreach \i in {1,2,...,8}
 {
-    \draw[rfill] (O\i-\i.north west) rectangle node[rotate=-90] (U\fpeval{\i-1}) {\ifthenelse{\i<5}{$\vb{d}(\fpeval{\i})$}{$\cdots$}} (O\i-\i.south east) ;
+    \draw[rfill] (O\i-\i.north west) rectangle node[rotate=-90] (U\i) {\ifthenelse{\i<5}{$\vb{d}(\fpeval{\i})$}{$\cdots$}} (O\i-\i.south east) ;
 }
 
 \foreach \i in {1,2,...,7}
 {
-    \draw[bfill] (O\i-\fpeval{\i+1}.north west) rectangle node[rotate=-90] (L\fpeval{\i-1}) {\ifthenelse{\i<5}{$\vb{L}(\fpeval{\i+1}:8,\fpeval{\i})$}{$\cdots$}} (O\i-8.south east) ;
+    \draw[bfill] (O\i-\fpeval{\i+1}.north west) rectangle node[rotate=-90] (L\i) {\ifthenelse{\i<5}{$\vb{L}(\fpeval{\i+1}:8,\fpeval{\i})$}{$\cdots$}} (O\i-8.south east) ;
 }
 
 \foreach \i in {1,2,...,8}
 {
-    \path (O\i-8.south) node[below] (X\fpeval{\i-1}) {\tickertxt{$\fpeval{\i}$}} ;
+    \path (O\i-8.south) node[below] (X\i) {\tickertxt{$\fpeval{\i}$}} ;
 }
 
 \foreach \i in {1,2,...,8}
 {
-    \path (O8-\i.east) node[right] (Y\fpeval{\i-1}) {\tickertxt{$\fpeval{\i}$}} ;
+    \path (O8-\i.east) node[right] (Y\i) {\tickertxt{$\fpeval{\i}$}} ;
 }
 
 \draw[mgrid] (O1-1.north west) grid[xstep=\fpeval{abs(\xu)} cm,ystep=\fpeval{abs(\yu)} cm] (O8-8.south east) ;
