@@ -1,1 +1,30 @@
-\section{特征分解}
+\section{特征值分解}
+
+\subsection{特征值分解}
+
+\begin{BoxDefinition}[特征值分解]
+    对于矩阵$\vb{A}\in\R^{n\times n}$，定义其特征值分解（Eigendecomposition）
+    \begin{Equation}[特征值分解]
+        \vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}
+    \end{Equation}
+    其中，$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)\in\C^{n\times n}$是特征值构成的对角矩阵，$\vb{V}\in\C^{n\times n}$非奇异。
+\end{BoxDefinition}
+
+
+实际上：$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)$由特征值构成，$\vb{V}=\qty(\vb{v}_1,\cdots,\vb{v}_n)$由特征向量构成！特征值分解从定义上，只规定$\vb*{\Lambda}$由特征值构成，但可以证明，若这种分解存在，则$\vb{V}$一定由特征向量构成。这是因为对于非奇异的$\vb{V}$，分解$\vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}$等价于$\vb{A}\vb{V}=\vb{V}\vb*{\Lambda}$，即对于$i=1,\cdots,n$有$\vb{A}\vb{v}_i=\lambda_i\vb{v}_i$成立。这就意味着$\vb{v}_1,\cdots,\vb{v}_n$必须恰好是特征值$\lambda_1,\cdots,\lambda_n$对应的特征向量。
+
+若$\vb{A}$存在特征值分解，也称$\vb{A}$可对角化（Diagonalizable）：不是所有矩阵都有特征分解！
+
+\begin{BoxTheorem}[特征分解与特征向量线性无关]
+    $\vb{A}\in\R^{n\times n}$存在特征分解，当且仅当$\vb{A}$具有$n$个线性无关的特征向量$\vb{v}_1,\cdots,\vb{v}_n$。
+\end{BoxTheorem}
+
+\begin{BoxTheorem}[特征分解与特征值重数相等]
+    $\vb{A}\in\R^{n\times n}$存在特征分解，当且仅当$\vb{A}$对于任意$i=1,\cdots,k$有$\mu_i=\lambda_i$成立。
+\end{BoxTheorem}
+
+记全体满足$\vb{A}=\vb{A}^T$的对称矩阵为$\Symm^n$，记全体满足$\vb{A}=\vb{A}^H$的厄米矩阵为$\Herm^n$。
+
+\begin{BoxTheorem}[厄米矩阵的特征分解]
+    $\vb{A}\in\Herm^n$具有特征分解，$\vb{V}\in\C^{n\times n}$是酉矩阵，$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)$满足$\lambda_i\in\R$。
+\end{BoxTheorem}
