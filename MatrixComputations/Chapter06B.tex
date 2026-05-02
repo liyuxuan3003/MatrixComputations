@@ -64,3 +64,44 @@
     
     由于$\vb{T}$是上三角矩阵，故$\vb{T}=\vb{T}^H$意味着$\vb{T}$实际上是对角矩阵$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)$。
 \end{Proof}
+
+\subsection{相似变换}
+
+\begin{BoxDefinition}[相似变换]
+    设$\vb{B}\in\C^{n\times n}$和$\vb{A}\in\C^{n\times n}$，若存在非奇异矩阵$\vb{S}\in\C^{n\times n}$
+    \begin{Equation}[相似变换]
+        \vb{B}=\vb{S}^{-1}\vb{A}\vb{S}
+    \end{Equation}
+    则称矩阵$\vb{B}$相似（Similar）于矩阵$\vb{A}$。
+    
+    该变换称为矩阵$\vb{A}$关于矩阵$\vb{S}$的相似变换（Similarity Transformation）。
+\end{BoxDefinition}
+
+相似变换的本质是将一种线性变换在另外一种基下表示出来。考虑一组基$\vb{S}$
+\begin{Equation}[相似变换1]
+    \vb{S}=\mqty[\vb{s}_1 & \cdots & \vb{s}_n]
+\end{Equation}
+
+而$\vb{A}$是一种线性变化，考虑标准基下的$\vb{x}$和经过变换的$\vb{x}‘$
+\begin{Equation}[相似变换2]
+    \vb{x}'=\vb{A}\vb{x}
+\end{Equation}
+
+在$\vb{S}$下的向量可以通过$\vb{x}=\vb{S}\vb{z}$和$\vb{x}'=\vb{S}\vb{z}'$回到标准基，故有$\vb{S}\vb{z}'=\vb{A}\vb{S}\vb{z}'$，即
+\begin{Equation}[相似变换3]
+    \vb{z}'=\vb{S}^{-1}\vb{A}\vb{S}\vb{z}
+\end{Equation}
+
+这里$\vb{B}=\vb{S}^{-1}\vb{A}\vb{S}$就是线性变换$\vb{A}$转换到$\vb{S}$基上的表示！换言之，当我们说两个矩阵是相似的，这就意味着它们本质上是在两组不同基下的相同的线性变换（$\vb{S}$非奇异保证维度不变）。
+
+\begin{BoxProperty}[矩阵相似的自反性]
+    若$\vb{B}$相似于$\vb{A}$，则$\vb{A}$相似于$\vb{B}$
+\end{BoxProperty}
+
+两个相似的矩阵$\vb{A},\vb{B}$在几乎所有主要的矩阵性质上都是相同的，除了元素不一样。
+
+\begin{BoxProperty}[相似矩阵的秩相同]
+    若$\vb{A},\vb{B}$相似，则$\rank(\vb{A})=\rank(\vb{B})$
+\end{BoxProperty}
+
+
