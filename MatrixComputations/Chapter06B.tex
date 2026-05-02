@@ -116,20 +116,40 @@
     若$\vb{A},\vb{B}$相似，则具有相同的特征多项式、谱、代数重数、几何重数。
 \end{BoxProperty}
 
+\subsection{谱半径与数值半径}
 
+\begin{BoxDefinition}[数值范围]
+    定义矩阵$\vb{A}\in\C^{n\times n}$的数值范围（Numerical Range）为
+    \begin{Equation}[数值范围]
+        W(\vb{A})=\qty{\vb{x}^H\vb{A}\vb{x}\mid\vb{x}\in\C^n,\ \norm{\vb{x}}_2=1}
+    \end{Equation}
+\end{BoxDefinition}
 
+数值范围$W(\vb{A})$定义为模为$1$的$\vb{x}$与$\vb{A}$构成的全体二次型的集合。
 
+\begin{BoxDefinition}[数值半径]
+    定义矩阵$\vb{A}\in\C^{n\times n}$的数值半径（Numerical Radius）为
+    \begin{Equation}[数值半径]
+        r(\vb{A})=\max_{\vb{z}\in W(\vb{A})}\abs{\vb{z}}
+    \end{Equation}
+\end{BoxDefinition}
 
+数值半径$r(\vb{A})$是数值范围$W(\vb{A})=\qty{\vb{x}^H\vb{A}\vb{x}\mid\vb{x}\in\C^n,\ \norm{\vb{x}}_2=1}$中的最大绝对值。
 
+\begin{BoxDefinition}[谱半径]
+    定义矩阵$\vb{A}\in\C^{n\times n}$的谱半径（Spectral Radius）为
+    \begin{Equation}[数值半径]
+        \rho(\vb{A})=\max_{\vb{z}\in \sigma(\vb{A})}\abs{\vb{z}}
+    \end{Equation}
+\end{BoxDefinition}
 
+谱半径$\rho(\vb{A})$是谱$\sigma(\vb{A})=\qty{\lambda\in\C\mid\det(\vb{A}-\lambda\vb{I})=0}$中的最大绝对值。
 
+谱半径和数值半径虽然来自完全不同的定义，但它们之间存在以下关系。
 
-
-
-
-
-
-
-
-
-
+\begin{BoxProperty}[谱半径和数值半径的关系]
+    谱半径$\rho(\vb{A})$和数值半径$r(\vb{A})$的关系是
+    \begin{Equation}[谱半径和数值半径的关系]
+        \rho(\vb{A})\leq r(\vb{A})
+    \end{Equation}
+\end{BoxProperty}
