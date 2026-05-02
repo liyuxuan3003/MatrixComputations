@@ -143,7 +143,7 @@
     \end{Equation}
 \end{BoxDefinition}
 
-谱半径$\rho(\vb{A})$是谱$\sigma(\vb{A})=\qty{\lambda\in\C\mid\det(\vb{A}-\lambda\vb{I})=0}$中的最大绝对值。
+% 谱半径$\rho(\vb{A})$是谱$\sigma(\vb{A})=\qty{\lambda\in\C\mid\det(\vb{A}-\lambda\vb{I})=0}$中的最大绝对值。
 
 谱半径和数值半径虽然来自完全不同的定义，但它们之间存在以下的不等式关系。
 
@@ -153,3 +153,33 @@
         \rho(\vb{A})\leq r(\vb{A})
     \end{Equation}
 \end{BoxProperty}
+
+\subsection{瑞利商}
+
+瑞利商（Rayleigh Quotient）是一个对于厄米矩阵$\Herm^n$定义的概念。
+
+\begin{BoxDefinition}[瑞利商]
+    对于$\vb{A}\in\Herm^n$，定义$\vb{A}$关于任意$\vb{x}\neq 0$的$\vb{x}\in\C^n$瑞利商
+    \begin{Equation}[瑞利商]
+        R(\vb{x})=\frac{\vb{x}^H\vb{A}\vb{x}}{\vb{x}^H\vb{x}}
+    \end{Equation}
+    特别的，当$\norm{\vb{x}}=1$
+    \begin{Equation}[瑞利商简化]
+        R(\vb{x})=\vb{x}^H\vb{A}\vb{x}
+    \end{Equation}
+\end{BoxDefinition}
+
+瑞利-里兹定理（Rayleigh-Ritz Theorem）通过$\vb{A}$瑞利商提供了关于$\vb{A}$的特征值的信息。
+
+\begin{BoxTheorem}[瑞利-里兹定理]
+    对于$\vb{A}\in\Herm^n$，有以下关系成立
+    \begin{Equation}[瑞利-里兹定理a]
+        \lambda_{\min}\norm{\vb{x}}_2^2\leq\vb{x}^H\vb{A}\vb{x}\leq\lambda_{\max}\norm{\vb{x}}_2^2
+    \end{Equation}
+    换言之
+    \begin{Equation}[瑞利-里兹定理b]
+        \lambda_{\min}=\min_{\vb{x}\in\C^n,\ \norm{\vb{x}}=1}\vb{x}^H\vb{A}\vb{x}
+        \qquad
+        \lambda_{\max}=\max_{\vb{x}\in\C^n,\ \norm{\vb{x}}=1}\vb{x}^H\vb{A}\vb{x}
+    \end{Equation}
+\end{BoxTheorem}
