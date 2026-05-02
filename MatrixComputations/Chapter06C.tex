@@ -1,1 +1,64 @@
 \section{特征值的迭代算法}
+
+特征值是特征多项式$p(\lambda)=0$的解，而$n\times n$的矩阵的$p(\lambda)$是$n$阶，但$n>4$的多项式是没有解析解的。因此，特征值问题无法解析求解！本节将介绍一些特征值问题的迭代数值解法。
+
+\subsection{Power迭代}
+
+Power迭代来自这样一种想法：随着幂次$k$的增加，$\vb{A}^k\vb{q}$会趋近$\vb{A}$最大的特征值对应的特征向量！当然，这一点需要证明。假设$\vb{A}$存在特征分解$\vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}$，并且假设特征值排序满足$\abs{\lambda_1}>\abs{\lambda_2}\geq\cdots\geq\abs{\lambda_n}$，绝对值最大和次大的特征值$\lambda_1$和$\lambda_2$间需要有一个间隙。我们选择的初始解$\vb{q}^{(0)}$需满足$\vb{V}^{-1}\vb{q}^{(0)}$的第一个分量不为零，通常而言随机的选择肯定可以满足。
+
+计算$\vb{A}^k\vb{q}^{(0)}$，令$\vb*{\alpha}=\vb{V}^{-1}\vb{q}^{(0)}$
+\begin{Equation}[power1]!
+    \vb{A}^k\vb{q}^{(0)}=\vb{V}\vb*{\Lambda}^k\vb{V}^{-1}\vb{q}^{(0)}=\Sum[i=1][n]\alpha_i\lambda_i^k\vb{v}_i=\alpha_1\lambda_1^k\qty(\vb{v}_1+\Sum[i=2][n]\frac{\alpha_i}{\alpha_1}\qty(\frac{\lambda_i}{\lambda_1})^k\vb{v}_i)
+\end{Equation}
+
+引入$\vb{r}_k$表示这里的求和（其中$k$来自$\vb{A}^k$）
+\begin{Equation}[power2]
+    \vb{r}_k=\Sum[i=2][n]\frac{\alpha_i}{\alpha_1}\qty(\frac{\lambda_i}{\lambda_1})^k\vb{v}_i
+\end{Equation}
+
+将\cref{eq:power2}代入\cref{eq:power1}
+\begin{Equation}[power3]
+    \vb{A}^k\vb{q}^{(0)}=\alpha_1\lambda_1^k(\vb{v}_1+\vb{r}_k)
+\end{Equation}
+
+考虑$\vb{r}_k$的范数，将$\lambda_2,\cdots,\lambda_n$都按最大的$\lambda_2$记，并考虑到特征向量$\vb{v}_i$模为$1$
+\begin{Equation}[power4]
+    \norm{\vb{r}_k}_2\leq\Sum[i-2][n]\abs{\frac{\alpha_i}{\alpha_1}}\abs{\frac{\lambda_i}{\lambda_1}}^k\norm{\vb{v}_i}_2\leq\abs{\frac{\lambda_2}{\lambda_1}}^k\Sum[i=2][n]\abs{\frac{\alpha_i}{\alpha_1}}
+\end{Equation}
+
+注意到当$k\to\infty$时$\norm{\vb{r}_k}_2\to 0$，且收敛速度正比于$\abs{\lambda_2}/\abs{\lambda_1}$
+\begin{Equation}[power5]
+    \Lim[k\to\infty]\norm{\vb{r}_k}_2=0
+\end{Equation}
+
+现在回过来看$\vb{A}^k\vb{q}^{(0)}$，为避免指数爆炸，计算时要除以其模
+\begin{Equation}[power6]
+    \frac{\vb{A}^k\vb{q}^{(0)}}{\norm{\vb{A}^k\vb{q}^{(0)}}_2}=\frac{\alpha_1\lambda_1^k(\vb{v}_1+\vb{r}_k)}{\norm{\alpha_1\lambda_1^k(\vb{v}_1+\vb{r}_k)}_2}=\frac{\alpha_1\lambda_1^k}{\norm{\alpha_1\lambda_1^k}_2}\cdot\frac{\vb{v}_1+\vb{r}_k}{\norm{\vb{v}_1+\vb{r}_k}_2}
+\end{Equation}
+
+\cref{eq:power6}的第一项是一个不稳定的相位项，引入$c_k$
+\begin{Equation}[power7]
+    c_k=\frac{\norm{\alpha_1\lambda_1^k}_2}{\alpha_1\lambda_1^k}
+\end{Equation}
+
+现在就可以严谨的求极限了
+\begin{Equation}[power8]
+    \Lim[k\to\infty]c_k\frac{\vb{A}^k\vb{q}^{(0)}}{\norm{\vb{A}^k\vb{q}^{(0)}}_2}=\Lim[k\to\infty]\frac{\vb{v}_1+\vb{r}_k}{\norm{\vb{v}_1+\vb{r}_k}_2}=\vb{v}_1
+\end{Equation}
+
+在算法层面，只需要重复$\vb{q}=\vb{A}\vb{q}$的迭代并在每次计算后对$\vb{q}$归一化即可。不必构造$c_k$，它的目的只是让极限收敛。算法并不需要$\vb{q}$收敛到某个常数，只要它在逼近特征向量就可以了。
+
+\begin{BoxAlgorithm}[Power迭代]
+    设$\vb{A}\in\C^{n\times n}$，$\vb{q}^{(0)}\in\C^n$是一个初始向量。该算法计算$\vb{A}$模最大的特征值。
+    \begin{Algoplain}
+        $k=0$\;
+        \While{stopping rule is not satisfied}{
+            $\xwav{\vb{q}}^{(k+1)}=\vb{A}\vb{q}^(k)$\;
+            $\vb{q}^{(k+1)}=\xwav{\vb{q}}^{(k+1)}/\norm{\xwav{\vb{q}}^{(k+1)}}_2$\;
+            $\lambda^{(k+1)}=(\vb{q}^{(k+1)})^H\vb{A}\vb{q}^{(k+1)}$\;
+            $k:=k+1$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+若$\vb{q}$很接近特征向量（且为单位向量），那么就可以用$\lambda\vb{q}^H\vb{A}\vb{q}$算出对应的特征值。
