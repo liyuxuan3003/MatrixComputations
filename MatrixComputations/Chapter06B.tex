@@ -3,11 +3,11 @@
 \subsection{特征值分解}
 
 \begin{BoxDefinition}[特征值分解]
-    对于矩阵$\vb{A}\in\R^{n\times n}$，定义其特征值分解（Eigendecomposition）
+    对于矩阵$\vb{A}\in\C^{n\times n}$，定义其特征值分解（Eigendecomposition）
     \begin{Equation}[特征值分解]
         \vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}
     \end{Equation}
-    其中，$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)\in\C^{n\times n}$是特征值构成的对角矩阵，$\vb{V}\in\C^{n\times n}$非奇异。
+    其中，$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)\in\C^{n\times n}$是对角矩阵，$\vb{V}\in\C^{n\times n}$是非奇异矩阵。
 \end{BoxDefinition}
 
 
@@ -16,11 +16,11 @@
 若$\vb{A}$存在特征值分解，也称$\vb{A}$可对角化（Diagonalizable）：不是所有矩阵都有特征分解！
 
 \begin{BoxTheorem}[特征分解与特征向量线性无关]
-    $\vb{A}\in\R^{n\times n}$存在特征分解，当且仅当$\vb{A}$具有$n$个线性无关的特征向量$\vb{v}_1,\cdots,\vb{v}_n$。
+    $\vb{A}\in\C^{n\times n}$存在特征分解，当且仅当$\vb{A}$具有$n$个线性无关的特征向量$\vb{v}_1,\cdots,\vb{v}_n$。
 \end{BoxTheorem}
 
 \begin{BoxTheorem}[特征分解与特征值重数相等]
-    $\vb{A}\in\R^{n\times n}$存在特征分解，当且仅当$\vb{A}$对于任意$i=1,\cdots,k$有$\mu_i=\lambda_i$成立。
+    $\vb{A}\in\C^{n\times n}$存在特征分解，当且仅当$\vb{A}$对于任意$i=1,\cdots,k$有$\mu_i=\lambda_i$成立。
 \end{BoxTheorem}
 
 记全体满足$\vb{A}=\vb{A}^T$的对称矩阵为$\Symm^n$，记全体满足$\vb{A}=\vb{A}^H$的厄米矩阵为$\Herm^n$。
@@ -28,3 +28,39 @@
 \begin{BoxTheorem}[厄米矩阵的特征分解]
     $\vb{A}\in\Herm^n$具有特征分解，$\vb{V}\in\C^{n\times n}$是酉矩阵，$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)$满足$\lambda_i\in\R$。
 \end{BoxTheorem}
+
+简而言之，厄米矩阵的特征值均为实数，厄米矩阵的特征向量构成单位正交基。
+
+\subsection{舒尔分解}
+
+特征值分解的一个缺点是它并非对于所有矩阵都存在。对于厄米矩阵，由于$\vb{V}$是酉矩阵，满足$\vb{V}^{-1}=\vb{V}^H$，因此厄米矩阵的特征分解可以写作$\vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}=\vb{V}\vb*{\Lambda}\vb{V}^H$。这引出了另外一个有趣的分解，继承$\vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^H$的形式但将要求降低到$\vb{A}=\vb{U}\vb{T}\vb{U}^H$，其中，$\vb{U}$仍然要求是酉矩阵，$\vb{T}$则从对角矩阵降低到上三角矩阵，这种分解就是舒尔分解，且对于所有矩阵都存在！
+
+\begin{BoxDefinition}[舒尔分解]
+    对于矩阵$\vb{A}\in\C^{n\times n}$，定义其舒尔分解（Schur Decomposition）
+    \begin{Equation}[舒尔分解]
+        \vb{A}=\vb{U}\vb{T}\vb{U}^H
+    \end{Equation}
+    其中，$\vb{T}\in\C^{n\times n}$是满足$t_{ii}=\lambda_i$的上三角矩阵，$\vb{U}$是酉矩阵。
+\end{BoxDefinition}
+
+舒尔分解的$\vb{T}$虽然变成上三角矩阵了，但其对角线元素仍然是特征值$\lambda_1,\cdots,\lambda_n$。
+
+\begin{BoxTheorem}[舒尔分解的存在性]
+    $\vb{A}\in\C^{n\times n}$总是存在舒尔分解。
+\end{BoxTheorem}
+
+舒尔分解对于任意矩阵都存在！可以用来证明许多和特征值分解相关的定理。
+
+\begin{Proof}[\cref{thm:厄米矩阵的特征分解}]
+    设$\vb{A}\in\Herm^n$，记其舒尔分解为$\vb{A}=\vb{U}\vb{T}\vb{U}^H$，注意到
+    \begin{Equation}[厄米矩阵的特征分解1]
+        \vb{0}=\vb{A}-\vb{A}^H=\vb{U}\vb{T}\vb{U}^H-\vb{U}\vb{T}^H\vb{U}^H=\vb{U}(\vb{T}-\vb{T}^H)\vb{U}^H
+    \end{Equation}
+    
+    因此有
+    \begin{Equation}[厄米矩阵的特征分解2]
+        \vb{0}=\vb{T}-\vb{T}^H
+    \end{Equation}
+    
+    由于$\vb{T}$是上三角矩阵，故$\vb{T}=\vb{T}^H$意味着$\vb{T}$实际上是对角矩阵$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)$。
+\end{Proof}
