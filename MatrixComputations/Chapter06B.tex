@@ -1,0 +1,185 @@
+\section{特征值分解}
+
+\subsection{特征值分解}
+
+\begin{BoxDefinition}[特征值分解]
+    对于矩阵$\vb{A}\in\C^{n\times n}$，定义其特征值分解（Eigendecomposition）
+    \begin{Equation}[特征值分解]
+        \vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}
+    \end{Equation}
+    其中，$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)\in\C^{n\times n}$是对角矩阵，$\vb{V}\in\C^{n\times n}$是非奇异矩阵。
+\end{BoxDefinition}
+
+
+实际上：$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)$由特征值构成，$\vb{V}=\qty(\vb{v}_1,\cdots,\vb{v}_n)$由特征向量构成！特征值分解从定义上，只规定$\vb*{\Lambda}$由特征值构成，但可以证明，若这种分解存在，则$\vb{V}$一定由特征向量构成。这是因为对于非奇异的$\vb{V}$，分解$\vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}$等价于$\vb{A}\vb{V}=\vb{V}\vb*{\Lambda}$，即对于$i=1,\cdots,n$有$\vb{A}\vb{v}_i=\lambda_i\vb{v}_i$成立。这就意味着$\vb{v}_1,\cdots,\vb{v}_n$必须恰好是特征值$\lambda_1,\cdots,\lambda_n$对应的特征向量。
+
+若$\vb{A}$存在特征值分解，也称$\vb{A}$可对角化（Diagonalizable）：不是所有矩阵都有特征分解！
+
+\begin{BoxTheorem}[特征分解与特征向量线性无关]
+    $\vb{A}\in\C^{n\times n}$存在特征分解，当且仅当$\vb{A}$具有$n$个线性无关的特征向量$\vb{v}_1,\cdots,\vb{v}_n$。
+\end{BoxTheorem}
+
+\begin{BoxTheorem}[特征分解与特征值重数相等]
+    $\vb{A}\in\C^{n\times n}$存在特征分解，当且仅当$\vb{A}$对于任意$i=1,\cdots,k$有$\mu_i=\lambda_i$成立。
+\end{BoxTheorem}
+
+记全体满足$\vb{A}=\vb{A}^T$的对称矩阵为$\Symm^n$，记全体满足$\vb{A}=\vb{A}^H$的厄米矩阵为$\Herm^n$。
+
+\begin{BoxTheorem}[厄米矩阵的特征分解]
+    $\vb{A}\in\Herm^n$具有特征分解，$\vb{V}\in\C^{n\times n}$是酉矩阵，$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)$满足$\lambda_i\in\R$。
+\end{BoxTheorem}
+
+简而言之，厄米矩阵的特征值均为实数，厄米矩阵的特征向量构成单位正交基。
+
+\subsection{舒尔分解}
+
+特征值分解的一个缺点是它并非对于所有矩阵都存在。对于厄米矩阵，由于$\vb{V}$是酉矩阵，满足$\vb{V}^{-1}=\vb{V}^H$，因此厄米矩阵的特征分解可以写作$\vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}=\vb{V}\vb*{\Lambda}\vb{V}^H$。这引出了另外一个有趣的分解，继承$\vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^H$的形式但将要求降低到$\vb{A}=\vb{U}\vb{T}\vb{U}^H$，其中，$\vb{U}$仍然要求是酉矩阵，$\vb{T}$则从对角矩阵降低到上三角矩阵，这种分解就是舒尔分解，且对于所有矩阵都存在！
+
+\begin{BoxDefinition}[舒尔分解]
+    对于矩阵$\vb{A}\in\C^{n\times n}$，定义其舒尔分解（Schur Decomposition）
+    \begin{Equation}[舒尔分解]
+        \vb{A}=\vb{U}\vb{T}\vb{U}^H
+    \end{Equation}
+    其中，$\vb{T}\in\C^{n\times n}$是满足$t_{ii}=\lambda_i$的上三角矩阵，$\vb{U}$是酉矩阵。
+\end{BoxDefinition}
+
+舒尔分解的$\vb{T}$虽然变成上三角矩阵了，但其对角线元素仍然是特征值$\lambda_1,\cdots,\lambda_n$。
+
+\begin{BoxTheorem}[舒尔分解的存在性]
+    $\vb{A}\in\C^{n\times n}$总是存在舒尔分解。
+\end{BoxTheorem}
+
+舒尔分解对于任意矩阵都存在！可以用来证明许多和特征值分解相关的定理。
+
+\begin{Proof}[\cref{thm:厄米矩阵的特征分解}]
+    设$\vb{A}\in\Herm^n$，记其舒尔分解为$\vb{A}=\vb{U}\vb{T}\vb{U}^H$，注意到
+    \begin{Equation}[厄米矩阵的特征分解1]
+        \vb{0}=\vb{A}-\vb{A}^H=\vb{U}\vb{T}\vb{U}^H-\vb{U}\vb{T}^H\vb{U}^H=\vb{U}(\vb{T}-\vb{T}^H)\vb{U}^H
+    \end{Equation}
+    
+    因此有
+    \begin{Equation}[厄米矩阵的特征分解2]
+        \vb{0}=\vb{T}-\vb{T}^H
+    \end{Equation}
+    
+    由于$\vb{T}$是上三角矩阵，故$\vb{T}=\vb{T}^H$意味着$\vb{T}$实际上是对角矩阵$\vb*{\Lambda}=\diag(\lambda_1,\cdots,\lambda_n)$。
+\end{Proof}
+
+\subsection{相似变换}
+
+\begin{BoxDefinition}[相似变换]
+    设$\vb{B}\in\C^{n\times n}$和$\vb{A}\in\C^{n\times n}$，若存在非奇异矩阵$\vb{S}\in\C^{n\times n}$
+    \begin{Equation}[相似变换]
+        \vb{B}=\vb{S}^{-1}\vb{A}\vb{S}
+    \end{Equation}
+    则称矩阵$\vb{B}$相似（Similar）于矩阵$\vb{A}$。
+    
+    该变换称为矩阵$\vb{A}$关于矩阵$\vb{S}$的相似变换（Similarity Transformation）。
+\end{BoxDefinition}
+
+相似变换的本质是将一种线性变换在另外一种基下表示出来。考虑一组基$\vb{S}$
+\begin{Equation}[相似变换1]
+    \vb{S}=\mqty[\vb{s}_1 & \cdots & \vb{s}_n]
+\end{Equation}
+
+而$\vb{A}$是一种线性变化，考虑标准基下的$\vb{x}$和经过变换的$\vb{x}‘$
+\begin{Equation}[相似变换2]
+    \vb{x}'=\vb{A}\vb{x}
+\end{Equation}
+
+在$\vb{S}$下的向量可以通过$\vb{x}=\vb{S}\vb{z}$和$\vb{x}'=\vb{S}\vb{z}'$回到标准基，故有$\vb{S}\vb{z}'=\vb{A}\vb{S}\vb{z}'$，即
+\begin{Equation}[相似变换3]
+    \vb{z}'=\vb{S}^{-1}\vb{A}\vb{S}\vb{z}
+\end{Equation}
+
+这里$\vb{B}=\vb{S}^{-1}\vb{A}\vb{S}$就是线性变换$\vb{A}$转换到$\vb{S}$基上的表示！换言之，当我们说两个矩阵是相似的，这就意味着它们本质上是在两组不同基下的相同的线性变换（$\vb{S}$非奇异保证维度不变）。
+
+\begin{BoxProperty}[矩阵相似的自反性]
+    若$\vb{B}$相似于$\vb{A}$，则$\vb{A}$相似于$\vb{B}$
+\end{BoxProperty}
+
+两个相似的矩阵$\vb{A},\vb{B}$在几乎所有主要的矩阵性质上都是相同的，除了元素不一样。
+
+\begin{BoxProperty}[相似矩阵的秩]
+    若$\vb{A},\vb{B}$相似，则$\rank(\vb{A})=\rank(\vb{B})$
+\end{BoxProperty}
+
+\begin{BoxProperty}[相似矩阵的迹]
+    若$\vb{A},\vb{B}$相似，则$\tr(\vb{A})=\tr(\vb{B})$
+\end{BoxProperty}
+
+\begin{BoxProperty}[相似矩阵的行列式]
+    若$\vb{A},\vb{B}$相似，则$\det(\vb{A})=\det(\vb{B})$
+\end{BoxProperty}
+
+\begin{BoxProperty}[相似矩阵的特征]
+    若$\vb{A},\vb{B}$相似，则具有相同的特征多项式、谱、代数重数、几何重数。
+\end{BoxProperty}
+
+\subsection{谱半径与数值半径}
+
+\begin{BoxDefinition}[数值范围]
+    定义矩阵$\vb{A}\in\C^{n\times n}$的数值范围（Numerical Range）为
+    \begin{Equation}[数值范围]
+        W(\vb{A})=\qty{\vb{x}^H\vb{A}\vb{x}\mid\vb{x}\in\C^n,\ \norm{\vb{x}}_2=1}
+    \end{Equation}
+\end{BoxDefinition}
+
+数值范围$W(\vb{A})$定义为模为$1$的$\vb{x}$与$\vb{A}$构成的全体二次型的集合。
+
+\begin{BoxDefinition}[数值半径]
+    定义矩阵$\vb{A}\in\C^{n\times n}$的数值半径（Numerical Radius）为
+    \begin{Equation}[数值半径]
+        r(\vb{A})=\max_{\vb{z}\in W(\vb{A})}\abs{\vb{z}}
+    \end{Equation}
+\end{BoxDefinition}
+
+数值半径$r(\vb{A})$是数值范围$W(\vb{A})=\qty{\vb{x}^H\vb{A}\vb{x}\mid\vb{x}\in\C^n,\ \norm{\vb{x}}_2=1}$中的最大绝对值。
+
+\begin{BoxDefinition}[谱半径]
+    定义矩阵$\vb{A}\in\C^{n\times n}$的谱半径（Spectral Radius）为
+    \begin{Equation}[数值半径]
+        \rho(\vb{A})=\max_{\vb{z}\in \sigma(\vb{A})}\abs{\vb{z}}
+    \end{Equation}
+\end{BoxDefinition}
+
+% 谱半径$\rho(\vb{A})$是谱$\sigma(\vb{A})=\qty{\lambda\in\C\mid\det(\vb{A}-\lambda\vb{I})=0}$中的最大绝对值。
+
+谱半径和数值半径虽然来自完全不同的定义，但它们之间存在以下的不等式关系。
+
+\begin{BoxProperty}[谱半径和数值半径的关系]
+    谱半径$\rho(\vb{A})$和数值半径$r(\vb{A})$的关系是
+    \begin{Equation}[谱半径和数值半径的关系]
+        \rho(\vb{A})\leq r(\vb{A})
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{瑞利商}
+
+瑞利商（Rayleigh Quotient）是一个对于厄米矩阵$\Herm^n$定义的概念。
+
+\begin{BoxDefinition}[瑞利商]
+    对于$\vb{A}\in\Herm^n$，定义$\vb{A}$关于任意$\vb{x}\neq 0$的$\vb{x}\in\C^n$瑞利商
+    \begin{Equation}[瑞利商]
+        R(\vb{x})=\frac{\vb{x}^H\vb{A}\vb{x}}{\vb{x}^H\vb{x}}
+    \end{Equation}
+    特别的，当$\norm{\vb{x}}=1$
+    \begin{Equation}[瑞利商简化]
+        R(\vb{x})=\vb{x}^H\vb{A}\vb{x}
+    \end{Equation}
+\end{BoxDefinition}
+
+瑞利-里兹定理（Rayleigh-Ritz Theorem）通过$\vb{A}$瑞利商提供了关于$\vb{A}$的特征值的信息。
+
+\begin{BoxTheorem}[瑞利-里兹定理]
+    对于$\vb{A}\in\Herm^n$，有以下关系成立
+    \begin{Equation}[瑞利-里兹定理a]
+        \lambda_{\min}\norm{\vb{x}}_2^2\leq\vb{x}^H\vb{A}\vb{x}\leq\lambda_{\max}\norm{\vb{x}}_2^2
+    \end{Equation}
+    换言之
+    \begin{Equation}[瑞利-里兹定理b]
+        \lambda_{\min}=\min_{\vb{x}\in\C^n,\ \norm{\vb{x}}=1}\vb{x}^H\vb{A}\vb{x}
+        \qquad
+        \lambda_{\max}=\max_{\vb{x}\in\C^n,\ \norm{\vb{x}}=1}\vb{x}^H\vb{A}\vb{x}
+    \end{Equation}
+\end{BoxTheorem}

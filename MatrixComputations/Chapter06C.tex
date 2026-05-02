@@ -1,0 +1,132 @@
+\section{特征值的迭代算法}
+
+特征值是特征多项式$p(\lambda)=0$的解，而$n\times n$的矩阵的$p(\lambda)$是$n$阶，但$n>4$的多项式是没有解析解的。因此，特征值问题无法解析求解！本节将介绍一些特征值问题的迭代数值解法。
+
+\subsection{幂迭代}
+
+幂迭代（Power Iteration）来自这样一种想法：随着幂次$k$的增加，$\vb{A}^k\vb{q}$会趋近$\vb{A}$最大的特征值对应的特征向量！当然，这一点需要证明。假设$\vb{A}$存在特征分解$\vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}$，并且假设特征值排序满足$\abs{\lambda_1}>\abs{\lambda_2}\geq\cdots\geq\abs{\lambda_n}$，绝对值最大和次大的特征值$\lambda_1$和$\lambda_2$间需要有一个间隙。选择的初始解$\vb{q}^{(0)}$需满足$\vb{V}^{-1}\vb{q}^{(0)}$的第一个分量不为零，通常而言随机就可以。
+
+计算$\vb{A}^k\vb{q}^{(0)}$，令$\vb*{\alpha}=\vb{V}^{-1}\vb{q}^{(0)}$
+\begin{Equation}[power1]!
+    \vb{A}^k\vb{q}^{(0)}=\vb{V}\vb*{\Lambda}^k\vb{V}^{-1}\vb{q}^{(0)}=\Sum[i=1][n]\alpha_i\lambda_i^k\vb{v}_i=\alpha_1\lambda_1^k\qty(\vb{v}_1+\Sum[i=2][n]\frac{\alpha_i}{\alpha_1}\qty(\frac{\lambda_i}{\lambda_1})^k\vb{v}_i)
+\end{Equation}
+
+引入$\vb{r}_k$表示这里的求和（其中$k$来自$\vb{A}^k$）
+\begin{Equation}[power2]
+    \vb{r}_k=\Sum[i=2][n]\frac{\alpha_i}{\alpha_1}\qty(\frac{\lambda_i}{\lambda_1})^k\vb{v}_i
+\end{Equation}
+
+将\cref{eq:power2}代入\cref{eq:power1}
+\begin{Equation}[power3]
+    \vb{A}^k\vb{q}^{(0)}=\alpha_1\lambda_1^k(\vb{v}_1+\vb{r}_k)
+\end{Equation}
+
+考虑$\vb{r}_k$的范数，将$\lambda_2,\cdots,\lambda_n$都按最大的$\lambda_2$记，并考虑到特征向量$\vb{v}_i$模为$1$
+\begin{Equation}[power4]
+    \norm{\vb{r}_k}_2\leq\Sum[i-2][n]\abs{\frac{\alpha_i}{\alpha_1}}\abs{\frac{\lambda_i}{\lambda_1}}^k\norm{\vb{v}_i}_2\leq\abs{\frac{\lambda_2}{\lambda_1}}^k\Sum[i=2][n]\abs{\frac{\alpha_i}{\alpha_1}}
+\end{Equation}
+
+注意到当$k\to\infty$时$\norm{\vb{r}_k}_2\to 0$，且收敛速度正比于$\abs{\lambda_2}/\abs{\lambda_1}$
+\begin{Equation}[power5]
+    \Lim[k\to\infty]\norm{\vb{r}_k}_2=0
+\end{Equation}
+
+现在回过来看$\vb{A}^k\vb{q}^{(0)}$，为避免指数爆炸，计算时要除以其模
+\begin{Equation}[power6]
+    \frac{\vb{A}^k\vb{q}^{(0)}}{\norm{\vb{A}^k\vb{q}^{(0)}}_2}=\frac{\alpha_1\lambda_1^k(\vb{v}_1+\vb{r}_k)}{\norm{\alpha_1\lambda_1^k(\vb{v}_1+\vb{r}_k)}_2}=\frac{\alpha_1\lambda_1^k}{\norm{\alpha_1\lambda_1^k}_2}\cdot\frac{\vb{v}_1+\vb{r}_k}{\norm{\vb{v}_1+\vb{r}_k}_2}
+\end{Equation}
+
+\cref{eq:power6}的第一项是一个不稳定的相位项，引入$c_k$
+\begin{Equation}[power7]
+    c_k=\frac{\norm{\alpha_1\lambda_1^k}_2}{\alpha_1\lambda_1^k}
+\end{Equation}
+
+现在就可以严谨的求极限了
+\begin{Equation}[power8]
+    \Lim[k\to\infty]c_k\frac{\vb{A}^k\vb{q}^{(0)}}{\norm{\vb{A}^k\vb{q}^{(0)}}_2}=\Lim[k\to\infty]\frac{\vb{v}_1+\vb{r}_k}{\norm{\vb{v}_1+\vb{r}_k}_2}=\vb{v}_1
+\end{Equation}
+
+在算法层面，只需要重复$\vb{q}=\vb{A}\vb{q}$的迭代并在每次计算后对$\vb{q}$归一化即可。不必构造$c_k$，它的目的只是让极限收敛。算法并不需要$\vb{q}$收敛到某个常数，只要它在逼近特征向量就可以了。
+
+\begin{BoxAlgorithm}[幂迭代]
+    设$\vb{A}\in\C^{n\times n}$，$\vb{q}^{(0)}\in\C^n$是初始向量。该算法计算$\vb{A}$模最大的特征值。
+    \begin{Algoplain}
+        $k=0$\;
+        \While{stopping rule is not satisfied}{
+            $\xwav{\vb{q}}^{(k+1)}=\vb{A}\vb{q}^(k)$\;
+            $\vb{q}^{(k+1)}=\xwav{\vb{q}}^{(k+1)}/\norm{\xwav{\vb{q}}^{(k+1)}}_2$\;
+            $\lambda^{(k+1)}=(\vb{q}^{(k+1)})^H\vb{A}\vb{q}^{(k+1)}$\;
+            $k:=k+1$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+若$\vb{q}$很接近特征向量（且为单位向量），那么就可以用$\lambda=\vb{q}^H\vb{A}\vb{q}$算出对应的特征值。
+
+\subsection{带有收缩的幂迭代}
+
+带有收缩的幂迭代（Power Iteration with Deflation）解决了幂迭代只能求模最大的特征值的问题。它的思路很简单，若已求出$\vb{A}$模最大的特征值$\lambda_1$及其特征向量，接下来，就可以将其从$\vb{A}$减去，转而对$\vb{A}-\lambda_1\vb{v}_1\vb{v}_1^H$做幂迭代。依次类推，就可以找到全部的$\lambda_1,\lambda_2,\cdots,\lambda_n$了。
+
+\subsection{带有偏移的幂迭代}
+
+带有偏移的幂迭代（Power Iteration with Shift）用于加速幂迭代的速度。我们知道，幂迭代的收敛速率和$\abs{\lambda_1}/\abs{\lambda_2}$有关，假如现在对$\vb{A}-\mu\vb{I}$而不是$\vb{A}$做特征值分解，得到的特征值对应变为$\lambda-\mu$，那么，在某些情况下，若$\abs{\lambda_1}/\abs{\lambda_2}<\max_{i=2,\cdots,n}\abs{\lambda_1-\mu}/\abs{\lambda_i-\mu}$，就可以使得收敛速度变的更快。不过，实践中很少这样直接使用，因为我们无法先验的确定应该选取什么样的$\mu$比较合适。偏移技巧的一个重要应用是在逆迭代（Inverse Iteration）。它会计算偏移后的逆矩阵$(\vb{A}-\mu\vb{I})^{-1}$的特征值$(\lambda-\mu)^{-1}$。此时，迭代会给出使$\abs{(\lambda-\mu)}$最小的那一特征值$\lambda$。因此，逆迭代的意义是，我们可以通过选取$\mu$来诱导出最接近$\mu$的那一个特征值！
+
+\begin{BoxAlgorithm}[Inverse迭代]
+    设$\vb{A}\in\C^{n\times n}$，$\vb{q}^{(0)}\in\C^n$是初始向量。该算法计算$\vb{A}$最接近$\mu\in\C^n$的特征值。
+    \begin{Algoplain}
+        $k=0$\;
+        \While{stopping rule is not satisfied}{
+            $\vb{q}^{(k+1)}=(\vb{A}-\mu\vb{I})^{-1}\xwav{\vb{q}}^{(k)}$\;
+            $\vb{q}^{(k+1)}=\xwav{\vb{q}}^{(k+1)}/\norm{\xwav{\vb{q}}^{(k+1)}}_2$\;
+            $\lambda^{(k+1)}=(\vb{q}^{(k+1)})^H\vb{A}\vb{q}^{(k+1)}$\;
+            $k:=k+1$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+\subsection{正交迭代}
+
+正交迭代（Orthogonal Iteration）用于一次性求出更多特征值。正交迭代可以认为是将幂迭代中的向量$\vb{q}\in\C^n$换成矩阵$\vb{Q}\in\C^{n\times r}$的版本。然而，无论$\vb{q}_1,\cdots,\vb{q}_r$怎么选取，最终随着迭代它们都会趋于模最大的那一特征值对应的特征向量。正交迭代的关键思路就是，在每一次迭代后，对$\vb{Q}$做QR分解。通过正交化迫使$\vb{q}_1,\cdots,\vb{q}_r$保持多样性，趋于不同的特征向量。
+
+\begin{BoxAlgorithm}[正交迭代]
+    设$\vb{A}\in\C^{n\times n}$，$\vb{Q}^{(0)}\in\C^{n\times r}$是初始酉矩阵。该算法计算$\vb{A}$前$r$个模最大的特征值。
+    \begin{Algoplain}
+        $k=0$\;
+        \While{stopping rule is not satisfied}{
+            $\xwav{\vb{Q}}^{(k+1)}=\vb{A}\vb{Q}^{(k)}$\;
+            $\vb{Q}^{(k+1)}\vb{R}^{(k+1)}=\xwav{\vb{Q}}^{(k+1)}$\;
+            $\{\lambda_1^{(k+1)},\cdots,\lambda_r^{(k+1)}\}=\diag((\vb{Q}^{(k+1)})^H\vb{A}\vb{Q}^{(k+1)})$\;
+            $k:=k+1$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+\subsection{LR迭代}
+
+\begin{BoxAlgorithm}[LR迭代]
+    设$\vb{A}\in\C^{n\times n}$。该算法通过LR分解将$\vb{A}$上三角化，计算$\vb{A}$的特征值。
+    \begin{Algoplain}
+        $\vb{A}^{(0)}=\vb{A}$\;
+        $k=0$\;
+        \While{stopping rule is not satisfied}{
+            $\vb{L}^{(k+1)}\vb{R}^{(k+1)}=\vb{A}^{(k)}$\;
+            $\vb{A}^{(k+1)}=\vb{R}^{(k+1)}\vb{L}^{(k+1)}$\;
+            $k:=k+1$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
+
+\subsection{QR迭代}
+
+\begin{BoxAlgorithm}[QR迭代]
+    设$\vb{A}\in\C^{n\times n}$。该算法通过QR分解将$\vb{A}$上三角化，计算$\vb{A}$的特征值。
+    \begin{Algoplain}
+        $\vb{A}^{(0)}=\vb{A}$\;
+        $k=0$\;
+        \While{stopping rule is not satisfied}{
+            $\vb{Q}^{(k+1)}\vb{R}^{(k+1)}=\vb{A}^{(k)}$\;
+            $\vb{A}^{(k+1)}=\vb{R}^{(k+1)}\vb{Q}^{(k+1)}$\;
+            $k:=k+1$\;
+        }
+    \end{Algoplain}
+\end{BoxAlgorithm}
