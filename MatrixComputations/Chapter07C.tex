@@ -29,3 +29,13 @@
         \item 存在某个偶次顺序主子式$<0$。
     \end{itemize}
 \end{BoxProperty}
+
+除此之外，如果$\vb{A}$已经是半正定矩阵，通过什么条件我可以确定$\vb{A}$是正定的呢？
+
+\begin{BoxProperty}[半正定的等号成立条件]
+    设$\vb{A}\in\Symm^n$半正定，对于$\vb{x}\in\R^n$，$\vb{x}^T\vb{A}\vb{x}=0$当且仅当$\vb{A}\vb{x}=\vb{0}$。
+\end{BoxProperty}
+
+\begin{Proof}[\cref{ppt:半正定的等号成立条件}]
+    充分性由$\vb{A}\vb{x}=\vb{0}$推出$\vb{x}^T\vb{A}\vb{x}=0$是显然的，现在证明必要性。
+\end{Proof}
