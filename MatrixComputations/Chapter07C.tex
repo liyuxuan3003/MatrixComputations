@@ -33,7 +33,7 @@
 除此之外，如果$\vb{A}$已经是半正定矩阵，通过什么条件我可以确定$\vb{A}$是正定的呢？
 
 \begin{BoxProperty}[半正定的等号成立条件]
-    设$\vb{A}\in\Symm^n$半正定，对于$\vb{x}\in\R^n$，$\vb{x}^T\vb{A}\vb{x}=0$当且仅当$\vb{A}\vb{x}=\vb{0}$。
+    设$\vb{A}\in\Symm^n$，$\vb{A}$半正定，对于$\vb{x}\in\R^n$，$\vb{x}^T\vb{A}\vb{x}=0$当且仅当$\vb{A}\vb{x}=\vb{0}$。
 \end{BoxProperty}
 
 \begin{Proof}[\cref{ppt:半正定的等号成立条件}]
@@ -61,3 +61,9 @@
 
     故$\vb{y}^T\vb{A}\vb{x}=0$需要对任意$\vb{y}\in\R^n$成立，这就证明了$\vb{A}\vb{x}=\vb{0}$。
 \end{Proof}
+
+由此可见，半正定矩阵的$\vb{x}^T\vb{A}\vb{x}\geq 0$中的等号$\vb{x}^T\vb{A}\vb{x}=0$仅当$\vb{x}\in\nullspace(\vb{A})$时成立，换言之，如果$\vb{A}$不存在$\nullspace(\vb{A})$，即$\vb{A}$非奇异，等号就排除了，那么半正定矩阵就一定是正定矩阵了！
+
+\begin{BoxProperty}[半正定与正定的关系]
+    设$\vb{A}\in\Symm^n$，$\vb{A}$半正定且非奇异，当且仅当$\vb{A}$正定。
+\end{BoxProperty}
