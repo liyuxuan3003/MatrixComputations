@@ -9,3 +9,25 @@
 \begin{BoxProperty}[负定矩阵的西尔维斯特判据]
     设$\vb{A}\in\Symm^n$，$\vb{A}\prec\vb{0}$，当且仅当$\vb{A}$的奇顺序序主子式$<0$而偶顺序主子式$>0$。
 \end{BoxProperty}
+
+正定和负定只需要检查顺序主子式（共$n$个）。半正定和半负定则需要检视全体主子式（共$2^n-1$个）。
+
+\begin{BoxProperty}[半正定矩阵的西尔维斯特判据]
+    设$\vb{A}\in\Symm^n$，$\vb{A}\succeq\vb{0}$，当且仅当$\vb{A}$的全体主子式$\geq 0$。
+\end{BoxProperty}
+
+\begin{BoxProperty}[半正定矩阵的西尔维斯特判据（弱条件）]
+    设$\vb{A}\in\Symm^n$，若前$n-1$个顺序主子式$>0$且$\det(\vb{A})\geq 0$，则$\vb{A}\succeq\vb{0}$。
+\end{BoxProperty}
+
+\begin{BoxProperty}[半负定矩阵的西尔维斯特判据]
+    设$\vb{A}\in\Symm^n$，$\vb{A}\preceq\vb{0}$，当且仅当$\vb{A}$的奇次主子式$\leq 0$且偶次主子式$\geq 0$。
+\end{BoxProperty}
+
+\begin{BoxProperty}[不定矩阵的判据]
+    设$\vb{A}\in\Symm^n$，$\vb{A}$不定若满足以下任一条件：
+    \begin{itemize}
+        \item 存在两个不同阶的奇次顺序主子式符号不同。
+        \item 存在某个偶次顺序主子式$<0$。
+    \end{itemize}
+\end{BoxProperty}
