@@ -1,0 +1,86 @@
+\section{半正定矩阵的定义}
+
+讨论Cholesky分解时，我们已经引入过半正定矩阵的定义，这里系统的再定义一遍。
+
+\subsection{二次型}
+
+二次型是由矩阵和向量定义的一个数。
+
+\begin{BoxDefinition}[二次型]
+    令$\vb{A}\in\Symm^n$，对于$\vb{x}\in\R^n$，定义二次型（Quadratic Form）
+    \begin{Equation}[二次型]
+        \vb{x}^T\vb{A}\vb{x}
+    \end{Equation}
+\end{BoxDefinition}
+
+实际上，二次型可以对于任意的$\vb{A}\in\R^n$定义，并不仅限于$\vb{A}\in\Symm^n$的对称矩阵。不过，由于任意矩阵$\vb{A}\in\R^n$都可以分为对称部分$\vb{H}=(\vb{A}+\vb{A}^T)/2$和反称部分$\vb{S}=(\vb{A}-\vb{A}^T)/2$
+\begin{Equation}[二次型对称1]
+    \vb{A}=\frac{\vb{A}+\vb{A}^T}{2}+\frac{\vb{A}-\vb{A}^T}{2}=\vb{H}+\vb{S}
+\end{Equation}
+
+其中$\vb{H}=\vb{H}^T$而$\vb{S}=-\vb{S}^T$，可以证明，反称部分对二次型贡献为零
+\begin{Equation}[二次型对称1]
+    \vb{x}^T\vb{A}\vb{x}=\vb{x}^T\qty[(\vb{A}+\vb{A}^T)/2]\vb{x}
+\end{Equation}
+
+因此，任意矩阵$\vb{A}$的二次型总等于其对称分量$\vb{H}=(\vb{A}+\vb{A}^T)/2$的二次型。
+
+\subsection{半正定矩阵的定义}
+
+正定的概念和二次型的正负是密切相关的。
+
+\begin{BoxDefinition}[正定矩阵]
+    设$\vb{A}\in\Symm^n$正定（Positive Definite, PD），若对于任意$\vb{x}\in\R^n$且$\vb{x}\neq\vb{0}$有$\vb{x}^T\vb{A}\vb{x}>0$。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[半正定矩阵]
+    设$\vb{A}\in\Symm^n$半正定（Positive Semidefinite, PSD），若对于任意$\vb{x}\in\R^n$有$\vb{x}^T\vb{A}\vb{x}\geq 0$。
+\end{BoxDefinition}
+
+简而言之，正定和半正定就是在讨论矩阵的二次型对于任意的$\vb{x}$是$>0$还是$\geq 0$。对于正定矩阵其定义额外要求$\vb{x}\neq\vb{0}$，因为当$\vb{x}=\vb{0}$时恒有$\vb{x}^T\vb{A}\vb{x}=0$，这样就没有矩阵能是正定的了。
+
+\begin{BoxDefinition}[负定矩阵]
+    设$\vb{A}\in\Symm^n$负定（Negative Definite, ND），若$-\vb{A}$正定。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[半负定矩阵]
+    设$\vb{A}\in\Symm^n$半负定（Negative Semidefinite, NSD），若$-\vb{A}$半正定。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[不定矩阵]
+    设$\vb{A}\in\Symm^n$不定（Indefinite），若$\vb{A}$与$-\vb{A}$均不是半正定矩阵。
+\end{BoxDefinition}
+
+为了书写方便，引入以下符号表示矩阵的定性：
+\begin{itemize}
+    \item $\vb{A}\succ\vb{0}$：$\vb{A}$正定（PD）
+    \item $\vb{A}\succeq\vb{0}$：$\vb{A}$半正定（PSD）
+    \item $\vb{A}\prec\vb{0}$：$\vb{A}$负定（ND）
+    \item $\vb{A}\preceq\vb{0}$：$\vb{A}$半负定（NSD）
+\end{itemize}
+
+特别的，对于不定矩阵，我们会采用$\vb{A}\not\succeq\vb{0}$的记号，介于不定的定义来自半正定。
+
+\subsection{半正定矩阵的初等性质}
+
+\begin{BoxProperty}[半正定矩阵的数乘]
+    设$\vb{A}\succeq\vb{0}$半正定而$\alpha\geq 0$，则$\alpha\vb{A}\succeq\vb{0}$也是半正定（对于$\succ$和$>$也成立）。
+\end{BoxProperty}
+
+\begin{BoxProperty}[半正定矩阵的相加]
+    设$\vb{A}\succeq\vb{0},\vb{B}\succeq\vb{0}$半正定，则$\vb{A}+\vb{B}\succeq\vb{0}$也是半正定（对于$\succ$和$>$也成立）。
+\end{BoxProperty}
+
+特别注意，逆的性质仅关于正定矩阵（直观上来说你不能对等于零的东西求逆）。
+
+\begin{BoxProperty}[正定矩阵的逆]
+    设$\vb{A}\succ\vb{0}$正定，则$\vb{A}^{-1}\succ\vb{0}$也是正定。
+\end{BoxProperty}
+
+\begin{BoxProperty}[半正定矩阵的迹]
+    设$\vb{A}\succeq\vb{0}$半正定，则$\tr(\vb{A})\geq 0$（对于$\succ$和$>$也成立）。
+\end{BoxProperty}
+
+\begin{BoxProperty}[半正定矩阵的行列式]
+    设$\vb{A}\succeq\vb{0}$半正定，则$\det(\vb{A})\geq 0$（对于$\succ$和$>$也成立）。
+\end{BoxProperty}

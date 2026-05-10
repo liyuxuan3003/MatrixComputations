@@ -1,0 +1,62 @@
+\section{半正定矩阵的构造}
+
+\begin{BoxTheorem}[半正定矩阵的构造]
+    设$\vb{A}\in\Symm^n$，$\vb{A}$是半正定矩阵当且仅当存在以下分解，其中$\vb{B}\in\R^{n\times m}$
+    \begin{Equation}[半正定矩阵的构造]
+        \vb{A}=\vb{B}\vb{B}^T
+    \end{Equation}
+\end{BoxTheorem}
+
+\begin{Proof}[\cref{thm:半正定矩阵的构造}]
+    \subparagraph{必要性} 已知$\vb{A}=\vb{B}\vb{B}^T$的存在性，证明$\vb{A}$是半正定矩阵。
+
+    构造$\vb{A}$的二次型，并代入$\vb{A}=\vb{B}\vb{B}^T$
+    \begin{Equation}[]
+        \vb{x}^T\vb{A}\vb{x}=\vb{x}^T\vb{B}\vb{B}^T\vb{x}=\norm{\vb{B}^T\vb{x}}_2^2\geq 0
+    \end{Equation}
+
+    \subparagraph{充分性} 已知$\vb{A}$是半正定矩阵，证明$\vb{A}=\vb{B}\vb{B}^T$的存在性。
+
+    根据\cref{thm:半正定矩阵和特征值}，$\vb{A}$的特征值$\lambda_1,\cdots,\lambda_n\geq 0$，故可以定义元素均为实数的$\vb*{\Lambda}^{1/2}$
+    \begin{Equation}[]
+        \vb*{\Lambda}^{1/2}=\diag(\lambda^{1/2},\cdots,\lambda_n{1/2})
+    \end{Equation}
+
+    这样特征分解就可以写为
+    \begin{Equation}[]
+        \vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^T=(\vb{V}\vb*{\Lambda}^{1/2})(\vb*{\Lambda}^{1/2}\vb{V}^T)=\vb{B}\vb{B}^T
+    \end{Equation}
+
+    其中$\vb{B}=\vb{V}\vb*{\Lambda}^{1/2}$完全由实数构成。
+\end{Proof}
+
+因此，对于$\vb{A}=\vb{B}\vb{B}^T$，$\vb{A}\vb{x}=\vb{0}$当且仅当$\vb{B}\vb{B}^T\vb{x}=\vb{0}$，后者可以转化为$\vb{x}^T\vb{B}\vb{B}^T\vb{x}=0$，这可以进一步写成$\norm{\vb{B}^T\vb{x}}_2^2=0$，因此就得到了$\vb{A}\vb{x}=\vb{0}$当且仅当$\vb{B}^T\vb{x}=\vb{0}$！这可以引出以下推论。
+
+\begin{BoxCorollary}[半正定矩阵分解的推论1]
+    对于$\vb{A}=\vb{B}\vb{B}^T$的半正定矩阵，有
+    \begin{Gather}[半正定矩阵分解的推论1a]
+        \rangespace(\vb{A})=\rangespace(\vb{B}^T)\qquad
+        \nullspace(\vb{A})=\nullspace(\vb{B})
+    \end{Gather}
+    对于$\vb{A}\in\R^{m\times n}$的一般矩阵，有
+    \begin{Equation}[半正定矩阵分解的推论1b]
+        \rangespace(\vb{A})=\rangespace(\vb{A}\vb{A}^T)\qquad
+        \nullspace(\vb{A})=\nullspace(\vb{A}^T\vb{A})
+    \end{Equation}
+\end{BoxCorollary}
+
+\begin{BoxCorollary}[半正定矩阵分解的推论2]
+    设$\vb{A}\in\Symm^n$，$\vb{A}$半正定，$\rank(\vb{A})=r$当且仅当存在$\rank(\vb{B})=r$的$\vb{B}$使$\vb{A}=\vb{B}\vb{B}^T$成立。
+\end{BoxCorollary}
+
+\begin{BoxCorollary}[半正定矩阵分解的推论3]
+    设$\vb{A}\in\Symm^n$，$\vb{A}$正定，当且仅当存在列满秩的$\vb{B}\in\R^{n\times m}$使$\vb{A}=\vb{B}\vb{B}^T$成立。
+\end{BoxCorollary}
+
+半正定矩阵$\vb{A}=\vb{B}\vb{B}^T$的分解是不唯一的，但有两个常见的附加条件下$\vb{B}$可以是唯一的
+\begin{itemize}
+    \item $\vb{B}\in\R^{n\times n}$是满足$b_{ii}>0$的下三角矩阵，这本质就是Cholesky分解。
+    \item $\vb{B}\in\R^{n\times n}$仍然是半正定矩阵，该唯一解就是$\vb{B}=\vb{A}^{1/2}=\vb{V}\vb*{\Lambda}^{1/2}\vb{V}^T$。
+\end{itemize}
+
+我们将$\vb{A}^{1/2}=\vb{V}\vb*{\Lambda}^{1/2}\vb{V}^T$称为$\vb{A}$的半正定平方根（PSD Square Root），它是唯一的。
