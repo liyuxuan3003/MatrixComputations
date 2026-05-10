@@ -11,19 +11,19 @@
     \subparagraph{必要性} 已知$\vb{A}=\vb{B}\vb{B}^T$的存在性，证明$\vb{A}$是半正定矩阵。
 
     构造$\vb{A}$的二次型，并代入$\vb{A}=\vb{B}\vb{B}^T$
-    \begin{Equation}[]
+    \begin{Equation}[半正定矩阵的构造1]
         \vb{x}^T\vb{A}\vb{x}=\vb{x}^T\vb{B}\vb{B}^T\vb{x}=\norm{\vb{B}^T\vb{x}}_2^2\geq 0
     \end{Equation}
 
     \subparagraph{充分性} 已知$\vb{A}$是半正定矩阵，证明$\vb{A}=\vb{B}\vb{B}^T$的存在性。
 
     根据\cref{thm:半正定矩阵和特征值}，$\vb{A}$的特征值$\lambda_1,\cdots,\lambda_n\geq 0$，故可以定义元素均为实数的$\vb*{\Lambda}^{1/2}$
-    \begin{Equation}[]
+    \begin{Equation}[半正定矩阵的构造2]
         \vb*{\Lambda}^{1/2}=\diag(\lambda^{1/2},\cdots,\lambda_n{1/2})
     \end{Equation}
 
     这样特征分解就可以写为
-    \begin{Equation}[]
+    \begin{Equation}[半正定矩阵的构造3]
         \vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^T=(\vb{V}\vb*{\Lambda}^{1/2})(\vb*{\Lambda}^{1/2}\vb{V}^T)=\vb{B}\vb{B}^T
     \end{Equation}
 
