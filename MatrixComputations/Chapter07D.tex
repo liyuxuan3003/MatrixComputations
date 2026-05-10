@@ -1,1 +1,29 @@
 \section{半正定矩阵与合同变换}
+
+\begin{BoxDefinition}[合同变换]
+    设$\vb{A}\in\Symm^n$和$\vb{A}\in\R^{n\times m}$
+    \begin{Equation}[合同变换]
+        \vb{C}=\vb{B}^T\vb{A}\vb{B}
+    \end{Equation}
+    该变换称为对称矩阵$\vb{A}$关于矩阵$\vb{B}$的合同变换（Congruence Transformation）。
+\end{BoxDefinition}
+
+\cref{def:合同变换}的合同变换和前文\cref{def:相似变换}的相似变换形式上很接近
+\begin{itemize}
+    \item 合同变换$\vb{C}=\vb{B}^T\vb{A}\vb{B}$的意义是，矩阵变换前后是在不同基下的相同的二次型$\vb{x}^T\vb{A}\vb{x}$
+    \item 相似变换$\vb{B}=\vb{S}^{-1}\vb{A}\vb{S}$的意义是，矩阵变换前后是在不同基下的相同的线性变换$\vb{A}\vb{x}$
+\end{itemize}
+
+合同变换保证了二次型不变，因此有许多正定性相关的性质。
+
+\begin{BoxProperty}[合同变换矩阵的性质1]
+    设$\vb{C}=\vb{B}^T\vb{A}\vb{B}$，若$\vb{A}\succeq\vb{0}$或$\vb{A}\succ\vb{0}$，则有$\vb{C}\succeq\vb{0}$。
+\end{BoxProperty}
+
+\begin{BoxProperty}[合同变换矩阵的性质2]
+    设$\vb{C}=\vb{B}^T\vb{A}\vb{B}$，若$\vb{A}\succ\vb{0}$，$\vb{C}\succ\vb{0}$当且仅当$\vb{B}$列满秩。
+\end{BoxProperty}
+
+\begin{BoxProperty}[合同变换矩阵的性质3]
+    设$\vb{C}=\vb{B}^T\vb{A}\vb{B}$，若$\vb{B}$非奇异，$\vb{A}\succ\vb{0}$当且仅当$\vb{C}\succ\vb{0}$，$\vb{A}\succeq\vb{0}$当且仅当$\vb{C}\succeq\vb{0}$。
+\end{BoxProperty}
