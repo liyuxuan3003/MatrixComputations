@@ -40,34 +40,22 @@
 简而言之，正定和半正定就是在讨论矩阵的二次型对于任意的$\vb{x}$是$>0$还是$\geq 0$。对于正定矩阵其定义额外要求$\vb{x}\neq\vb{0}$，因为当$\vb{x}=\vb{0}$时恒有$\vb{x}^T\vb{A}\vb{x}=0$，这样就没有矩阵能是正定的了。
 
 \begin{BoxDefinition}[负定矩阵]
-    设$\vb{A}\in\Symm^n$负定（Negative Definite, ND），若对于任意$\vb{x}\in\R^n$且$\vb{x}\neq\vb{0}$有$\vb{x}^T\vb{A}\vb{x}<0$。
+    设$\vb{A}\in\Symm^n$负定（Negative Definite, ND），若$-\vb{A}$正定。
 \end{BoxDefinition}
 
 \begin{BoxDefinition}[半负定矩阵]
-    设$\vb{A}\in\Symm^n$半负定（Negative Semidefinite, NSD），若对于任意$\vb{x}\in\R^n$有$\vb{x}^T\vb{A}\vb{x}\leq 0$。
+    设$\vb{A}\in\Symm^n$半负定（Negative Semidefinite, NSD），若$-\vb{A}$半正定。
 \end{BoxDefinition}
-
-负定和半负定本质上就是正定和半正定取反：$\vb{A}$负定等价于$-\vb{A}$正定，$\vb{A}$半负定等价于$-\vb{A}$半正定。
 
 \begin{BoxDefinition}[不定矩阵]
-    设$\vb{A}\in\Symm^n$不定（Indefinite），若$\vb{A}$与$-\vb{A}$均不是半正定矩阵，即存在$\vb{x},\vb{y}\in\R^n$使得
-    \begin{Equation}[不定矩阵]
-        \vb{x}^T\vb{A}\vb{x}>0,\qquad \vb{y}^T\vb{A}\vb{y}<0
-    \end{Equation}
+    设$\vb{A}\in\Symm^n$不定（Indefinite），若$\vb{A}$与$-\vb{A}$均不是半正定矩阵。
 \end{BoxDefinition}
-
-不定矩阵既不保证二次型始终非负，也不保证始终非正，而是同时存在正值和负值。
-
-\subsection{定性符号}
 
 为了书写方便，引入以下符号表示矩阵的定性：
-
-\begin{BoxDefinition}[矩阵定性符号]
-    \begin{align}
-        \vb{A} \succ 0 &\quad\Longleftrightarrow\quad \vb{A}\in\Symm^n\text{正定（PD）}\\
-        \vb{A} \succeq 0 &\quad\Longleftrightarrow\quad \vb{A}\in\Symm^n\text{半正定（PSD）}\\
-        \vb{A} \prec 0 &\quad\Longleftrightarrow\quad \vb{A}\in\Symm^n\text{负定（ND）}\\
-        \vb{A} \preceq 0 &\quad\Longleftrightarrow\quad \vb{A}\in\Symm^n\text{半负定（NSD）}
-    \end{align}
-\end{BoxDefinition}
+\begin{itemize}
+    \item $\vb{A}\succ 0$：$\vb{A}$正定（PD）
+    \item $\vb{A}\succeq 0$：$\vb{A}$半正定（PSD）
+    \item $\vb{A}\prec 0$：$\vb{A}$负定（ND）
+    \item $\vb{A}\preceq 0$：$\vb{A}$半负定（NSD）
+\end{itemize}
 
