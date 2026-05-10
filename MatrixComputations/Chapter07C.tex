@@ -38,4 +38,26 @@
 
 \begin{Proof}[\cref{ppt:半正定的等号成立条件}]
     充分性由$\vb{A}\vb{x}=\vb{0}$推出$\vb{x}^T\vb{A}\vb{x}=0$是显然的，现在证明必要性。
+
+    任取$\vb{y}\in\R^n$，构造关于$\lambda\in\R$的二次函数
+    \begin{Equation}[半正定等号条件1]
+        p(\lambda)=(\vb{x}+\lambda\vb{y})^T\vb{A}(\vb{x}+\lambda\vb{y})
+    \end{Equation}
+
+    展开
+    \begin{Equation}[半正定等号条件2]
+        p(\lambda)=(\vb{y}^T\vb{A}\vb{y})\lambda^2+2(\vb{y}^T\vb{A}\vb{x})\lambda+(\vb{x}^T\vb{A}\vb{x})
+    \end{Equation}
+
+    由于$\vb{A}\succeq\vb{0}$半正定，对任意的$\lambda$和$\vb{y}$总有$p(\lambda)\geq 0$。因此$p(\lambda)$作为$\lambda$的二次函数，其判别式必不大于零
+    \begin{Equation}[半正定等号条件3]
+        4(\vb{y}^T\vb{A}\vb{x})^2-4(\vb{y}^T\vb{A}\vb{y})(\vb{x}^T\vb{A}\vb{x})\leq 0
+    \end{Equation}
+
+    已知$\vb{x}^T\vb{A}\vb{x}=0$，代入即得
+    \begin{Equation}[半正定等号条件4]
+        4(\vb{y}^T\vb{A}\vb{x})^2\leq 0
+    \end{Equation}
+
+    故$\vb{y}^T\vb{A}\vb{x}=0$对任意$\vb{y}\in\R^n$成立。取$\vb{y}=\vb{A}\vb{x}$即得$\norm{\vb{A}\vb{x}}_2^2=0$，故$\vb{A}\vb{x}=\vb{0}$。
 \end{Proof}
