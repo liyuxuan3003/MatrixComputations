@@ -92,7 +92,76 @@
     \end{Gather}
 \end{BoxProperty}
 
-\subsubsection{奇异值分解的性质}
+简而言之，$\vb{A}\vb{A}^T$和$\vb{A}^T\vb{A}$的特征向量分别为$\vb{U}$和$\vb{V}$，特征值则都是$\sigma_1^2,\cdots,\sigma_p^2$。
 
+\subsection{奇异值分解的性质}
+
+\begin{BoxProperty}[转置矩阵的奇异分解]
+    设$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T\in\R^{m\times n}$，则$\vb{A}^T$和$\vb{A}$奇异值相同，且$\vb{A}^T$的奇异分解为
+    \begin{Equation}[转置矩阵的奇异分解]
+        \vb{A}^T=\vb{V}\vb*{\Sigma}^T\vb{U}^T
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[逆矩阵的奇异分解]
+    设$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T\in\R^{m\times n}$，若$\vb{A}$可逆，则$\vb{A}^{-1}$的奇异分解为
+    \begin{Equation}[逆矩阵的奇异分解]
+        \vb{A}^{-1}=\vb{V}\vb*{\Sigma}^{-1}\vb{U}^{-1}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[奇异值的平方和]
+    设$\vb{A}\in\R^{m\times n}$，奇异值为$\sigma_1,\cdots,\sigma_p$，则
+    \begin{Equation}[奇异值的平方和]
+        \Sum[i=1][p]\sigma_i^2=\tr(\vb{A}^T\vb{A})=\tr(\vb{A}\vb{A}^T)
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[奇异值的积]
+    设$\vb{A}\in\R^{n\times n}$，奇异值为$\sigma_1,\cdots,\sigma_n$，则
+    \begin{Equation}[奇异值的积]
+        \Prod[i=1][n]\sigma_i=\abs{\det(\vb{A})}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[奇异值矩阵的表示]
+    设$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T\in\R^{m\times n}$，则奇异值矩阵$\vb*{\Sigma}$可以表示为
+    \begin{Equation}[奇异值矩阵的表示]
+        \vb{U}^T\vb{A}\vb{V}=\vb*{\Sigma}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[对称矩阵的奇异值分解]
+    设$\vb{A}\in\S^n$是对称矩阵，则其奇异值是特征值的绝对值
+    \begin{Equation}[对称矩阵的奇异值分解]
+        \sigma_i=\abs{\lambda_i}
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{奇异值分解和四大子空间}
+
+关于奇异值分解，它最重大的意义是系统性的解释了矩阵的四大基本子空间的结构！
+
+\begin{BoxProperty}[奇异值分解和四大基本子空间]
+    设$\vb{A}\in\R^{m\times n}$，$\vb{U}_1,\vb{U}_2$反映了$\vb{A}$的列空间和左零空间
+    \begin{Equation}[奇异值分解和四大基本子空间U]
+        \rangespace(\vb{A})=\rangespace(\vb{U}_1)\qquad
+        \nullspace(\vb{A}^T)=\rangespace(\vb{U}_2)
+    \end{Equation}
+    设$\vb{A}\in\R^{m\times n}$，$\vb{V}_1,\vb{V}_2$反映了$\vb{A}$的行空间和右零空间
+    \begin{Equation}[奇异值分解和四大基本子空间R]
+        \rangespace(\vb{A}^T)=\rangespace(\vb{V}_1)\qquad
+        \nullspace(\vb{A})=\rangespace(\vb{V}_2)
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[奇异值分解和秩]
+    设$\vb{A}\in\R^{m\times n}$，有$r$个非零奇异值，则
+    \begin{Equation}[奇异值分解和秩]
+        \rank(\vb{A})=r
+    \end{Equation}
+\end{BoxProperty}
+
+在数值计算中，奇异值分解是最常用的确定矩阵秩的方法！
 
 
