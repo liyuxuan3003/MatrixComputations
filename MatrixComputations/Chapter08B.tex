@@ -1,1 +1,112 @@
-\section{奇异值矩阵范数}
+\section{奇异值与矩阵范数}
+
+矩阵范数的定义比较多样，主要有三套定义：元素范数、诱导范数、Schatten范数。
+
+矩阵范数同样满足范数的四个性质
+\begin{enumerate}
+    \item $f(\vb{A})\geq 0$对于任意的$\vb{A}$成立。
+    \item $f(\vb{A})=0$当且仅当$\vb{A}=\vb{0}$成立。
+    \item $f(\alpha\vb{A})=\abs{\alpha}f(\vb{A})$对于任意的$\alpha,\vb{A}$成立。
+    \item $f(\vb{A}+\vb{B})\leq f(\vb{A})+f(\vb{B})$对于任意的$\vb{A},\vb{B}$成立。
+\end{enumerate}
+
+\subsection{元素范数}
+
+\begin{BoxDefinition}[元素范数]
+    矩阵$\vb{A}\in\R^{m\times n}$的元素范数（Elementwise Norm）定义为
+    \begin{Equation}[元素范数]
+        \norm{\vb{A}}_{p,q}=\qty(\Sum[j=1][n]\qty(\Sum[i=1][m]\abs{a_{ij}}^p)^{q/p})^{1/q}
+    \end{Equation}
+\end{BoxDefinition}
+
+矩阵的元素范数是最接近向量范数的概念了：在两个维度上分别应用$p$范数和$q$范数。
+
+\begin{BoxProperty}[最大绝对值范数]
+    对于$p=q=\infty$的元素范数$\norm{\vb{A}}_{\infty,\infty}$，它反映了元素绝对值的最大值
+    \begin{Equation}[最大绝对值范数]
+        \norm{\vb{A}}_{\infty,\infty}=\max_{i,j}\abs{a_{i,j}}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[求和绝对值范数]
+    对于$p=q=1$的元素范数$\norm{\vb{A}}_{1,1}$，它反映了元素绝对值的和
+    \begin{Equation}[求和绝对值范数]
+        \norm{\vb{A}}_{1,1}=\Sum[i,j]\abs{a_{ij}}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[Frobenius范数]
+    对于$p=q=2$的元素范数$\norm{\vb{A}}_{2,2}$，它反映了元素绝对值的平方和的平方根
+
+    Frobenius范数（Frobenius Norm）是$p=q=2$的元素范数$\norm{\vb{A}}_{2,2}$，也记为$\norm{\vb{A}}_F$。
+    \begin{Equation}[Frobenius范数]
+        \norm{\vb{A}}_{2,2}=\norm{\vb{A}}_F=\sqrt{\Sum[i,j]\abs{a_{ij}}^2}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[Frobenius范数和迹]
+    Frobenius范数可以用迹表示为
+    \begin{Equation}[Frobenius范数和迹]
+        \norm{\vb{A}}_F=\sqrt{\abs{\tr(\vb{A}^T\vb{A})}}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[Frobenius范数和奇异值]
+    Frobenius范数可以用奇异值表示为
+    \begin{Equation}[Frobenius范数和奇异值]
+        \norm{\vb{A}}_F=\sqrt{\sigma_1^2+\cdots+\sigma_r^2}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[Frobenius范数的亚乘性]
+    Frobenius范数满足亚乘性
+    \begin{Equation}[Frobenius范数的亚乘性]
+        \norm{\vb{A}\vb{B}}_F\leq\norm{\vb{A}}_F\norm{\vb{B}}_F
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{诱导范数}
+
+\begin{BoxDefinition}[诱导范数]
+    矩阵$\vb{A}\in\R^{m\times n}$的诱导范数（Induced Norm）定义为
+    \begin{Equation}[诱导范数]
+        \norm{\vb{A}}_p=\max_{\norm{\vb{x}}_p=1}\norm{\vb{A}\vb{x}}_p
+    \end{Equation}
+\end{BoxDefinition}
+
+矩阵的诱导范数反映了这样一个事实：它能将$p$范数意义下的单位向量拉到多长？
+
+\begin{BoxProperty}[最大列和范数]
+    对于$p=q=\infty$的元素范数$\norm{\vb{A}}_{\infty}$，它反映了元素的最大列和
+    \begin{Equation}[最大列和范数]
+        \norm{\vb{A}}_{\infty}=\max_{1\leq i\leq m}\Sum[j=1][n]\abs{a_{ij}}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[最大行和范数]
+    对于$p=q=1$的元素范数$\norm{\vb{A}}_{1}$，它反映了元素的最大行和
+    \begin{Equation}[最大行和范数]
+        \norm{\vb{A}}_{1}=\max_{1\leq j\leq n}\Sum[i=1][m]\abs{a_{ij}}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[谱范数]
+    对于$p=q=2$的元素范数$\norm{\vb{A}}_{2}$，它反映了最大奇异值，称为谱范数（Spectral Norm）
+    \begin{Equation}[谱范数]
+        \norm{\vb{A}}_2=\sigma_{1}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{Proof}[\cref{ppt:谱范数}]
+    对于任意满足$\norm{\vb{x}}_2\leq 1$的$\vb{x}$，有
+    \begin{Equation}[谱范数1]
+        \norm{\vb{A}\vb{x}}_2=\norm{\vb{U}\vb*{\Sigma}\vb{V}^T\vb{x}}_2=\norm{\vb*{\Sigma}\vb{V}^T\vb{x}}_2\leq\sigma_1\norm{\vb{V}^T\vb{x}}_2=\sigma_1\norm{\vb{x}}_2\leq\sigma_1
+    \end{Equation}
+    而如果取$\vb{x}=\vb{v}_1$
+    \begin{Equation}[谱范数2]
+        \norm{\vb{A}\vb{x}}_2=\norm{\vb{A}\vb{v}_1}_2=\norm{\sigma_1\vb{u}_1}_2=\sigma_1
+    \end{Equation}
+    这就证明了$\sigma_1$是$\norm{x}_2=1$下$\norm{\vb{A}\vb{x}}_2$的最大值了。
+\end{Proof}
+
+
