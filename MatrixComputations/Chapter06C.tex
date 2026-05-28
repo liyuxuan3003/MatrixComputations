@@ -71,7 +71,7 @@
 
 带有偏移的幂迭代（Power Iteration with Shift）用于加速幂迭代的速度。我们知道，幂迭代的收敛速率和$\abs{\lambda_1}/\abs{\lambda_2}$有关，假如现在对$\vb{A}-\mu\vb{I}$而不是$\vb{A}$做特征值分解，得到的特征值对应变为$\lambda-\mu$，那么，在某些情况下，若$\abs{\lambda_1}/\abs{\lambda_2}<\max_{i=2,\cdots,n}\abs{\lambda_1-\mu}/\abs{\lambda_i-\mu}$，就可以使得收敛速度变的更快。不过，实践中很少这样直接使用，因为我们无法先验的确定应该选取什么样的$\mu$比较合适。偏移技巧的一个重要应用是在逆迭代（Inverse Iteration）。它会计算偏移后的逆矩阵$(\vb{A}-\mu\vb{I})^{-1}$的特征值$(\lambda-\mu)^{-1}$。此时，迭代会给出使$\abs{(\lambda-\mu)}$最小的那一特征值$\lambda$。因此，逆迭代的意义是，我们可以通过选取$\mu$来诱导出最接近$\mu$的那一个特征值！
 
-\begin{BoxAlgorithm}[Inverse迭代]
+\begin{BoxAlgorithm}[逆迭代]
     设$\vb{A}\in\C^{n\times n}$，$\vb{q}^{(0)}\in\C^n$是初始向量。该算法计算$\vb{A}$最接近$\mu\in\C^n$的特征值。
     \begin{Algoplain}
         $k=0$\;
