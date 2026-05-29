@@ -87,27 +87,27 @@
     \end{Equation}
 \end{BoxProperty}
 
-\subsection{伪逆}
+% \subsection{伪逆}
 
-通常来说，逆矩阵是对于方阵定义的，而对于非方阵，可以引入伪逆的概念。
+% 通常来说，逆矩阵是对于方阵定义的，而对于非方阵，可以引入伪逆的概念。
 
-\begin{BoxDefinition}[伪逆]
-    若矩阵$\vb{A}\in\R^{m\times n}$是列满秩的，定义其伪逆（Pseudo Inverse）
-    \begin{Equation}[伪逆]
-        \vb{A}^{\dagger}=(\vb{A}^T\vb{A})^{-1}\vb{A}^T
-    \end{Equation}
-\end{BoxDefinition}
+% \begin{BoxDefinition}[伪逆]
+%     若矩阵$\vb{A}\in\R^{m\times n}$是列满秩的，定义其伪逆（Pseudo Inverse）
+%     \begin{Equation}[伪逆]
+%         \vb{A}^{\dagger}=(\vb{A}^T\vb{A})^{-1}\vb{A}^T
+%     \end{Equation}
+% \end{BoxDefinition}
 
-伪逆满足部分的逆性，有$\vb{A}^{\dagger}\vb{A}=\vb{I}$但未必有$\vb{A}\vb{A}^{\dagger}=\vb{I}$成立。
+% 伪逆满足部分的逆性，有$\vb{A}^{\dagger}\vb{A}=\vb{I}$但未必有$\vb{A}\vb{A}^{\dagger}=\vb{I}$成立。
 
-\begin{BoxProperty}[伪逆的逆性]
-    伪逆满足部分的逆性
-    \begin{Equation}[伪逆的逆性]
-        \vb{A}^{\dagger}\vb{A}=\vb{I}
-    \end{Equation}
-\end{BoxProperty}
+% \begin{BoxProperty}[伪逆的逆性]
+%     伪逆满足部分的逆性
+%     \begin{Equation}[伪逆的逆性]
+%         \vb{A}^{\dagger}\vb{A}=\vb{I}
+%     \end{Equation}
+% \end{BoxProperty}
 
-伪逆可以简化许多结论的表达：最小二乘的解$\vb{x}_{LS}=\vb{A}^{\dagger}\vb{y}$，正交投影算子$\vb{P}_{\vb{A}}=\vb{A}\vb{A}^{\dagger}$。
+% 伪逆可以简化许多结论的表达：最小二乘的解$\vb{x}_{LS}=\vb{A}^{\dagger}\vb{y}$，正交投影算子$\vb{P}_{\vb{A}}=\vb{A}\vb{A}^{\dagger}$。
 
 \subsection{应用LU分解计算最小二乘法}
 

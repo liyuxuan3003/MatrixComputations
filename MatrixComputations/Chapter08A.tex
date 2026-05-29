@@ -1,0 +1,167 @@
+\section{奇异值分解}
+
+\subsection{奇异值分解}
+
+\begin{BoxDefinition}[奇异值与奇异向量]
+    对于$\vb{A}\in\R^{m\times n}$，若存在$\vb{u}\in\R^m,\vb{v}\in\R^n$且$\vb{u},\vb{v}\neq\vb{0}$以及$\sigma\in\R_{+}$，使
+    \begin{Equation}[奇异值与奇异向量]
+        \vb{A}\vb{v}=\sigma\vb{u}\qquad
+        \vb{A}^T\vb{u}=\sigma\vb{v}
+    \end{Equation}
+    则称$\sigma$是奇异值（Singular Value），而称$\vb{u},\vb{v}$为左右奇异向量（Singular Vector）。
+\end{BoxDefinition}
+
+\begin{BoxDefinition}[奇异值分解]
+    对于矩阵$\vb{A}\in\R^{m\times n}$，定义其奇异值分解（Singular Value Decomposition, SVD）
+    \begin{Equation}[奇异值分解]
+        \vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T
+    \end{Equation}
+    其中，$\vb{U}\in\R^{m\times m},\vb{V}\in\R^{n\times n}$是正交矩阵，$\vb*{\Sigma}\in\R^{m\times n}$是对角矩阵
+    \begin{Equation}[奇异值分解的对角矩阵]
+        \vb*{\Sigma}_{ij}=\begin{cases}
+            \sigma_i,&i=j\\
+            0,&i\neq j\\
+        \end{cases}
+    \end{Equation}
+    且所有元素按顺序排列并均非负$\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_p\geq 0$，其中$p=\min\qty{m,n}$。
+\end{BoxDefinition}
+
+\begin{BoxTheorem}[奇异值分解的存在性]
+    $\vb{A}\in\R^{m\times n}$总是存在奇异值分解。
+\end{BoxTheorem}
+
+奇异值分解$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T$和特征值分解$\vb{A}=\vb{V}\vb*{\Lambda}\vb{V}^{-1}$在形式上是很相似的，从某种意义上可以视为特征值分解的扩展。首先，仅有可对角化的方阵$\R^{n\times n}$存在特征值分解，但任意的一般矩阵$\R^{m\times n}$都总是存在奇异值分解，适用性提高了很多！其次，特征值和特征向量的概念是来自$\vb{A}\vb{v}=\lambda\vb{v}$的关系，奇异值和奇异向量则将其裂分为相互耦合$\vb{A}\vb{v}=\sigma\vb{u}$和$\vb{A}^T\vb{u}=\sigma\vb{v}$的左右两组关系，即$\vb{A}$和$\vb{A}^T$可以在右奇异向量$\vb{v}$和左奇异向量$\vb{u}$间来回变换，且效果是相同的非负常数倍$\sigma>0$。容易证明，$\vb{U}$、$\vb{V}$、$\vb*{\Sigma}$提供了$i=1,\cdots,p$组奇异向量和奇异值$\vb{u}_i、\vb{v}_i、\sigma_i$。
+
+对$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T$两边右乘$\vb{V}$，利用$\vb{V}$的正交性
+\begin{Equation}[奇异讨论1]
+    \vb{A}\vb{V}=\vb{U}\vb*{\Sigma}\qquad \vb{A}\vb{v}_i=\sigma_i\vb{u}_i,\ i=1,\cdots,p
+\end{Equation}
+
+对$\vb{A}^T=\vb{V}\vb*{\Sigma}^T\vb{U}^T$两边右乘$\vb{U}$，利用$\vb{U}$的正交性
+\begin{Equation}[奇异讨论2]
+    \vb{A}^T\vb{U}=\vb{V}\vb*{\Sigma}^T\qquad \vb{A}^T\vb{u}_i=\sigma_i\vb{v}_i,\ i=1,\cdots,p
+\end{Equation}
+
+上述我们讨论的都是Full SVD，实际上可以写出更为紧凑的Compact SVD，这种压缩主要来自两个方面：首先，对于$m>n$和$m<n$的情况，由于$p=\min\qty{m,n}$，因此$\vb{U}$和$\vb{V}$在两种情况下都会有一部分不影响结果但为了凑正交方阵的列向量。其次，奇异值只规定非负但可以等于零，设有$r$个非负奇异值，即有$\sigma_1\geq\sigma_2\geq\cdots\geq\sigma_r>0$而$\sigma_{r+1}=\cdots=\sigma_p=0$。
+
+\begin{BoxEquation}[奇异值分解的分块形式]
+    设$\vb{A}\in\R^{m\times n}$有$r$个非零奇异值，则奇异值分解$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T$可以写为以下分块形式
+    \begin{Equation}[奇异值分解的分块形式]
+        \vb{A}=
+        \mqty[\vb{U}_1&\vb{U}_2]
+        \mqty[\tilde{\vb*{\Sigma}}&\vb{0}\\ \vb{0}&\vb{0}]
+        \mqty[\vb{V}_1^T\\ \vb{V}_2^T]
+    \end{Equation}
+    或进一步写为
+    \begin{Equation}[奇异值分解的压缩形式]
+        \vb{A}=\vb{U}_1\vb*{\Sigma}\vb{V}^T
+    \end{Equation}
+    $\tilde{\vb*{\Sigma}}\in\R^{r\times r}$可以表示为
+    \begin{Equation}[奇异值分解的分块形式1]
+        \tilde{\vb*{\Sigma}}=\diag(\sigma_1,\cdots,\sigma_r)
+    \end{Equation}
+    $\vb{U}_1\in\R^{m\times r},\vb{U}_2\in\R^{m\times(m-r)}$可以表示为
+    \begin{Equation}[奇异值分解的分块形式2]
+        \vb{U}_1=\qty[\vb{u}_1,\cdots,\vb{u}_r]\qquad
+        \vb{U}_2=\qty[\vb{u}_{r+1},\cdots,\vb{u}_{m}]
+    \end{Equation}
+    $\vb{V}_1\in\R^{n\times r},\vb{V}_2\in\R^{n\times(n-r)}$可以表示为
+    \begin{Equation}[奇异值分解的分块形式3]
+        \vb{V}_1=\qty[\vb{v}_1,\cdots,\vb{v}_r]\qquad
+        \vb{V}_2=\qty[\vb{v}_{r+1},\cdots,\vb{v}_{n}]
+    \end{Equation}
+\end{BoxEquation}
+
+\subsection{奇异分解和特征分解的关系}
+
+奇异分解和特征分解的形式是十分相似的，有趣的是，对于半正定矩阵，它具有相同的奇异分解和特征分解！\cref{thm:厄米矩阵的特征分解}告诉我们对称矩阵总是存在特征分解，特征值为实数，特征向量相互正交，\cref{thm:半正定矩阵的构造}告诉我们半正定矩阵总是具有$\vb{A}\vb{A}^T$或$\vb{A}^T\vb{A}$的形式，因此有以下两个性质。
+
+\begin{BoxProperty}[奇异分解和特征分解1]
+    设$\vb{A}\in\R^{m\times n}$的奇异分解为$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T$，则$\vb{A}\vb{A}^T$具有相同的特征分解和奇异分解
+    \begin{Gather}[奇异分解和特征分解1]
+        \vb{A}\vb{A}^T=\vb{U}\vb{D}_1\vb{U}^T\in\R^{m\times m}\id{a}\\
+        \vb{D}_1=\vb*{\Sigma}\vb*{\Sigma}^T=\diag(\sigma_1^2,\cdots,\sigma_p^2,0,\cdots,0)\in\R^{m\times m}\id{b}
+    \end{Gather}
+\end{BoxProperty}
+
+\begin{BoxProperty}[奇异分解和特征分解2]
+    设$\vb{A}\in\R^{m\times n}$的奇异分解为$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T$，则$\vb{A}^T\vb{A}$具有相同的特征分解和奇异分解
+    \begin{Gather}[奇异分解和特征分解1]
+        \vb{A}^T\vb{A}=\vb{V}\vb{D}_2\vb{V}^T\in\R^{n\times n}\id{a}\\
+        \vb{D}_2=\vb*{\Sigma}^T\vb*{\Sigma}=\diag(\sigma_1^2,\cdots,\sigma_p^2,0,\cdots,0)\in\R^{n\times n}\id{b}
+    \end{Gather}
+\end{BoxProperty}
+
+简而言之，$\vb{A}\vb{A}^T$和$\vb{A}^T\vb{A}$的特征向量分别为$\vb{U}$和$\vb{V}$，特征值则都是$\sigma_1^2,\cdots,\sigma_p^2$。
+
+\subsection{奇异值分解的性质}
+
+\begin{BoxProperty}[转置矩阵的奇异分解]
+    设$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T\in\R^{m\times n}$，则$\vb{A}^T$和$\vb{A}$奇异值相同，且$\vb{A}^T$的奇异分解为
+    \begin{Equation}[转置矩阵的奇异分解]
+        \vb{A}^T=\vb{V}\vb*{\Sigma}^T\vb{U}^T
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[逆矩阵的奇异分解]
+    设$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T\in\R^{m\times n}$，若$\vb{A}$可逆，则$\vb{A}^{-1}$的奇异分解为
+    \begin{Equation}[逆矩阵的奇异分解]
+        \vb{A}^{-1}=\vb{V}\vb*{\Sigma}^{-1}\vb{U}^{-1}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[奇异值的平方和]
+    设$\vb{A}\in\R^{m\times n}$，奇异值为$\sigma_1,\cdots,\sigma_p$，则
+    \begin{Equation}[奇异值的平方和]
+        \Sum[i=1][p]\sigma_i^2=\tr(\vb{A}^T\vb{A})=\tr(\vb{A}\vb{A}^T)
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[奇异值的积]
+    设$\vb{A}\in\R^{n\times n}$，奇异值为$\sigma_1,\cdots,\sigma_n$，则
+    \begin{Equation}[奇异值的积]
+        \Prod[i=1][n]\sigma_i=\abs{\det(\vb{A})}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[奇异值矩阵的表示]
+    设$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T\in\R^{m\times n}$，则奇异值矩阵$\vb*{\Sigma}$可以表示为
+    \begin{Equation}[奇异值矩阵的表示]
+        \vb{U}^T\vb{A}\vb{V}=\vb*{\Sigma}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[对称矩阵的奇异值分解]
+    设$\vb{A}\in\S^n$是对称矩阵，则其奇异值是特征值的绝对值
+    \begin{Equation}[对称矩阵的奇异值分解]
+        \sigma_i=\abs{\lambda_i}
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{奇异值分解和四大子空间}
+
+关于奇异值分解，它最重大的意义是系统性的解释了矩阵的四大基本子空间的结构！
+
+\begin{BoxProperty}[奇异值分解和四大基本子空间]
+    设$\vb{A}\in\R^{m\times n}$，$\vb{U}_1,\vb{U}_2$反映了$\vb{A}$的列空间和左零空间
+    \begin{Equation}[奇异值分解和四大基本子空间U]
+        \rangespace(\vb{A})=\rangespace(\vb{U}_1)\qquad
+        \nullspace(\vb{A}^T)=\rangespace(\vb{U}_2)
+    \end{Equation}
+    设$\vb{A}\in\R^{m\times n}$，$\vb{V}_1,\vb{V}_2$反映了$\vb{A}$的行空间和右零空间
+    \begin{Equation}[奇异值分解和四大基本子空间R]
+        \rangespace(\vb{A}^T)=\rangespace(\vb{V}_1)\qquad
+        \nullspace(\vb{A})=\rangespace(\vb{V}_2)
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[奇异值分解和秩]
+    设$\vb{A}\in\R^{m\times n}$，有$r$个非零奇异值，则
+    \begin{Equation}[奇异值分解和秩]
+        \rank(\vb{A})=r
+    \end{Equation}
+\end{BoxProperty}
+
+在数值计算中，奇异值分解是最常用的确定矩阵秩的方法！
+
+

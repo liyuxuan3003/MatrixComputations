@@ -1,0 +1,31 @@
+\section{奇异分解和线性变换}
+
+不妨考虑一个线性变换，其中$\vb{A}\in\R^{m\times n}$，输入$\vb{x}\in\R^n$，输出$\vb{y}\in\R^m$
+\begin{Equation}[奇异分解和线性变换1]
+    \vb{y}=\vb{A}\vb{x}
+\end{Equation}
+
+通过$\vb{A}=\vb{U}\vb*{\Sigma}\vb{V}^T$的奇异值分解，这个变换可以拆为三步
+\begin{Equation}[奇异分解和线性变换2]
+    \vb{y}=\vb{U}\tilde{\vb{y}}\qquad
+    \tilde{\vb{y}}=\vb*{\Sigma}\tilde{\vb{x}}\qquad
+    \tilde{\vb{x}}=\vb{V}^T\vb{x}
+\end{Equation}
+
+由此可见，任何从$\R^m\to\R^n$的映射可以拆分为以下三个步骤
+\begin{itemize}
+    \item 对$\vb{x}$做旋转变换或反射变换，得到$\tilde{\vb{x}}$。
+    \item 进行从$\tilde{\vb{x}}$到$\tilde{\vb{y}}$的逐元素缩放，可能移除元素或增加零。
+    \item 对$\tilde{\vb{y}}$做旋转变换或反射变换，得到$\vb{y}$。
+\end{itemize}
+
+\subsection{条件数}
+
+\begin{BoxDefinition}[条件数]
+    设$\vb{A}$是一个非奇异矩阵，定义其条件数（Condition Number）为
+    \begin{Equation}[条件数]
+        \kappa_2(\vb{A})=\norm{\vb{A}}_2\norm{\vb{A}^{-1}}_2=\frac{\sigma_{\max}(\vb{A})}{\sigma_{\min}(\vb{A})}
+    \end{Equation}
+\end{BoxDefinition}
+
+条件数反映了矩阵的奇异程度：$\kappa_2(\vb{A})=1$代表正交，$\kappa_2(\vb{A})$代表奇异程度越高。

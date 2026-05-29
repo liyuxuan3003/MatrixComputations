@@ -1,0 +1,99 @@
+\section{奇异分解和伪逆}
+
+逆矩阵的适用有严格限制：矩阵为方阵，矩阵满秩。伪逆则将“逆”拓展到了一般矩阵中。
+
+\subsection{伪逆的定义}
+
+\begin{BoxDefinition}[伪逆]
+    设$\vb{A}\in\R^{m\times n}$，定义伪逆$\vb{A}^{\dagger}\in\R^{n\times m}$为（Pseudo Inverse）
+    \begin{Equation}[伪逆]
+        \vb{A}^{\dagger}=\vb{V}_1\tilde{\vb*{\Sigma}}\vb{U}_1^T
+    \end{Equation}
+\end{BoxDefinition}
+
+伪逆满足以下四个条件，实际上，这也可以视为另外一种定义伪逆的方式。
+
+\begin{BoxProperty}[伪逆的Moore-Penrose条件]
+    伪逆$\vb{A}^{\dagger}$满足以下四个条件
+    \begin{itemize}
+        \item $\vb{A}\vb{A}^{\dagger}\vb{A}=\vb{A}$
+        \item $\vb{A}^{\dagger}\vb{A}\vb{A}=\vb{A}$
+        \item $\vb{A}\vb{A}^{\dagger}$是对称的
+        \item $\vb{A}^{\dagger}\vb{A}$是对称的
+    \end{itemize}
+\end{BoxProperty}
+
+伪逆一般来说$\vb{A}\vb{A}^{\dagger}\neq\vb{I}$和$\vb{A}^{\dagger}\vb{A}=\neq\vb{I}$，但在某些特殊情况下会成立。
+
+\subsection{伪逆的性质}
+
+\begin{BoxProperty}[伪逆的自反性]
+    伪逆满足自反性
+    \begin{Equation}[伪逆的自反性]
+        (\vb{A}^{\dagger})^{\dagger}=\vb{A}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[伪逆和转置]
+    伪逆和转置可以交换顺序
+    \begin{Equation}[伪逆和转置]
+        (\vb{A}^T)^{\dagger}=(\vb{A}^{\dagger})^T
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[伪逆和数乘]
+    伪逆中的数乘可以提出
+    \begin{Equation}[伪逆和数乘]
+        (a\vb{A})^{\dagger}=a^{-1}\vb{A}^{\dagger}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[伪逆不改变秩]
+    伪逆不改变秩
+    \begin{Equation}[伪逆不改变秩]
+        \rank(\vb{A})=\rank(\vb{A}^{\dagger})=\rank(\vb{A}^{\dagger}\vb{A})=\rank(\vb{A}\vb{A}^{\dagger})
+    \end{Equation}
+\end{BoxProperty}
+
+关于伪逆和转置，这两者之间存在许多组的恒等式。
+
+\begin{BoxProperty}[伪逆和转置的恒定式1]
+    伪逆和转置满足以下恒等式
+    \begin{Gather}[伪逆和转置的恒定式1.]
+        (\vb{A}\vb{A}^T)^{\dagger}=(\vb{A}^T)^{\dagger}\vb{A}^{\dagger}\id{a}\\
+        (\vb{A}^T\vb{A})^{\dagger}=\vb{A}^{\dagger}(\vb{A}^T)^{\dagger}\id{b}
+    \end{Gather}
+\end{BoxProperty}
+
+\begin{BoxProperty}[伪逆和转置的恒定式2]
+    伪逆和转置满足以下恒等式
+    \begin{Gather}[伪逆和转置的恒定式2.]
+        \vb{A}^{\dagger}=(\vb{A}^T\vb{A})^{\dagger}\vb{A}^T=\vb{A}^T(\vb{A}\vb{A}^T)^{\dagger}\id{a}
+    \end{Gather}
+\end{BoxProperty}
+
+\begin{BoxProperty}[伪逆和转置的恒定式3]
+    伪逆和转置满足以下恒等式
+    \begin{Gather}[伪逆和转置的恒定式3.]
+        \vb{A}\vb{A}^{\dagger}=\vb{A}\vb{A}^T(\vb{A}\vb{A}^T)^{\dagger}=(\vb{A}\vb{A}^T)^{\dagger}\vb{A}\vb{A}^T\id{a}\\
+        \vb{A}^{\dagger}\vb{A}=\vb{A}^T\vb{A}(\vb{A}^T\vb{A})^{\dagger}=(\vb{A}^T\vb{A})^{\dagger}\vb{A}^T\vb{A}\id{b}
+    \end{Gather}
+\end{BoxProperty}
+
+伪逆可以对任意的$\vb{A}\in\R^{m\times n}$定义，但如果$\vb{A}$能做到列满秩或行满秩，则有更简单的定义。
+
+\begin{BoxProperty}[列满秩和左逆]
+    若$\vb{A}$是列满秩的，则其具有以下性质，此时可以称为左逆（Left Inverse）
+    \begin{Equation}[列满秩和左逆]
+        \vb{A}^{\dagger}=(\vb{A}^T\vb{A})^{-1}\vb{A}^T\qquad
+        \vb{A}^{\dagger}\vb{A}=\vb{I}
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[行满秩和右逆]
+    若$\vb{A}$是行满秩的，则其具有以下性质，此时可以称为右逆（Right Inverse）
+    \begin{Equation}[行满秩和右逆]
+        \vb{A}^{\dagger}=\vb{A}^T(\vb{A}\vb{A}^T)^{-1}\qquad
+        \vb{A}\vb{A}^{\dagger}=\vb{I}
+    \end{Equation}
+\end{BoxProperty}
