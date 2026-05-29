@@ -36,25 +36,19 @@
 \end{BoxProperty}
 
 \begin{BoxProperty}[Frobenius范数]
-    对于$p=q=2$的元素范数$\norm{\vb{A}}_{2,2}$，它反映了元素绝对值的平方和的平方根
-
-    Frobenius范数（Frobenius Norm）是$p=q=2$的元素范数$\norm{\vb{A}}_{2,2}$，也记为$\norm{\vb{A}}_F$。
+    Frobenius范数（Frobenius Norm）定义为$p=q=2$的元素范数$\norm{\vb{A}}_F=\norm{\vb{A}}_{2,2}$
     \begin{Equation}[Frobenius范数]
-        \norm{\vb{A}}_{2,2}=\norm{\vb{A}}_F=\sqrt{\Sum[i,j]\abs{a_{ij}}^2}
-    \end{Equation}
-\end{BoxProperty}
-
-\begin{BoxProperty}[Frobenius范数和迹]
-    Frobenius范数可以用迹表示为
-    \begin{Equation}[Frobenius范数和迹]
-        \norm{\vb{A}}_F=\sqrt{\abs{\tr(\vb{A}^T\vb{A})}}
-    \end{Equation}
-\end{BoxProperty}
-
-\begin{BoxProperty}[Frobenius范数和奇异值]
-    Frobenius范数可以用奇异值表示为
-    \begin{Equation}[Frobenius范数和奇异值]
         \norm{\vb{A}}_F=\sqrt{\sigma_1^2+\cdots+\sigma_r^2}
+    \end{Equation}
+
+    也可以用迹的形式表示为
+    \begin{Equation}[Frobenius范数和迹]
+        \norm{\vb{A}}_F=\sqrt{\tr(\vb{A}^T\vb{A})}=\sqrt{\tr(\vb{A}\vb{A}^T)}
+    \end{Equation}
+
+    也可以根据原始定义表示为
+    \begin{Equation}[Frobenius范数的原始形式]
+        \norm{\vb{A}}_{2,2}=\norm{\vb{A}}_F=\sqrt{\mas{\Sum[i,j]\abs{a_{ij}}^2}}
     \end{Equation}
 \end{BoxProperty}
 
@@ -76,6 +70,20 @@
 
 矩阵的诱导范数反映了这样一个事实：它能将$p$范数意义下的单位向量拉到多长？
 
+\begin{BoxProperty}[诱导范数的亚乘性质1]
+    诱导范数满足以下亚乘性
+    \begin{Equation}[诱导范数的亚乘性质1]
+        \norm{\vb{A}\vb{B}}_{p,q}\leq\norm{\vb{A}}_{p,q}\norm{\vb{B}}_q
+    \end{Equation}
+\end{BoxProperty}
+
+\begin{BoxProperty}[诱导范数的亚乘性质2]
+    诱导范数满足以下亚乘性
+    \begin{Equation}[诱导范数的亚乘性质2]
+        \norm{\vb{A}\vb{B}}_{p,q}\leq\norm{\vb{A}}_{p}\norm{\vb{B}}_q
+    \end{Equation}
+\end{BoxProperty}
+
 \begin{BoxProperty}[最大列和范数]
     对于$p=q=\infty$的元素范数$\norm{\vb{A}}_{\infty}$，它反映了元素的最大列和
     \begin{Equation}[最大列和范数]
@@ -91,7 +99,7 @@
 \end{BoxProperty}
 
 \begin{BoxProperty}[谱范数]
-    对于$p=q=2$的元素范数$\norm{\vb{A}}_{2}$，它反映了最大奇异值，称为谱范数（Spectral Norm）
+    谱范数（Spectral Norm）定义为$p=q=2$的诱导范数$\norm{\vb{A}}_{2}$
     \begin{Equation}[谱范数]
         \norm{\vb{A}}_2=\sigma_{1}
     \end{Equation}
@@ -102,11 +110,53 @@
     \begin{Equation}[谱范数1]
         \norm{\vb{A}\vb{x}}_2=\norm{\vb{U}\vb*{\Sigma}\vb{V}^T\vb{x}}_2=\norm{\vb*{\Sigma}\vb{V}^T\vb{x}}_2\leq\sigma_1\norm{\vb{V}^T\vb{x}}_2=\sigma_1\norm{\vb{x}}_2\leq\sigma_1
     \end{Equation}
+
     而如果取$\vb{x}=\vb{v}_1$
     \begin{Equation}[谱范数2]
         \norm{\vb{A}\vb{x}}_2=\norm{\vb{A}\vb{v}_1}_2=\norm{\sigma_1\vb{u}_1}_2=\sigma_1
     \end{Equation}
+
     这就证明了$\sigma_1$是$\norm{x}_2=1$下$\norm{\vb{A}\vb{x}}_2$的最大值了。
 \end{Proof}
 
+\begin{BoxProperty}[谱范数的正交不变性]
+    谱范数不受正交变换影响，若$\vb{P},\vb{Q}$为正交矩阵
+    \begin{Equation}[谱范数的正交不变性]
+        \norm{\vb{A}}_2=\norm{\vb{P}\vb{A}\vb{Q}^T}
+    \end{Equation}
+\end{BoxProperty}
 
+\begin{BoxProperty}[谱范数和Frobenius范数]
+    谱范数和Frobenius范数的关系是，其中$r$为非零奇异值
+    \begin{Equation}[谱范数和Frobenius范数]
+        \norm{\vb{A}}_F\leq\sqrt{r}\norm{\vb{A}}_2
+    \end{Equation}
+\end{BoxProperty}
+
+\subsection{Schatten范数}
+
+\begin{BoxDefinition}[Schatten范数]
+    矩阵$\vb{A}\in\R^{m\times n}$的Schatten范数（Schatten Norm）定义为
+    \begin{Equation}[Schatten范数]
+        \norm{\vb{A}}_{S_p}=\qty(\Sum[i=1][\min\qty{m,n}]\sigma_i^p)^{1/p}
+    \end{Equation}
+\end{BoxDefinition}
+
+\begin{BoxProperty}[核范数]
+    核范数（Nuclear Norm）定义为$p=1$的Schatten范数$\norm{\vb{A}}_{*}=\norm{\vb{A}}_{S_1}$
+    \begin{Equation}[核范数]
+        \norm{\vb{A}}_{*}=\sigma_1+\cdots+\sigma_r
+    \end{Equation}
+
+    也可以用迹的形式表示为
+    \begin{Equation}[核范数和迹]
+        \norm{\vb{A}}_{*}=\tr((\vb{A}^T\vb{A})^{1/2})=\tr((\vb{A}\vb{A}^T)^{1/2})
+    \end{Equation}
+\end{BoxProperty}
+
+有趣的是，Schatten范数的$p=1,2,\infty$恰好可以给出三种最常用的矩阵范数
+\begin{itemize}
+    \item 若$p=1$，给出$\norm{\vb{A}}_{S_1}=\norm{\vb{A}}_{*}=\sigma_1+\cdots+\sigma_r$的核范数。
+    \item 若$p=2$，给出$\norm{\vb{A}}_{S_2}=\norm{\vb{A}}_{F}=\norm{\vb{A}}_{2,2}=\sqrt{\sigma_1^2+\cdots,\sigma_r^2}$的Frobenius范数。
+    \item 若$p=\infty$，给出$\norm{\vb{A}}_{S_{\infty}}=\norm{\vb{A}}_2=\sigma_1$的谱范数。
+\end{itemize}
